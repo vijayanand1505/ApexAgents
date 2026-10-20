@@ -483,6 +483,11 @@ export class BotBrowser {
   }
 
   static async launch(opts: BrowserOptions): Promise<BotBrowser> {
+    // Allow an installed browser when bundled Chromium is unavailable on the host OS.
+    const channel = process.env.PLAYWRIGHT_CHANNEL?.trim() || undefined;
+    if (channel && !["chromium", "chrome", "msedge"].includes(channel)) {
+      throw new Error("PLAYWRIGHT_CHANNEL must be chromium, chrome, or msedge (or unset for bundled Chromium).");
+    }
     const { width, height } = opts.viewport;
     const win = opts.window;
     if (win && !opts.profileDir) throw new Error("BotBrowser: window placement needs a profileDir (the zoom lives in the profile)");
@@ -497,10 +502,10 @@ export class BotBrowser {
     let context: BrowserContext;
     if (opts.profileDir) {
       setProfileZoom(opts.profileDir, win?.zoom ?? 1);
-      context = await chromium.launchPersistentContext(opts.profileDir, { headless: opts.headless, args, ...contextOptions });
+      context = await chromium.launchPersistentContext(opts.profileDir, { channel, headless: opts.headless, args, ...contextOptions });
       browser = context.browser();
     } else {
-      browser = await chromium.launch({ headless: opts.headless, args });
+      browser = await chromium.launch({ channel, headless: opts.headless, args });
       context = await browser.newContext(contextOptions);
     }
     const page = context.pages()[0] ?? (await context.newPage());

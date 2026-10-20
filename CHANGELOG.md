@@ -4,6 +4,14 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T14:02:03+05:30 — Use installed Chrome for agent browsers on this Mac
+
+- Diagnosis: Agent runs could not launch their persistent profiles because Playwright's headless Chromium executable was absent. `npx playwright install chromium` confirms that the installed Playwright cannot install Chromium on macOS 12.
+- Changed: `scripts/lib/browser.ts` accepts and validates optional `PLAYWRIGHT_CHANNEL` for both persistent and temporary browser launches. Selected `chrome` in ignored `.env.local`, using the installed Google Chrome with the app's own profiles. Updated the UI self-test's standalone browser launch to honor the setting. Documented setup and retry instructions in README and the sanitized `.env.example`.
+- Credentials: Removed a live API key found in the tracked example file and replaced it with a placeholder. Existing Git history was preserved; the user was advised to rotate the exposed key. No secret value is included in this entry.
+- Validation: Backend typecheck, 21 unit tests, five mock API scenarios, all 53 browser/MCP checks (including profile persistence), and all 19 squad checks passed using installed Chrome. Initial full-suite execution reached the UI self-test's hardcoded bundled-browser launch; corrected that launch and all 36 dashboard checks passed on the targeted rerun, including live frames, human takeover, and history. Dashboard returned HTTP 200 after restart; tunnel reached ready.
+- Limits: Installed Chrome is a compatibility workaround on this unsupported OS; no real OpenAI agent task was submitted by Codex. Failed chats remain in history and must be retried in a new chat. Human review pending.
+
 ## 2026-10-20T13:57:37+05:30 — Resolve local startup errors and restart the dashboard
 
 - Diagnosis: Reproduced the Node 18 `node:util` / `styleText` build failure from the recent npm logs. Selecting the installed Node 24 resolved it; backend startup then exposed a missing `OPENAI_API_KEY`.

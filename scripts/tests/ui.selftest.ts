@@ -128,7 +128,7 @@ const ui = await startUiServer({ port: 0, staticDir: join(ROOT, "ui"), runner, d
 
 const checks: [string, boolean, string?][] = [];
 const check = (label: string, pass: boolean, detail?: string) => checks.push([label, pass, pass ? undefined : detail]);
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || undefined, headless: true });
 const pageErrors: string[] = [];
 
 try {
