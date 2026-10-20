@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T23:34:21+05:30 — Refresh the README for the current personal project
+
+- Changed: Reorganized `README.md` into an end-to-end guide: current scope and public links, Onyx/agent/MCP architecture, documented contributor roles and source areas, event venue/date and development timeline, reproducible Node/dependency/browser/key setup, local versus hosted modes, scripted demo including takeover, Auto sizing/presets/Resume/final results, sharing credentials, both BuggyMart versions and Vercel location, environment behavior, commands, media maintenance, data/cost limits and future work.
+- Accuracy: Cross-checked contributor attribution against submission/Git/AI records and distinguished the event checkpoint from 20 October updates. Removed the stale port-in-progress status and blanket speed promise. Corrected dashboard worker-model environment scope, documented exported-variable precedence and build fallback, retained studio/assets/AI credits and the old submission quick-start anchor, and reflected the user's personal-project/no-paid-cloud direction. Preserved the independent landing-footer changes.
+- Validation: All 44 local link/anchor references, referenced npm scripts and Node entry points, 8 shell blocks, preset values and four cited Git checkpoints checked; balanced fences and whitespace reviewed. All four public entry points returned HTTP 200; hosted shop configuration confirmed 10 enabled bugs versus 0 in the fixed reference. Documentation-only change: no application tests rerun, live agent request, deployment or Git push.
+- Limits/review: Human editorial review pending. This checkout's remote remains the original Amarnath repository; migration and organizer submission remain unverified. Historical source records were retained rather than relabelled as current behavior.
+
 ## 2026-10-20T22:27:19+05:30 — Publish and verify run controls
 
 - Published: Implementation checkpoint `4e9761e` plus the user's existing uncommitted footer formatting to Vercel production `dpl_Ft6nLQApV6D3djS1M7WqRT7DbFxa` (READY), aliased at https://apexagents.vercel.app in verified account `vijayanand15`, Vijay's Team. No project/account migration or Git push.

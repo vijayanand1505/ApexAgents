@@ -1,466 +1,334 @@
-<a href="#readme">
-  <img src="docs/assets/apexagents-github-banner.png" alt="ApexAgents — One squad. Many minds." width="100%">
-</a>
+# ApexAgents
 
-<p align="center"><b>Owner &amp; founder:</b> <a href="https://github.com/vijayanand1505">Vijay Anand</a></p>
+<img src="docs/assets/apexagents-github-banner.png" alt="ApexAgents — One squad. Many minds." width="100%">
 
-<h3 align="center">A swarm of AI agents that take the wheel of your computer and get the job done.</h3>
+**One task, a visible team of browser agents, and one combined answer.**
 
-<p align="center">
-  <img alt="OpenAI Agents API" src="https://img.shields.io/badge/OpenAI_Agents_API-262626?style=for-the-badge">
-  <img alt="MCP" src="https://img.shields.io/badge/MCP-924FF7?style=for-the-badge&logo=modelcontextprotocol&logoColor=white">
-  <img alt="Node.js" src="https://img.shields.io/badge/Node.js_22-04B84C?style=for-the-badge&logo=nodedotjs&logoColor=white">
-  <img alt="GPT-6.1 Sol" src="https://img.shields.io/badge/GPT--6.1_Sol-FF8549?style=for-the-badge">
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-006AFF?style=for-the-badge&logo=typescript&logoColor=white">
-  <img alt="React" src="https://img.shields.io/badge/React-A6D8F5?style=for-the-badge&logo=react&logoColor=111111">
-</p>
+By [Vijay Anand](https://github.com/vijayanand1505) and [D Amarnath](https://github.com/amarnath3003). Vijay Anand is the project owner and founder. [Contributions and development history](#people-and-development-history) explain the documented roles and source provenance.
 
-<p align="center">
-  <a href="#-quick-look"><b>Quick Look</b></a> ·
-  <a href="#-use-cases"><b>Use cases</b></a> ·
-  <a href="#-meet-the-squad"><b>The squad</b></a> ·
-  <a href="#-how-it-works"><b>How it works</b></a> ·
-  <a href="#-quick-start"><b>Quick start</b></a> ·
-  <a href="#-safety"><b>Safety</b></a> ·
-  <a href="master.md"><b>Full spec</b></a> ·
-  <a href="SUBMISSION.md"><b>Submission</b></a>
-</p>
+ApexAgents is a personal, local-first project for researching, comparing and testing websites. **Onyx** coordinates up to five agents—**Plum, Lime, Tango, Blu and Sky**—each with its own browser. You can watch their work, send follow-ups, take over a browser, and read the combined result with sources.
 
-<br>
+The public website showcases the project. Real agent tasks run on the owner's computer and use the configured OpenAI API account. Public signup, cloud execution for independent users, subscriptions and a spending cap are not implemented. There is no commitment to paid cloud hosting; client demonstrations can use a temporary private connection.
 
-## 👀 Quick Look
+[Live links](#live-links-and-hosting) · [How it works](#how-it-works) · [People and history](#people-and-development-history) · [Quick start](#quick-start) · [Run controls](#squad-sizing-speed-and-recovery) · [Sharing](#connect-the-hosted-dashboard-to-your-laptop) · [Checks](#commands-and-verification) · [Limitations](#data-costs-and-limitations)
 
-<p align="center">
-  <a href="docs/video/apexagents-intro.mp4">
-    <img src="docs/video/apexagents-preview.gif" alt="ApexAgents in 52 seconds: one task, five agents, one answer" width="88%">
-  </a>
-  <br>
-  <sub><b><a href="docs/video/apexagents-intro.mp4">▶ Play the full 52-second film (MP4, with sound)</a></b> · <a href="docs/video/storyboard.md">storyboard</a></sub>
-</p>
+<a href="docs/video/apexagents-intro.mp4"><img src="docs/video/apexagents-preview.gif" alt="Preview of the 52-second ApexAgents launch film" width="88%"></a>
 
-<br>
+[Watch the 52-second film with sound](docs/video/apexagents-intro.mp4) · [Storyboard and production notes](docs/video/storyboard.md). The film and landing animation illustrate the workflow; they are not a recording of the viewer's live task.
 
-## Project ownership and rename
+## Live links and hosting
 
-**ApexAgents is owned and founded by [Vijay Anand](https://github.com/vijayanand1505).** The intended repository is `github.com/vijayanand1505/ApexAgents`; migration to that remote has not been verified. Existing source credits describe contributions, not project ownership.
-
-The local project directory is now `ApexAgents`. Development proxy configuration uses `APEXAGENTS_API`. Browser settings and bridge connections use the `apexagents` storage namespace; select your preferences again and open a fresh private connection link after the rename. Rebuild/restart both frontend and backend together because their WebSocket subprotocol is now `apexagents`.
-
-`apexagents.vercel.app` now serves the `apexagents` project in **Vijay's Team** (`vijay-s-team4`), owned by the signed-in Vercel account **`vijayanand15`**. The landing page, hosted dashboard, and both BuggyMart versions are deployed there. This checkout and the default local Vercel CLI session now point to that account/workspace. The ApexAgents domain was removed from Amarnath's project; his original `squadlings.vercel.app` project and deployments remain available. GitHub repository ownership has not been transferred. Historical logs and original third-party source URLs retain their original names.
-
-## 🐝 A swarm that drives your computer
-
-ApexAgents is a **swarm of computer-use agents**. Hand it a task and up to **five AI agents take the wheel at once**: opening sites, clicking, typing, scrolling, filling forms and reading pages, each in its own browser window on your machine.
-
-**Onyx**, the head of the swarm, breaks the task apart, sends each agent off with its own job, keeps them on track while they work, and hands you back **one clean answer with sources**. You watch every agent live, chat with Onyx mid-run, and grab the controls yourself whenever you want.
-
-<p align="center"><b>You type one line. Five agents do the clicking.</b></p>
-
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <h3>👀 Visible</h3>
-      No black box. Every bot's browser streams live to the dashboard, and the bot's own cursor glides to each element before it clicks, with a caption saying why.
-    </td>
-    <td width="33%" valign="top">
-      <h3>⚡ Parallel</h3>
-      Five agents work at once, sharing findings as they go. A task that would take an hour of tab-juggling finishes in about a minute.
-    </td>
-    <td width="33%" valign="top">
-      <h3>🛡️ Safe by design</h3>
-      Site allow-lists, approvals and human takeover are enforced in the browser layer, where the model can't override them.
-    </td>
-  </tr>
-</table>
-
-<br>
-
-## 🎯 Use cases
-
-Anything you'd do yourself across a pile of browser tabs, the swarm can split up and do in parallel. Every card below is just a task you type: no templates, no setup.
-
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <h3><img src="docs/assets/cast/plum.svg" width="24" alt=""> Trip planning</h3>
-      Stays, food, things to do and getting around, researched side by side and merged into one itinerary.
-      <br><br><sub><i>"Plan a weekend in Kochi for our team of four."</i></sub>
-    </td>
-    <td width="33%" valign="top">
-      <h3><img src="docs/assets/cast/lime.svg" width="24" alt=""> Price hunting</h3>
-      One agent per store, comparing price, delivery, returns and coupons, so you see the real best deal.
-      <br><br><sub><i>"Find the cheapest noise-cancelling headphones under ₹25,000 across four stores."</i></sub>
-    </td>
-    <td width="33%" valign="top">
-      <h3><img src="docs/assets/cast/tango.svg" width="24" alt=""> Live research</h3>
-      Several primary sources checked at the same moment, with conflicts flagged and every claim linked.
-      <br><br><sub><i>"Tomorrow's forecast for Tokyo, London, New York and Sydney, from each national weather service."</i></sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="33%" valign="top">
-      <h3><img src="docs/assets/cast/blu.svg" width="24" alt=""> Competitor research</h3>
-      One agent per competitor: pricing pages, feature lists and sign-up flows, laid out side by side.
-      <br><br><sub><i>"Compare the pricing and free tiers of five note-taking apps."</i></sub>
-    </td>
-    <td width="33%" valign="top">
-      <h3><img src="docs/assets/cast/sky.svg" width="24" alt=""> QA testing</h3>
-      A first-timer, a keyboard-only user, a mobile user and a breaker, all clicking through your web app at once and reporting what broke.
-      <br><br><sub><i>"Try to sign up and check out on staging.example.com, and report every bug you hit."</i></sub>
-    </td>
-    <td width="33%" valign="top">
-      <h3><img src="docs/assets/cast/onyx.svg" width="24" alt=""> Portals with no API</h3>
-      Vendor quotes, admin panels and dashboards that only have a web UI: one agent per portal, one summary for you.
-      <br><br><sub><i>"Get delivery quotes for 20 kg from Kochi to Bengaluru on three courier sites."</i></sub>
-    </td>
-  </tr>
-</table>
-
-<br>
-
-## ⚔️ One agent vs. the swarm
-
-| | A single browsing agent | **ApexAgents** |
+| Page | Direct link | Needs a laptop backend? |
 | --- | --- | --- |
-| **Speed** | One tab at a time | Up to **5 browsers in parallel** |
-| **What you see** | A screenshot now and then | **Live video** of every browser, with the agent's cursor |
-| **Hits a CAPTCHA** | The run stalls | **You take over** in the tile, then hand it back |
-| **Change of plan** | Wait until it's done | **Chat with Onyx mid-run**; it re-tasks the team |
-| **The answer** | Whatever one agent found | **Merged from every agent**, cross-checked, with sources |
+| Landing page, cast and launch film | [apexagents.vercel.app](https://apexagents.vercel.app/) | No |
+| Live dashboard frontend | [apexagents.vercel.app/app](https://apexagents.vercel.app/app) | Yes, plus a private sharing connection |
+| BuggyMart with all 10 planted bugs | [Open BuggyMart](https://apexagents.vercel.app/buggymart/) | No, when exploring the shop manually |
+| BuggyMart with those bugs disabled | [Open the fixed reference](https://apexagents.vercel.app/buggymart/fixed/) | No, when exploring the shop manually |
 
-<br>
+All four pages belong to **one Vercel project**, `apexagents`, in **Vijay's Team** (`vijay-s-team4`), under account **`vijayanand15`**. [Open the Vercel project](https://vercel.com/vijay-s-team4/apexagents). In its **Deployments**, open the production deployment and inspect **Resources → Static Assets** for the `buggymart/` and `buggymart/fixed/` files. Sign in to the owning workspace to manage them.
 
-## 🫧 Meet the squad
+[`vercel.json`](vercel.json) builds `web/dist/`; [`web/export-buggymart.mjs`](web/export-buggymart.mjs) adds both static shop versions. They are folders within the same deployment, not separate Vercel projects. [`.vercelignore`](.vercelignore) excludes environment files, backend scripts and private runtime data from deployment.
 
-The cast comes from the OpenAI DevDay community hackathon sticker sheet, in the DevDay event colours.
+Vercel serves the frontend assets. Browser processes, the API key, run history and profiles remain on the laptop. Website/film/shop browsing does not make paid agent requests; starting a real agent task does.
 
-<table align="center">
-  <tr>
-    <td align="center" width="16%"><img src="docs/assets/cast/onyx.svg" width="72" alt="Onyx"><br><b>Onyx</b><br><sub>The calm conductor</sub></td>
-    <td align="center" width="16%"><img src="docs/assets/cast/plum.svg" width="72" alt="Plum"><br><b>Plum</b><br><sub>The skeptic</sub></td>
-    <td align="center" width="16%"><img src="docs/assets/cast/lime.svg" width="72" alt="Lime"><br><b>Lime</b><br><sub>The finder</sub></td>
-    <td align="center" width="16%"><img src="docs/assets/cast/tango.svg" width="72" alt="Tango"><br><b>Tango</b><br><sub>The patient one</sub></td>
-    <td align="center" width="16%"><img src="docs/assets/cast/blu.svg" width="72" alt="Blu"><br><b>Blu</b><br><sub>The doer</sub></td>
-    <td align="center" width="16%"><img src="docs/assets/cast/sky.svg" width="72" alt="Sky"><br><b>Sky</b><br><sub>The cheerful one</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><sub><i>"One thing at a time. All together."</i></sub></td>
-    <td align="center"><sub><i>"Trust, but double-check."</i></sub></td>
-    <td align="center"><sub><i>"There's always a little more to discover."</i></sub></td>
-    <td align="center"><sub><i>"Good things take a little time."</i></sub></td>
-    <td align="center"><sub><i>"Less talking. More doing."</i></sub></td>
-    <td align="center"><sub><i>"A little optimism goes a long way."</i></sub></td>
-  </tr>
-</table>
-
-Onyx plans, steers and merges; it never browses. The five bots do the browsing. Each character's face reacts as it reads, scrolls, types, finds something, gets stuck or finishes.
-
-<br>
-
-## 🧠 How it works
+## How it works
 
 ```mermaid
 flowchart LR
-    U(["🧑 You"]) -- task + chat --> D["🖥️ Dashboard<br/>React · 127.0.0.1:8787"]
-    D <-- "events + live frames<br/>(WebSocket)" --> S["⚙️ Node server<br/>orchestrator · site gate · takeover"]
-    S -- "sessions" --> M["🎩 Onyx · Master<br/>Agents API · web_search"]
-    S -- "sessions" --> B["🫧 Bots ×1–5<br/>Agents API"]
-    M -. "start_bots · message_bot<br/>final_answer" .-> T
-    B -. "click · type · scroll · finish<br/>(MCP over a tunnel)" .-> T["🔌 MCP router<br/>127.0.0.1:8788"]
-    T --> P["🌐 Real browsers<br/>one per bot, on your machine"]
-    P -- "CDP screencast" --> S
-
-    style M fill:#262626,color:#fff,stroke:#262626
-    style B fill:#924FF7,color:#fff,stroke:#924FF7
-    style P fill:#006AFF,color:#fff,stroke:#006AFF
-    style T fill:#04B84C,color:#fff,stroke:#04B84C
-    style D fill:#FF8549,color:#111,stroke:#FF8549
+    User[You] --> Dashboard[React dashboard]
+    Dashboard <-->|Events, frames and browser input| Server[Local Node.js server]
+    Server --> Onyx[Onyx: coordinator session]
+    Server --> Agents[1–5 agent sessions]
+    Onyx -->|Assign, message, merge results| MCP[Authenticated MCP router]
+    Agents -->|Open, read, click, type, finish| MCP
+    MCP --> Browsers[Separate local Playwright browsers]
+    Browsers -->|Live frames| Server
 ```
 
-1. **You give a goal** in the home bar and pick how many agents (1–5) and how hard they should think (None → X-High).
-2. **Onyx does the groundwork.** It researches with `web_search`, then calls `start_bots` with self-contained goals, start URLs and allowed sites.
-3. **Bots browse for real.** Each bot is its own Agents API session. It sees a page as a numbered list of elements (`[12] button "Search"`) and acts through our MCP tools. The clicks happen in real browsers, on your machine.
-4. **The team talks.** Bots report to Onyx and message each other, and new messages ride along with each bot's next tool result. Onyx can steer, stop or re-task any bot, and you can type follow-ups at any time.
-5. **Humans stay in charge.** A bot that reaches a CAPTCHA or human check pauses and asks. You click **Take over**, solve it in the live tile, and hand it back.
-6. **Onyx merges** everything into one answer with sources, and the chat is saved so you can reopen it later.
+1. **Describe a goal.** For example, compare phones under ₹15,000, research a trip, or inspect BuggyMart. Choose Auto/manual squad size and a speed preset.
+2. **The server prepares the team.** It resolves the size, opens separate browser profiles and connects the MCP tools through an authenticated tunnel. Agent sessions can be warmed while Onyx plans.
+3. **Onyx delegates.** Its coordinator session uses web search and gives agents specific goals and allowed sites. Onyx coordinates; the worker agents operate the browsers.
+4. **Agents perform real browser actions.** The Agents API calls this project's MCP tools. Agents read numbered page elements, navigate, click, type and scroll in local Playwright browsers. This is separate from the scripted landing animation.
+5. **Progress returns to the dashboard.** Browser frames and events travel over WebSocket. Reports, messages and failures update the team card. You can guide Onyx through chat or take over a browser to handle a human check.
+6. **Reports become a final result.** Onyx combines the findings and sources. Completed reports collapse, and the final answer gets the main reading area. **View browsers** returns to the workspace; **Read results** returns to the answer.
+7. **History stays local.** Run events and results are saved on disk. Ended or interrupted chats reopen read-only; a live process can resume eligible unfinished work.
 
-<br>
+MCP means **Model Context Protocol**: the connection through which the agents call this project's browser and coordination tools. The default local dashboard/API is on port **8787**, and its separate MCP service is on **8788**. Hosted dashboard sharing adds a different bridge on **8790**.
 
-## 📈 From real runs
+Use only sites and test environments you are authorized to interact with. Results depend on the task, model, site availability and human checks; parallel browsers do not guarantee a fixed completion time or factual accuracy.
 
-<table>
-  <tr>
-    <td align="center"><h2>38 s</h2><sub>3 bots: HN top story,<br>newest Lobsters post,<br>latest Node.js release</sub></td>
-    <td align="center"><h2>~5¢</h2><sub>cost of that run<br>(GPT-6.1 Sol Master,<br>GPT-6-Luna bots)</sub></td>
-    <td align="center"><h2>4</h2><sub>national weather services<br>checked in parallel<br>(121 s, $0.13)</sub></td>
-    <td align="center"><h2>13 / 13</h2><sub>tasks solved on our<br>TestTown agent eval</sub></td>
-  </tr>
-</table>
+## People and development history
 
-<sub>Measured on 10–11 October 2026 with a prewarmed tunnel. Full logs and the run-by-run story are in <a href="master.md">master.md</a> §12.6 and §19.8.</sub>
+The project was developed for the **DevDay Exchange Community Hackathon: Kochi**, held **10–11 October 2026** at **JAIN University, Kochi, rooms 2008 and 2009**. The recorded schedule was check-in at 6:00 PM IST, kickoff at 6:30 PM on 10 October, and wrap-up by 10:00 AM on 11 October. See [event rules](RULES.md) and the [event listing](https://luma.com/z10nz8gp).
 
-<br>
+| Contributor | Documented role and contribution | Main areas |
+| --- | --- | --- |
+| **[Vijay Anand](https://github.com/vijayanand1505)** — owner and founder | Product direction and the engine/server/dashboard workstream, including task orchestration and integration. Directed the later ApexAgents rename, local browser/startup fixes, final-results presentation, film timing corrections, Vercel hosting in his account, and Auto sizing/recovery/speed presets. Implementation assistance is recorded in `AI_USAGE.md`. | [Engine/server](scripts/lib/), [React dashboard](web/src/), [run settings](web/shared/run-settings.ts), hosting configuration and project documentation |
+| **[D Amarnath](https://github.com/amarnath3003)** — contributor | Character studio, animated cast and selectors, sound design, banner and original launch film. His repository supplied the studio components used in `web/`; the retained history also records the event landing page, animated delegation/BuggyMart publishing and a later root-startup fix. | [Characters](web/src/characters/), [selectors](web/src/launch/), [effects](web/src/effects/), [film/assets](docs/video/), and the original studio history |
 
-## 🚀 Quick start
+These credits summarize the submission record, retained Git history and AI usage log; they do not imply that each contributor manually authored every line. Codex and Claude Code assisted with planning, implementation, debugging, documentation and verification. Their actual recorded tasks and human-review status are in [AI_USAGE.md](AI_USAGE.md).
 
-**You need:** Node **22.18+**, [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/) (`brew install cloudflared`), and an OpenAI API key with Agents API access.
+| When | What happened | Evidence |
+| --- | --- | --- |
+| **10 October 2026** | Planning and specification; initial API/browser experiments and the character studio workstream. | [Planning transcript](docs/chat-history/2026-10-10-planning-chat.md), [specification](master.md), Git history and AI usage log |
+| **Night of 10–11 October** | Browser orchestration, classic dashboard, React integration, characters, sound and film were developed across the workstreams. | [Development changelog](CHANGELOG.md), [historical handoff](HANDOFF.md), [AI usage](AI_USAGE.md) |
+| **11 October** | The merged project/studio export was incorporated, followed by the landing page and public BuggyMart variants. | Integration commit `89f3c14`; original event demo checkpoint `feaa0f3919336e3dfd65cece5cd189b5a7ecd161` in [submission records](SUBMISSION.md) |
+| **20 October** | Continued after the event: ApexAgents branding, local compatibility fixes, final-results focus, Vijay's Vercel deployment, synchronized film and new run controls. | Changelog; run-controls checkpoint `4e9761e` and deployment record `04fe353` |
 
-Run commands from the repository root, not the old `dashboard/` folder. Select the supported runtime with `nvm use` (`.nvmrc` selects Node 24; run `nvm install` once if needed). `npm run dev` starts the complete local dashboard and backend on port 8787. For frontend hot reload on port 5173, run `npm run web` in a second terminal while the backend stays running.
+The character studio was originally developed in [Amarnath's SquadLings repository](https://github.com/amarnath3003/SquadLings); component provenance references include `45f625f` and the later film work. Its imported history and original source URLs remain credited. The current project name is ApexAgents; older records may use SquadLink or SquadLings.
 
+The intended project repository is `github.com/vijayanand1505/ApexAgents`. **Remote migration has not been verified**: this checkout still points to `github.com/amarnath3003/SquadLings`. Check `git remote -v` before pushing. The original event checkpoint is distinct from the later implementation and does not imply organizer submission or acceptance; [SUBMISSION.md](SUBMISSION.md) retains that record.
+
+## Quick start
+
+<a id="-quick-start"></a>
+
+Use a terminal in the **repository root**, not the archived `dashboard/` directory. These commands assume a POSIX shell such as Bash or Zsh.
+
+Prerequisites:
+
+- **Node.js 24 recommended**, selected by [`.nvmrc`](.nvmrc). The root package declares Node 22.18+; Node 18 is unsupported.
+- npm and the dependencies from the root and `web/` lockfiles.
+- Playwright Chromium, or a compatible installed Chrome browser.
+- For real runs: `cloudflared` on `PATH`, internet access, and an OpenAI API key with access to the project's Agents API/models. Landing/shop previews and the scripted mock do not require that key.
 
 ```sh
-# 0 · select the supported Node version in this terminal
-nvm use                   # run nvm install first if Node 24 is not installed
+# If nvm is installed, select the version in .nvmrc.
+nvm install                   # first time only
+nvm use
 
-# 1 · install
-npm install
-npx playwright install chromium   # one-time download of the agents' browser
-npm --prefix web install
+# Install the locked dependencies in both packages.
+npm ci
+npm --prefix web ci
 
-# 2 · configure: put your OPENAI_API_KEY in .env
-cp .env.example .env
-
-# 3 · keep a tunnel warm (optional, saves ~20 s on the first run)
-npm run prewarm          # leave running in its own terminal
-
-# 4 · launch the dashboard
-npm run dev              # builds web/ and opens http://127.0.0.1:8787 (alias for npm run ui)
+# One-time browser download.
+npx playwright install chromium
 ```
 
-Type a task, pick your squad, and press send.
+Install `cloudflared` using [Cloudflare's installation instructions](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/) (`brew install cloudflared` on supported macOS installations). If your OS is unsupported by Homebrew, use an appropriate official binary on your `PATH`.
 
-When Onyx delivers the final answer, the reports fold into a compact summary and the dashboard switches to a wide **Final results** view, opening at the beginning of the answer. Onyx and the agents make a brief entrance beside the heading (disabled with reduced motion). The complete answer, tables, source links, and Copy button remain available. Open the reports to review the team's work, use **View browsers** to return to their screens, or **Read results** to return to the answer. A new agent plan restores the browser workspace; completed chats reopen with their results visible. This behavior is implemented in the React dashboard; `--classic` retains its existing layout.
+For a fresh checkout, copy [`.env.example`](.env.example) to `.env.local`, then replace the placeholder **in your editor** with your own key. Keep existing configuration if that file already exists.
 
-If startup reports that `node:util` has no `styleText` export, the terminal is using an older Node version. Run `nvm use` in that terminal before `npm run dev`. The backend loads `OPENAI_API_KEY` from `.env.local` first, then `.env`; add a valid OpenAI API key to either ignored file. `VERCEL_OIDC_TOKEN` does not replace that key.
+```sh
+# Fresh checkout only: do not overwrite an existing .env.local.
+cp -n .env.example .env.local
 
-If `cloudflared` is missing and Homebrew cannot install it on your macOS version, use the matching macOS binary from [Cloudflare's official downloads](https://developers.cloudflare.com/tunnel/downloads/) and put it on your `PATH` before restarting the app.
+# After saving your key in the editor:
+npm run dev
+```
 
-**Local import verification (11 October 2026):** The downloaded export builds with Node 24.14.1: server typecheck and the React production build passed, as did 15 unit tests and five mock API scenarios. The default shell on the importing Mac uses Node 18; select Node 22.18+ first (for example, `nvm use 24`). At import, browser tests were blocked because bundled Chromium could not be installed on macOS 12. The import was subsequently committed and pushed as `89f3c14`.
+Open **http://127.0.0.1:8787**. `npm run dev` aliases `npm run ui`: it builds the React frontend and starts the local server, MCP router and tools tunnel. An optional `npm run prewarm` in another terminal keeps the MCP tunnel ready between launches.
 
-**Installed-browser setup:** If `npx playwright install chromium` fails because your OS is unsupported, an already installed Google Chrome can be selected by adding `PLAYWRIGHT_CHANNEL=chrome` to `.env.local`, then restarting `npm run dev`. This applies to both persistent agent profiles and temporary browsers; it does not use your personal Chrome profile. [Playwright documents installed browser channels](https://playwright.dev/docs/browsers). Leave the setting unset to use bundled Chromium; `chromium` and `msedge` are also accepted explicit channels. Installed browsers can differ from Playwright's bundled version, so verify compatibility on your machine. Run offline checks with `PLAYWRIGHT_CHANNEL=chrome npm test` (test runners do not automatically load `.env.local`). Failed chats remain in history; choose **New chat** to retry after restarting.
+For the first task, choose **Quick** and try a small research request, or run BuggyMart separately and ask Onyx to inspect it. You can send follow-ups while agents work. **Stop** pauses work and keeps the chat open; **End chat** closes that run's browsers and saves the record. Use **New chat** for another task.
 
-**Local QA target:** `npm run buggymart` starts [BuggyMart](targets/buggymart/README.md) at **http://127.0.0.1:3001**: a small shop with 10 deliberately easy bugs for the agents to find. Give Onyx that URL and your testing task. Use **Reset demo** in the shop footer for a fresh run, or start with `-- --bugs none` to compare against working behavior. The shop needs no API key; agent runs use the normal dashboard configuration.
+### Installed Chrome and common startup problems
 
-> [!TIP]
-> **Try it for free first.** `node scripts/dev-mock-ui.ts --port 8796 --mcp-port 8795` runs the real server with a scripted mock Onyx and bots. Any task plays the same run, and nothing reaches OpenAI.
+On machines where bundled Chromium cannot be installed, add `PLAYWRIGHT_CHANNEL=chrome` to `.env.local` and keep Google Chrome installed. This selects Chrome for the agents' separate profiles; it does not use your personal Chrome profile. Leave the variable unset to use bundled Chromium. `chromium` and `msedge` are also accepted explicit channels; compatibility depends on the installed browser and OS.
 
-### Squad sizing, speed and recovery
+| Symptom | What to check |
+| --- | --- |
+| `node:util` has no `styleText` export | Run `nvm use` in that terminal and check `node --version` before restarting. |
+| Playwright says the executable does not exist | Install Chromium, or configure the installed Chrome channel above, then restart. |
+| Missing API key or HTTP 401 | Set a valid `OPENAI_API_KEY` in an ignored root environment file and restart. `VERCEL_OIDC_TOKEN` is not the app's OpenAI key. |
+| Tools offline or a Cloudflare 429 | Confirm `cloudflared` is installed, check tunnel logs, and avoid repeatedly opening new tunnels; use prewarm when appropriate. |
+| Updated code is not visible | Restart the backend after server changes. Fix any frontend build error: the startup script can fall back to the last build or classic dashboard. |
 
-New React dashboard chats start with **Auto** squad sizing and **Balanced** speed. Auto uses a local, explainable task heuristic: a focused page summary starts with one agent, shopping with two, comparisons with three, and site audits with up to five. The agent popover explains the suggestion. The server resolves the final count before opening browsers. Choose **Choose myself** or use the +/− controls to override the count; a task explicitly requesting one to five agents also takes priority over preset caps. Existing saved manual settings are preserved. The classic dashboard and CLI keep their existing defaults.
+### Local frontend and landing-page development
 
-| Preset | Onyx / agent reasoning | Actions per agent | Run time limit | Auto team cap |
+Keep the backend running for real dashboard work. In another terminal:
+
+```sh
+nvm use
+npm run web
+```
+
+Open **http://127.0.0.1:5173** for the dashboard with hot reload; Vite proxies `/api` and `/ws` to the backend on 8787.
+
+To preview the **landing page and public shops without a backend**, use:
+
+```sh
+nvm use
+VITE_REMOTE_BACKEND=true npm run web
+```
+
+Open **http://127.0.0.1:5173** for the landing page. `/app` shows the hosted connection flow in this mode. Both BuggyMart paths also work. Normal local builds use the local API; the `VITE_REMOTE_BACKEND=true` flag selects the hosted-connection mode.
+
+### Scripted demo without paid API calls
+
+After dependency/browser installation, build the normal local frontend and run the mock server:
+
+```sh
+nvm use
+VITE_REMOTE_BACKEND=false npm run web:build
+node scripts/dev-mock-ui.ts --port 8796 --mcp-port 8795
+```
+
+Open **http://127.0.0.1:8796**, select two agents for the scripted scenario, and submit a task. The mock Onyx and two bots follow the same prepared local scenario regardless of the prompt. It exercises the real dashboard, MCP router and browsers, but sends nothing to OpenAI and requires no Cloudflare tunnel. It is a labelled development/demo mode, not open-ended AI research. Set `PLAYWRIGHT_CHANNEL=chrome` in the shell if needed. When Lime reaches the simulated human-check page, take over its browser, click **I’m a person**, and hand control back to let the scripted run finish.
+
+## Squad sizing, speed and recovery
+
+New React dashboard settings default to **Auto + Balanced**. Auto uses a local English/URL heuristic: a focused summary suggests one agent, shopping two, comparisons three, and audits up to five. The popover explains the suggestion; the backend resolves the actual count before opening browsers. Use **Choose myself** or +/− to override it. Explicit requests such as “use five agents” also override the preset's Auto cap. Existing saved manual settings are preserved.
+
+| Preset | Onyx / agent effort | Actions per agent | Run time limit | Auto team cap |
 | --- | --- | --- | --- | --- |
 | Quick | Low / Low | 20 | 8 minutes | 2 |
 | Balanced | Medium / Medium | 30 | 20 minutes | 4 |
 | Thorough | High / High | 60 | 30 minutes | 5 |
 
-Presets keep your manual team count. Changing effort or a work limit in advanced options marks the settings **Custom**; preferences persist across reloads. These settings control the work budget, not a promised completion time. Auto sizing currently recognizes English task patterns and URLs, and can be overridden.
+Presets control work budgets, not guaranteed response times or dollar limits. They keep a manually chosen team size. Editing effort, actions or timeout marks the settings **Custom**. Settings persist in browser storage; classic/CLI callers keep their existing defaults.
 
-The live progress line shows why Onyx is waiting and the time since the last agent activity. A busy session with no events/tool activity for 90 seconds, a failed session, or an unanswered idle run with no agents working for 15 seconds offers **Resume**. Quiet reasoning can still be healthy: recovery happens only when you press Resume. **Stop** pauses the chat and also offers Resume. Browser takeover and pending site decisions block recovery until resolved.
+The progress line shows waiting reasons and the age of the last activity. **Resume** becomes available for failed sessions, busy sessions quiet for 90 seconds, unanswered idle runs with no working agents for 15 seconds, and user-paused work. Silence can be normal reasoning, so recovery is explicit rather than an automatic restart. Browser takeover or a pending site decision blocks recovery until resolved.
 
-Resume replaces only the affected unfinished sessions, keeps completed reports/sources and browser pages, and preserves action consumption and the original run deadline. Onyx receives the task, user messages and completed findings if it needs restarting. Recovery confirms the old session was deleted before creating a replacement, waits for queued browser actions, and accepts only one recovery at a time. Errors remain visible. Existing API/session retries continue separately. Recovery is for a live server process; history from a stopped server remains read-only. Restart the laptop backend with the updated code to enable these controls on the hosted dashboard.
+Resume replaces affected unfinished sessions, retains completed reports/sources and browser pages, and preserves action consumption and the original deadline. It confirms the old session was deleted before creating its replacement, waits for queued browser actions and prevents duplicate recovery jobs. If Onyx restarts, it receives the task, user messages and completed findings. Existing session/API retries also remain. Recovery errors are shown; restarting a stopped server does not restore its old live browser sessions.
 
-### Public BuggyMart test site
+When the final answer arrives, report panels collapse and the full answer opens at its heading. Reports can be expanded again. Tables, source links and Copy remain available; new plans restore the browser workspace. Brief completion motion respects reduced-motion settings. These completion/recovery controls belong to the React dashboard; classic mode keeps its earlier layout.
 
-Give the app **https://apexagents.vercel.app/buggymart/** to test the shop with all ten planted bugs enabled. Use **https://apexagents.vercel.app/buggymart/fixed/** for the same shop with all ten bugs disabled, to verify the expected behavior. Both work without a laptop server. Each version keeps its own cart in the current tab; use **Reset demo** before another run. Checkout is simulated.
+## Connect the hosted dashboard to your laptop
 
-For both versions locally, select Node 24 with `nvm use`, then run `VITE_REMOTE_BACKEND=true npm run web`. Open **http://127.0.0.1:5173/buggymart/** (all 10 bugs) and **http://127.0.0.1:5173/buggymart/fixed/** (those bugs disabled). Vite serves both paths directly from the shop source, with separate per-tab cart state and hot reload for the landing page. No shop server, API key, or export/build is needed for these paths. The standalone `npm run buggymart` command remains available on port 3001.
+The form at [the hosted dashboard](https://apexagents.vercel.app/app) connects to an already-running local backend. It is not a public account-registration form.
 
-The production build exports the existing `targets/buggymart/public/` files into two static shop folders. Product, search, cart and checkout URLs stay within their shop prefix. Only public assets and configuration are published; the answer key is not served. Full instructions: [BuggyMart](targets/buggymart/README.md).
-
-### Animated landing page and hosted dashboard
-
-**https://apexagents.vercel.app** is the public animated landing page: meet the cast, watch Onyx assign five missions and the squad animate their work, watch the 52-second project film, read the architecture story and copy setup commands. It works without a backend or API key. The animation is illustrative, not a live agent run. It supports keyboard navigation, mobile layouts and reduced motion.
-
-The React dashboard from `web/` (the app normally served by `npm run web` on port **5173**) is at **https://apexagents.vercel.app/app**. Agents, browser profiles, run history and the OpenAI key stay on the laptop running `npm run ui`.
-
-To preview the landing page locally, select Node 24 in the same terminal before starting Vite:
+Keep `npm run dev` running, then in a second terminal run:
 
 ```sh
-# From the repository root; load nvm first if the shell does not recognize it.
-source "$HOME/.nvm/nvm.sh"
 nvm use
-VITE_REMOTE_BACKEND=true npm run web
-```
-
-Open http://127.0.0.1:5173. A `node:util` error about the missing `styleText` export means the terminal is still using an older Node version; check `node --version` and select Node 24 again. Runtime selection applies to that terminal. The landing page needs no API key or backend. `/app` shows the hosted dashboard connection screen. Without the flag, local dashboard behavior stays unchanged. The landing page and dashboard load in separate JavaScript chunks; the film loads only when opened. [Asset sources and font licenses](docs/landing-assets.md).
-
-The launch film uses synchronized plus presses, counts and agent arrivals, with named seats, brief arrival motion and a full-team launch. Its viewer includes a preview image and an in-frame close control that remains accessible on landscape screens. To re-export the saved production animation, use `FFMPEG_PATH=/path/to/ffmpeg npm run film:render`; this requires the original local `dashboard/dist` archive and installed Chrome, and writes the 52-second MP4/check report under ignored `spikes/out/film-render/`. The archive is not included in a fresh clone; the distributed MP4 is ready to play. See [production notes](docs/video/storyboard.md).
-
-On that laptop, leave the existing dashboard running. In a second terminal, update the clone and start sharing (Node 22.18+ and `cloudflared` are required):
-
-```sh
-git pull --ff-only
-npm ci                       # only if this clone's dependencies are not already installed
 npm run share
 ```
 
-`share` checks the dashboard at `http://127.0.0.1:8787`, opens a separate authenticated bridge on port 8790, and tunnels it through Cloudflare. It opens the hosted dashboard at `/app` with a private connection link, also saved to the ignored, owner-only `spikes/out/share-ui/connect.txt`. Open that link on the computer where you want to use the dashboard. Treat the link as a password: anyone with it can send tasks and control this squad. The key is removed from the address bar and held in this browser tab's session storage; it is never built into the frontend.
+The sharing command creates an authenticated bridge on **8790**, opens a separate HTTPS Cloudflare tunnel, and opens a private connection link. That link is also saved locally to ignored, owner-only `spikes/out/share-ui/connect.txt`. Opening it in another browser fills the connection details automatically.
 
-Keep the backend, sharing terminal and laptop awake. `Ctrl+C` in the sharing terminal revokes that connection without stopping the local agents. Restarting sharing generates a new key and tunnel address; open the new private link to reconnect. This dashboard tunnel is separate from the MCP tunnel on port 8788. No backend restart or incoming firewall port is needed.
+| Form field | Meaning |
+| --- | --- |
+| **Laptop address** | The HTTPS bridge address generated by `npm run share`, not the dashboard's localhost address or the MCP tunnel. |
+| **Access key** | The generated bridge key, not an OpenAI key or Vercel password. It is encoded in the private connection link. |
 
-For a non-default dashboard port, use `npm run share -- --target http://127.0.0.1:8796`. For another hosted frontend, add `--frontend https://your-site.example` (only that exact origin is allowed). Running against the scripted mock dashboard is supported; only an existing real backend can perform real agent tasks.
+Treat that private link as a password: anyone with it can control this squad and submit tasks charged to your API account. Share only with trusted demo viewers. Keep the laptop awake and both terminals running. The browser removes the key from the address bar and stores the connection in the current tab's session storage. `Ctrl+C` in the sharing terminal revokes that bridge connection; a new sharing session creates a new key and address.
 
-To deploy updates from the repository root, verify the signed-in identity and select Vijay's workspace explicitly. `whoami` should report `vijayanand15`; the project inspection should show `Vijay's Team` as owner. This checkout is already linked; the `link` command also sets up a fresh clone:
+Advanced options: `npm run share -- --target http://127.0.0.1:8796` shares the scripted mock backend; `--frontend https://your-site.example` allows a different exact frontend origin. This sharing tunnel is separate from the agents' MCP tunnel on 8788.
+
+## BuggyMart QA playground
+
+BuggyMart is a deliberately small shop with six products, search/category/sort, variants, cart quantities, a coupon and simulated checkout. It gives the agents reproducible browser bugs to find. The fixed route is an existing bugs-off reference; the agent does not patch the deployed shop by visiting it.
+
+| Version | Hosted | Local Vite preview |
+| --- | --- | --- |
+| All 10 planted bugs enabled | https://apexagents.vercel.app/buggymart/ | http://127.0.0.1:5173/buggymart/ |
+| Those bugs disabled | https://apexagents.vercel.app/buggymart/fixed/ | http://127.0.0.1:5173/buggymart/fixed/ |
+
+The Vite command in [local development](#local-frontend-and-landing-page-development) serves both paths without a separate shop process. Alternatively, run the standalone shop:
+
+```sh
+npm run buggymart                    # http://127.0.0.1:3001, bugs enabled
+npm run buggymart -- --bugs none      # same port, bugs disabled; stop the first process first
+```
+
+Use **Reset demo** before repeating a run. Each version keeps separate cart state in the current tab; independently opened tabs/browsers have their own sessions. Checkout uses fictional details and no real payment. Ask agents for reproduction steps, expected/actual behavior and severity. Keep the maintainer answer key out of their prompts.
+
+Full controls, expected failures and test options: [BuggyMart README](targets/buggymart/README.md). The answer key is not deployed as a public asset. Running the shop manually is independent of OpenAI; asking real agents to test it uses the normal paid API setup.
+
+## Configuration
+
+Backend root environment precedence is: **already-exported variables → `.env.local` → `.env`**. Files do not replace values already set in the process. Both real environment files are ignored by Git; [`.env.example`](.env.example) contains placeholders only.
+
+| Variable | Scope and behavior |
+| --- | --- |
+| `OPENAI_API_KEY` | Required for real agent runs; stays on the backend computer. |
+| `OPENAI_BASE_URL` | Optional API endpoint override; defaults to `https://api.openai.com/v1`. |
+| `MODEL_MASTER` | Default Onyx model for the dashboard/CLI: `gpt-6.1-sol`. |
+| `PLAYWRIGHT_CHANNEL` | Optional installed browser channel; unset uses bundled Chromium. |
+| `APEXAGENTS_API` | Vite's backend proxy target; default `http://127.0.0.1:8787`. |
+| `VITE_PORT` | Optional Vite development port; default `5173`. |
+| `VITE_REMOTE_BACKEND` | Set to `true` when building/previewing the landing page and hosted connection mode. |
+
+The dashboard defaults worker agents to `gpt-6-luna`; change models through its advanced options. The CLI has `--master-model`/`--bot-model` flags. `MODEL_BOT` in the example is used by the separate computer-use spike; it does not change the dashboard's default. `MODEL_VISION` and `MODEL_DECISIONS` remain legacy experiment/specification entries and are not read by the current dashboard server.
+
+## Commands and verification
+
+Run commands from the repository root with the supported Node version selected. There is no configured lint command; the project uses typechecks and focused tests.
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` / `npm run ui` | Build and serve the React dashboard/backend on 8787. |
+| `npm run ui -- --no-open` | Start without opening a browser tab. |
+| `npm run ui -- --classic` | Serve the original `ui/` dashboard. |
+| `npm run ui -- --help` | See ports, tunnel reuse, warm-up and verbosity options. |
+| `npm run web` | Vite frontend development on 5173. |
+| `npm run web:build` | Frontend typecheck/build and export both static BuggyMart variants. |
+| `npm run squad -- "your task"` | Terminal version of the real squad. |
+| `npm run prewarm` | Keep an MCP tunnel ready. |
+| `npm run share` | Temporarily connect the hosted frontend to a local backend. |
+| `npm run buggymart` | Standalone QA shop on 3001. |
+| `npm run typecheck` | Server, target and test TypeScript checks. |
+| `npm --prefix web run check` | Frontend TypeScript check. |
+| `npm test` | Offline unit/bridge, mock API, browser/MCP, squad, dashboard, results and run-controls checks. |
+| `npm run test:unit` | Unit and authenticated-sharing bridge tests. |
+| `npm run test:results` | Build and test final-results focus, report folding, replay and reduced motion. |
+| `npm run test:controls` | Build and test sizing/presets, persistence, recovery and responsive controls with scripted agents and real browsers. |
+| `npm run test:buggymart` | Separate browser regression for the planted bugs and working baseline. |
+| `npm run bench` | Local browser performance benchmark. |
+
+For installed Chrome, run `PLAYWRIGHT_CHANNEL=chrome npm test`; test runners do not automatically load root `.env.local`. The standalone BuggyMart test uses `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` instead; see its README. Offline mocks are not evidence of live model quality or current website compatibility.
+
+The changelog records the 20 October checks, including 27 unit/bridge tests, 35 run-controls checks and 22 hosted browser checks. Hosted smoke checks used mocked backend traffic, not paid live agent runs. Older latency/cost examples and TestTown results in `master.md` are historical observations from specific tasks, not performance or billing guarantees.
+
+## Publishing and media maintenance
+
+The current deployment is managed in Vijay's Vercel workspace. From an authorized checkout, verify identity before publishing:
 
 ```sh
 npx vercel whoami
-npx vercel link --yes --project apexagents --scope vijay-s-team4
 npx vercel project inspect apexagents --scope vijay-s-team4
 npx vercel deploy --prod --scope vijay-s-team4
 ```
 
-This is a manual CLI deployment. Automatic GitHub deployment is not connected: linking the old `amarnath3003/SquadLings` remote failed because the new Vercel account has no corresponding GitHub login connection. Configure the intended ApexAgents repository separately before enabling automatic deployments. No API key is required on Vercel; the backend remains local.
+For a fresh authorized checkout, first link it with `npx vercel link --yes --project apexagents --scope vijay-s-team4`. The expected account is `vijayanand15`, and project owner is Vijay's Team. Vercel installs/builds only the frontend with `VITE_REMOTE_BACKEND=true`; no OpenAI key is needed on Vercel. Backend changes need a separate local restart.
 
-`npm run share` now defaults to `https://apexagents.vercel.app`; use `--frontend` for a different deployed frontend. Its allowed browser origin must match the address actually in use.
+Deployment currently uses the CLI. Automatic GitHub deployment is not connected; resolve the intended repository/remote ownership before configuring it. The original `squadlings.vercel.app` project was retained separately, and only the ApexAgents domain assignment was moved to Vijay's project. Exact deployment checkpoints are in [CHANGELOG.md](CHANGELOG.md) and [SUBMISSION.md](SUBMISSION.md).
 
-[`vercel.json`](vercel.json) installs/builds only `web/`, with `VITE_REMOTE_BACKEND=true`. Normal local builds keep using the same-origin API and Vite proxy. REST calls and the live WebSocket go directly from the hosted browser to the authenticated laptop bridge, using HTTPS/WSS. API keys stay on the laptop; Vercel serves static assets. The deployment excludes local environment files, run data and backend code via [`.vercelignore`](.vercelignore).
+The launch film's current export synchronizes plus presses, agent counts and arrivals, retains its soundtrack, and uses a poster and responsive player. `FFMPEG_PATH=/path/to/ffmpeg npm run film:render` re-exports the original local `dashboard/dist` studio archive using installed Chrome. That archive and FFmpeg are not provided in a fresh clone; distributed MP4 playback needs neither. See the [storyboard](docs/video/storyboard.md) and [asset credits](docs/landing-assets.md).
 
-Deployment references: [Vercel CLI](https://vercel.com/docs/cli/deploy), [Vite on Vercel](https://vercel.com/docs/frameworks/frontend/vite), [Cloudflare Tunnel](https://developers.cloudflare.com/tunnel/get-started/).
+## Data, costs and limitations
 
-<details>
-<summary><b>All commands</b></summary>
+- **One active run per backend.** Multiple connected viewers share that squad; the current bridge does not create independent user accounts or private customer workspaces.
+- **Local storage.** Logs/results are written under ignored `spikes/out/`; persistent agent profiles live in `spikes/profile/`. Clean-profile runs use temporary profiles. Deleting these local records removes the corresponding history/state.
+- **Costs.** Real tasks use the backend owner's API account. The displayed amount estimates model-token costs and is not a complete invoice; tools or hosted environments may add charges. Presets limit actions/time rather than dollars, and there is no implemented spending cap.
+- **Access boundaries.** The local dashboard checks Host/Origin; the MCP service uses per-run authenticated routes. Optional sharing adds a separate key-protected dashboard bridge. Neither connection is a public multi-user hosting solution.
+- **Site access.** Browser navigation is gated by allowed sites; agents' requests for new sites go to Onyx. A dedicated approval flow for purchases or other consequential actions remains unimplemented.
+- **Human checks.** Agents do not solve CAPTCHAs. They can report a blocker and try other normal pages/sources; you may take over and hand control back.
+- **Sensitive data.** Direct takeover input is excluded from event logs, but visited-page content, screenshots, findings and browser cookies can still be sensitive. Keep profiles, logs, keys and private connection links out of commits and public demos.
+- **Recovery scope.** Resume operates inside the live backend process. A server restart does not resurrect old browser sessions; interrupted chats remain readable from saved records.
+- **Availability.** Websites can block automation, APIs can reject requests, and tunnels can fail or be rate-limited. Auto sizing recognizes English task patterns/URLs and can be overridden.
+- **Future work.** Public accounts/cloud workers, hard spending controls, task templates, dedicated action approvals and voice are future options, not shipped features or required expenses for this personal showcase.
 
-<br>
-
-| Command | What it does |
-| --- | --- |
-| `npm run ui` | Builds the React dashboard (`web/`) and serves it, with the API and WebSocket, on `127.0.0.1:8787` |
-| `npm run ui -- --classic` | Serves the original plain-JS dashboard (`ui/`) instead |
-| `npm run ui -- --help` | Ports, tunnel reuse, `--no-warm`, `--verbose` and more |
-| `npm run web` | Vite dev server for `web/` with hot reload (proxies `/api` and `/ws` to `APEXAGENTS_API`) |
-| `npm run squad -- "task"` | The same squad in the terminal, with visible tiled browser windows |
-| `npm run prewarm` | Keeps one cloudflared quick tunnel open on port 8788 for reuse |
-| `npm run share` | Connects the hosted frontend to an existing dashboard on this laptop through an authenticated tunnel |
-| `npm run spike:mcp` | One agent driving our browser over MCP (the S1 spike) |
-| `npm run spike:cu` | One agent on OpenAI's hosted computer use (the Phase −1 spike) |
-| `npm test` | Unit tests, mock Agents API, browser/MCP, squad, dashboard, React results-view and run-controls self-tests, all offline |
-| `npm run test:controls` | Builds the React app and checks presets, Auto/manual sizing, saved settings, health, Resume preservation, duplicate requests and responsive controls against scripted agents and real Chrome; no paid model calls |
-| `npm run test:results` | Builds the React dashboard and checks completion, report folding, result navigation, replay, mobile layout, and reduced motion without model calls; set `PLAYWRIGHT_CHANNEL=chrome` to use installed Chrome |
-| `npm run bench` | Browser settling benchmark |
-| `npm run typecheck` | TypeScript check for the server |
-| `npm run buggymart` | Local QA shop on `127.0.0.1:3001`, with 10 planted bugs |
-| `npm run test:buggymart` | Offline browser checks for every planted bug and the working baseline |
-
-</details>
-
-<details>
-<summary><b>Environment variables</b></summary>
-
-<br>
-
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `OPENAI_API_KEY` | — | Required for real runs |
-| `MODEL_MASTER` | `gpt-6.1-sol` | Onyx's model |
-| `MODEL_BOT` | `gpt-6.1-sol` | The bots' model (live runs used `gpt-6-luna`) |
-| `MODEL_VISION` | `gpt-6.1-sol` | Looking at pages |
-| `MODEL_DECISIONS` | `gpt-6-luna` | Fast classification |
-| `OPENAI_BASE_URL` | OpenAI | Optional override |
-
-`.env.local`, if present, wins over `.env`.
-
-</details>
-
-<br>
-
-## 🛡️ Safety
-
-- **Local first.** The dashboard API listens on `127.0.0.1` only and checks Host and Origin. Only the MCP port goes through the tunnel, so the public URL can never reach the dashboard.
-- **Site gate.** Bots may only open sites the plan allows. A link to an unknown site is held and asked about first.
-- **Human checks belong to humans.** The agents never solve CAPTCHAs, spoof fingerprints or imitate human input. They detect the check and hand control to you.
-- **Takeover is private.** What you type during takeover is never logged.
-- **Escaped output.** The chat's Markdown renderer escapes everything.
-
-<br>
-
-## 🗺️ Repo map
+## Repository map and sources
 
 ```text
 ApexAgents/
-├── README.md              this file
-├── vercel.json            hosted frontend build and routing
-├── .vercelignore          excludes backend and private runtime data from deployment
-├── master.md              the full product + architecture spec
-├── HANDOFF.md             where the dashboard port stands right now
-├── RULES.md · AGENTS.md   hackathon rules and the agent working guide (from the event template)
-├── CHANGELOG.md           development record, newest first
-├── AI_USAGE.md            what AI tools did, and what humans reviewed
-├── SUBMISSION.md          the hackathon submission form
 ├── scripts/
-│   ├── ui.ts              npm run ui: server, tunnel, squad runner
-│   ├── squad.ts           npm run squad: the terminal version
-│   ├── dev-mock-ui.ts     zero-cost mock server for UI work
-│   ├── prewarm.ts         npm run prewarm: keep a tunnel open
-│   ├── share-ui.ts        connect the hosted site to a running laptop backend
-│   ├── eval-agent.ts      TestTown agent eval
-│   ├── spike-*.ts         the Phase −1 and S1 single-agent spikes
-│   ├── lib/               orchestrator, Agents API sessions, MCP browser server,
-│   │                      site gate, tunnel, layout, pricing, prompts
-│   └── tests/             offline self-tests and mocks
-├── web/                   React dashboard: chat, live tiles, characters, sound
-├── targets/buggymart/     local test shop, bug answer key, offline checks
-├── ui/                    the original plain-JS dashboard (--classic)
-├── scrap_tests/ss_stream/ the "can hosted computer use stream screenshots?" probe (answer: no)
-├── docs/                  banner, cast, film, sticker reference, planning history
-└── .github/               pull request checklist
+│   ├── ui.ts, squad.ts          local dashboard and terminal entry points
+│   ├── dev-mock-ui.ts           scripted demo, no OpenAI calls
+│   ├── share-ui.ts, prewarm.ts  sharing bridge and tools tunnel
+│   ├── render-launch-film.ts   archive-based media recorder
+│   ├── lib/                    orchestration, sessions, MCP, browsers and site gate
+│   └── tests/                  offline tests and mock Agents API
+├── web/
+│   ├── src/landing/            public landing page and film viewer
+│   ├── src/home/, src/shell/   composer, settings and live progress
+│   ├── src/live/, src/chat/, src/wall/  state, conversation and browser tiles
+│   ├── shared/                 cast, preset rules and health contract
+│   ├── public/                 media, fonts and public assets
+│   └── export-buggymart.mjs    build-time export of both shop versions
+├── targets/buggymart/          QA shop source, answer key and separate tests
+├── ui/                        original plain-JS dashboard
+├── docs/                      assets, film, planning transcript and references
+├── master.md                  historical specification, experiments and run notes
+├── HANDOFF.md                 historical integration notes, not current setup authority
+├── CHANGELOG.md, AI_USAGE.md   implementation and development-assistance records
+├── SUBMISSION.md, RULES.md     event record and organizer rules
+└── vercel.json                frontend publishing and route configuration
 ```
 
-Ignored and regenerated at runtime: `spikes/out/` and `runs/` (run logs), `spikes/profile/` (browser profiles), `web/dist/` (built by `npm run ui`).
+Technology sources: [OpenAI API](https://developers.openai.com/), [Model Context Protocol SDK](https://github.com/modelcontextprotocol/typescript-sdk), [Playwright](https://playwright.dev/), [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/), [Node.js](https://nodejs.org/), [TypeScript](https://www.typescriptlang.org/), [React](https://react.dev/), [Vite](https://vite.dev/), [Motion](https://motion.dev/) and [Zustand](https://zustand.docs.pmnd.rs/). No external datasets are required.
 
-<br>
+Characters, studio animation, sound, banner and original film retain the [original studio source credit](https://github.com/amarnath3003/SquadLings). Landing fonts are locally hosted **Bricolage Grotesque** and **DM Sans**, with their SIL Open Font Licenses included; [asset credits](docs/landing-assets.md) record sources. The palette/art references follow the DevDay material. OpenAI names/artwork belong to their respective owners; no endorsement is implied.
 
-## 🧭 Status
-
-| | |
-| --- | --- |
-| ✅ **Working** | Onyx + up to 5 bots on the Agents API · real browsers driven over MCP · live CDP-screencast tiles with character cursors · chat with follow-ups mid-run · human-check takeover · site gate · chats history (closed chats reopen read-only) · effort and squad-size pickers · offline test suite |
-| 🚧 **In progress** | Moving the live run screen onto the character studio (Onyx's coordinator card, flights, moods, emotes) |
-| ✅ **QA target** | BuggyMart: local shop with 10 easy planted bugs, reset, bugs-off mode, and offline checks |
-| 🔭 **Planned** | Templates (Trip Planner, QA Swarm scorecard) · cost cap · approval cards for risky actions · GPT-Live-1 voice |
-| ⚠️ **Known limitations** | Hosted dashboard at `/app` needs a private connection link and an awake laptop backend; the landing page works independently · needs Agents API access and a cloudflared quick tunnel; Cloudflare rate-limits many tunnels started in a few minutes (HTTP 429), so use `npm run prewarm` · Google blocks automated browsers, so bots search with Bing · bots never solve CAPTCHAs: you take over · no cost cap yet |
-
-<br>
-
-## 📋 Project overview
-
-Built at the **DevDay Exchange Community Hackathon: Kochi** (10–11 October 2026). Event rules: [RULES.md](RULES.md) · agent guide: [AGENTS.md](AGENTS.md) · submission: [SUBMISSION.md](SUBMISSION.md) · AI usage: [AI_USAGE.md](AI_USAGE.md) · change log: [CHANGELOG.md](CHANGELOG.md).
-
-| | |
-| --- | --- |
-| **Project name** | ApexAgents |
-| **Owner and founder** | Vijay Anand ([@vijayanand1505](https://github.com/vijayanand1505)) |
-| **Short description** | ApexAgents turns one request into a coordinated team of AI browser agents. Led by a master orchestrator, up to five agents research, compare and test websites in parallel, then bring their findings together in one answer with sources. Watch every browser live, guide the team through chat and take control whenever needed. |
-| **Contributors** | Vijay Anand ([@vijayanand1505](https://github.com/vijayanand1505)) · D Amarnath ([@amarnath3003](https://github.com/amarnath3003)) |
-| **Working demo** | Local: see [Quick start](#-quick-start). Free scripted demo: `node scripts/dev-mock-ui.ts --port 8796 --mcp-port 8795` |
-| **Technology stack** | Node.js 22.18+ and TypeScript (run directly by Node) · OpenAI Agents API (`gpt-6.1-sol`, `gpt-6-luna`) · Model Context Protocol SDK · Playwright Chromium · cloudflared · `ws` · zod · React 18, Vite, Motion and Zustand for the dashboard |
-
-**Run the project:** prerequisites, install, environment and start commands are in [Quick start](#-quick-start); `npm test` runs the offline checks and `npm run typecheck` (root) plus `npm --prefix web run check` type-check the server and dashboard.
-
-**Libraries, APIs and public datasets:** [OpenAI Agents API](https://developers.openai.com/), [@modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/typescript-sdk), [Playwright](https://playwright.dev/), [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/), [ws](https://github.com/websockets/ws), [zod](https://zod.dev/), [React](https://react.dev/), [Vite](https://vite.dev/), [Motion](https://motion.dev/), [Zustand](https://zustand.docs.pmnd.rs/). No datasets. Character studio components in `web/` come from [original character studio](https://github.com/amarnath3003/SquadLings) (`dashboard/` at `45f625f`).
-
-<br>
-
-## 💜 Credits
-
-Built from scratch in one night at the **[OpenAI DevDay Exchange Community Hackathon, Kochi](https://luma.com/z10nz8gp)** (10–11 October 2026, JAIN University).
-
-- **Engine, server and dashboard:** the ApexAgents team, in this repo.
-- **Characters, animation studio, sound, banner and launch film:** [original character studio](https://github.com/amarnath3003/SquadLings).
-- **Landing page fonts:** Bricolage Grotesque and DM Sans, locally hosted under the SIL Open Font License; see [asset credits](docs/landing-assets.md).
-- **Built with:** [OpenAI Agents API](https://developers.openai.com/), [Model Context Protocol](https://modelcontextprotocol.io/), [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/), [React](https://react.dev/), [Motion](https://motion.dev/), [Zustand](https://zustand.docs.pmnd.rs/) and [Vite](https://vite.dev/).
-
-<sub>Colours follow the DevDay event website's tokens. OpenAI names and artwork belong to OpenAI; no endorsement is implied.</sub>
-
-<br>
-
-<p align="center">
-  <img src="docs/assets/cast/onyx.svg" width="28" alt="">
-  <img src="docs/assets/cast/plum.svg" width="28" alt="">
-  <img src="docs/assets/cast/lime.svg" width="28" alt="">
-  <img src="docs/assets/cast/tango.svg" width="28" alt="">
-  <img src="docs/assets/cast/blu.svg" width="28" alt="">
-  <img src="docs/assets/cast/sky.svg" width="28" alt="">
-  <br>
-  <sub><b>Big task. Little team. Done.</b></sub>
-</p>
+For contribution workflow, documentation and commit conventions, read [AGENTS.md](AGENTS.md). Historical records describe their own checkpoints; the setup and limitations above describe the current project.
