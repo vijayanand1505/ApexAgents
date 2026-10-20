@@ -87,3 +87,17 @@ File: `apexagents-intro.mp4` — 5,307,799 bytes. SHA-256:
 Re-rendered the existing saved character-studio bundle with the ApexAgents wordmark using system Chrome, Playwright's virtual clock and FFmpeg. Captured all 1,560 frames at 1920 × 1080 / 30 fps and retained the existing synthesized soundtrack. Updated both distributed MP4 copies, the README GIF and storyboard contact sheet. This used the local archived `dashboard/dist` bundle; the original film source is not part of this repository. The October 11 capture measurements above describe the previous export.
 
 Current MP4: 5,126,606 bytes; SHA-256 `c6eca8107b7eebb3ad177d9a229392396275e256b3833381622347fa0bb152c3`.
+
+## Synchronized cast export — 20 October 2026
+
+The previous export's agent-selection scene could show the counter advancing ahead of the visible introductions. The revised recorder advances the browser clock as well as the scene timeline and explicitly samples each arrival on that same timeline. Plus presses, counts and the original join sounds remain 480 ms apart; each new character appears immediately and settles over 180 ms. Five fixed, named seats prevent the existing characters from shifting when the next one arrives. The pointer follows the actual plus/send controls, and the full squad remains visible until the launch begins at 10 seconds. Added restrained button presses, arrival motion, empty-seat outlines and smaller individual flames.
+
+Re-export using the existing local studio archive (not included in a fresh clone), installed Chrome, Node 24 and FFmpeg:
+
+```sh
+FFMPEG_PATH=/path/to/ffmpeg npm run film:render
+```
+
+Optional `FILM_STUDIO_DIST` selects the archived studio build directory; `FILM_OUTPUT` selects the output MP4. Defaults are `dashboard/dist` and `spikes/out/film-render/apexagents-intro.mp4`. The recorder checks the expected archived timeline before applying its film-only changes, captures 1,560 frames, writes six cast/count checkpoints plus a recording report, and copies the existing distributed MP4's AAC track. Keep the distributed input MP4 present during export. The resulting video uses H.264/yuv420p with a fast-start index; the complete existing 52-second story and soundtrack are retained.
+
+The website viewer now includes an extracted poster, a compact header and an in-frame close button that stays accessible on short landscape viewports. Both distributed MP4s, the README GIF and the storyboard preview were updated together. Current MP4: **4,626,707 bytes**; SHA-256 **`0b673791e7b872ab2f7232a7ecd897338714d25aa128d39d25066ddb7fa9329b`**. Full FFmpeg decode and all six render checkpoints passed; the AAC bitstream matches the previous export. Human pacing/listening review remains pending.

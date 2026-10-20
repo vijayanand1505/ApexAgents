@@ -2021,15 +2021,50 @@ body:has(.sl-page) {
   position: fixed;
   inset: 0;
   margin: auto;
-  width: min(1100px, 94vw);
+  width: min(1100px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
   max-width: none;
   padding: 0;
   border: 1px solid #5d5069;
   border-radius: 18px;
   background: #121015;
   color: #f3f0e8;
-  overflow: visible;
+  overflow: hidden;
   z-index: 200;
+  box-shadow: 0 30px 120px #000b, 0 0 80px #924ff714;
+}
+.sl-film[open] {
+  display: flex;
+  flex-direction: column;
+}
+.sl-film-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 12px 18px;
+  border-bottom: 1px solid #ffffff10;
+}
+.sl-film-header > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.sl-film-header small {
+  color: #a496b2;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 1.2px;
+  margin-left: 8px;
+}
+.sl-film-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a86cff;
+  box-shadow: 0 0 15px #a86cff80;
 }
 .sl-film::backdrop {
   background: #050409ed;
@@ -2038,12 +2073,15 @@ body:has(.sl-page) {
 .sl-film video {
   display: block;
   width: 100%;
-  max-height: 75dvh;
+  min-height: 0;
+  max-height: calc(100dvh - 160px);
   aspect-ratio: 16/9;
-  border-radius: 17px 17px 0 0;
+  object-fit: contain;
+  border-radius: 0;
   background: #000;
 }
 .sl-film > div {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2056,9 +2094,7 @@ body:has(.sl-page) {
   color: #93879e;
 }
 .sl-film-close {
-  position: absolute;
-  right: 8px;
-  top: -48px;
+  position: static;
   background: #211b28;
   border: 1px solid #544361;
   width: 34px;
@@ -2068,6 +2104,15 @@ body:has(.sl-page) {
   display: grid;
   place-items: center;
   font-size: 15px;
+  transition: background .2s, border-color .2s;
+}
+.sl-film-close:hover {
+  background: #392b48;
+  border-color: #b184e0;
+}
+.sl-film-close:focus-visible {
+  outline: 2px solid #c6a1ff;
+  outline-offset: 3px;
 }
 
 @keyframes sl-character-float {
@@ -3254,7 +3299,10 @@ body:has(.sl-page) {
     border-radius: 10px;
   }
   .sl-film video {
-    border-radius: 9px 9px 0 0;
+    border-radius: 0;
+  }
+  .sl-film-header small {
+    display: none;
   }
   .sl-film > div {
     padding: 13px;

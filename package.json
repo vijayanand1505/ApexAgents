@@ -15,6 +15,7 @@
     "ui": "npm --prefix web run -s bundle || echo 'The web build failed: serving the last build (or the old dashboard).'; node scripts/ui.ts",
     "web": "npm --prefix web run dev",
     "web:build": "npm --prefix web run build",
+    "film:render": "node scripts/render-launch-film.ts",
     "buggymart": "node targets/buggymart/server.ts",
     "test:buggymart": "node --test targets/buggymart/buggymart.test.ts",
     "prewarm": "node scripts/prewarm.ts",

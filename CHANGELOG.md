@@ -4,6 +4,14 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T21:53:17+05:30 — Synchronize launch-film agents and improve the viewer
+
+- Changed: Re-exported the full 52-second film with a single capture clock for scene/character animation, immediate count-matched arrivals, 180 ms reveal motion, fixed named seats/placeholders, synchronized plus/pointer presses and the original 480 ms audio beats. Kept the squad visible until the 10-second launch and reduced the overlapping flame effect. Added the checked, archive-based `npm run film:render` production command without dependencies.
+- Viewer/assets: Added an extracted poster, branded dialog header, clearer caption and an in-frame close button. Preserved 16:9 content and fitted the dialog to short/landscape screens. Versioned the media URL so refreshed clients select the corrected export. Updated both identical MP4 copies, README GIF, storyboard preview, asset credits and production/setup notes. Preserved the user's independent footer formatting outside staging.
+- Validation: All 1,560 frames rendered with zero page errors; six cast/count checkpoints passed. Complete FFmpeg decode passed; AAC bitstream matches the previous soundtrack. Inspected arrival frames and the full storyboard. Backend typecheck and frontend TypeScript/build passed. Local viewer checks passed at 1440×900, 390×844, 844×390 and 320×568, including metadata/seeking, bounds and keyboard/button dismissal.
+- Published: Production `dpl_3sjKeP8RpWSRjg2gUREMFd6pgz58` reached READY in Vijay's Team at https://apexagents.vercel.app. Verified the live MP4 SHA-256 equals `0b673791e7b872ab2f7232a7ecd897338714d25aa128d39d25066ddb7fa9329b`, poster returns 200, the film plays from start to finish, and desktop/mobile/landscape checks report zero page errors. Restored the local-mode build; diff whitespace checked.
+- Limits/review: Re-export requires the existing local `dashboard/dist` archive and FFmpeg/installed Chrome; that original studio bundle is not included in a fresh clone. Distributed playback requires none of those tools. Human pacing/listening review remains pending. No live agent/model request or Git push was performed.
+
 ## 2026-10-20T18:52:55+05:30 — Deploy ApexAgents in Vijay's Vercel account and move its domain
 
 - Ownership: Authenticated the user through a separate browser login and verified account `vijayanand15` / Vijay's Team (`vijay-s-team4`). Created project `apexagents` (`prj_TN8fIoKDzhzOQUfoKyoD2KtBjrLX`), relinked this checkout, and deployed production `dpl_HU5R5obhiXjGfLAMoSDoidjKeRLW` from the local working tree. The deployment includes the user's footer formatting, which remains uncommitted locally.

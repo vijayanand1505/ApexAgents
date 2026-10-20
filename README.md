@@ -269,6 +269,8 @@ VITE_REMOTE_BACKEND=true npm run web
 
 Open http://127.0.0.1:5173. A `node:util` error about the missing `styleText` export means the terminal is still using an older Node version; check `node --version` and select Node 24 again. Runtime selection applies to that terminal. The landing page needs no API key or backend. `/app` shows the hosted dashboard connection screen. Without the flag, local dashboard behavior stays unchanged. The landing page and dashboard load in separate JavaScript chunks; the film loads only when opened. [Asset sources and font licenses](docs/landing-assets.md).
 
+The launch film uses synchronized plus presses, counts and agent arrivals, with named seats, brief arrival motion and a full-team launch. Its viewer includes a preview image and an in-frame close control that remains accessible on landscape screens. To re-export the saved production animation, use `FFMPEG_PATH=/path/to/ffmpeg npm run film:render`; this requires the original local `dashboard/dist` archive and installed Chrome, and writes the 52-second MP4/check report under ignored `spikes/out/film-render/`. The archive is not included in a fresh clone; the distributed MP4 is ready to play. See [production notes](docs/video/storyboard.md).
+
 On that laptop, leave the existing dashboard running. In a second terminal, update the clone and start sharing (Node 22.18+ and `cloudflared` are required):
 
 ```sh

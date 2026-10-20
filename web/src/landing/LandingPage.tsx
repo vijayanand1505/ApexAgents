@@ -335,23 +335,28 @@ function Film({ onClose }: { onClose: () => void }) {
       }}
       aria-label="The ApexAgents launch film"
     >
-      <button
-        className="sl-film-close"
-        onClick={onClose}
-        aria-label="Close film"
-      >
-        ✕
-      </button>
+      <header className="sl-film-header">
+        <span><span className="sl-film-dot" /> ApexAgents <small>THE LAUNCH STORY</small></span>
+        <button
+          className="sl-film-close"
+          onClick={onClose}
+          aria-label="Close film"
+        >
+          ✕
+        </button>
+      </header>
       <video
-        src="/media/apexagents-intro.mp4"
+        src="/media/apexagents-intro.mp4?v=20261020-sync"
+        poster="/media/apexagents-intro-poster.jpg"
+        preload="metadata"
         controls
         autoPlay
         playsInline
         aria-label="ApexAgents, one task and five agents"
       />
       <div>
-        <strong>A little film about a big idea.</strong>
-        <span>ApexAgents · 52 seconds</span>
+        <strong>One request. Five agents. One result.</strong>
+        <span>52 seconds <span aria-hidden="true">·</span> Turn on sound for the full story</span>
       </div>
     </dialog>
   );
