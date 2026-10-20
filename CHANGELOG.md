@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T22:27:19+05:30 — Publish and verify run controls
+
+- Published: Implementation checkpoint `4e9761e` plus the user's existing uncommitted footer formatting to Vercel production `dpl_Ft6nLQApV6D3djS1M7WqRT7DbFxa` (READY), aliased at https://apexagents.vercel.app in verified account `vijayanand15`, Vijay's Team. No project/account migration or Git push.
+- Activated locally: Restarted the idle backend, restored the local frontend build, and verified http://127.0.0.1:8787 exposes recovery capability, responds to Auto sizing and has a ready MCP tunnel. No live task was submitted.
+- Validation: Final run-controls rerun passed all 35 checks; latest unit suite passed 27 tests; server/frontend typechecks and builds passed. All 22 production browser checks passed across desktop, phone and landscape: public landing/connection page, both BuggyMart paths/poster, preset/Auto count updates, picker/input bounds, Paused/Resume UI and action wiring, with zero script errors. Hosted backend requests were explicitly mocked; these checks do not claim a live paid agent run. Corrected the production smoke check to wait for React's lazy landing heading before asserting.
+- Records/limits: Updated submission hosting details without changing the original event commit reference. Hosted agent execution still requires the laptop backend and private sharing connection. Preserved the user's footer outside staging; human review pending.
+
 ## 2026-10-20T22:22:20+05:30 — Add automatic squad sizing, recovery and speed presets
 
 - Changed: Added shared task-size suggestions, server-side Auto resolution and an Auto/manual picker. New React chats use Auto + Balanced; existing saved manual settings and classic/CLI defaults remain intact. Added Quick/Balanced/Thorough reasoning/action/time presets, persistent Custom advanced settings, and responsive picker/composer layouts.
