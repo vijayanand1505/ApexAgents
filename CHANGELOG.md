@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T18:39:14+05:30 — Add ApexAgents BuggyMart URLs and both local shop versions
+
+- Changed: Added verified `apexagents.vercel.app` to the existing linked Vercel project's production domains. Both `/buggymart/` (10 planted bugs) and `/buggymart/fixed/` (bugs disabled) now respond at the new hostname. Kept the old address available; this domain addition serves the existing deployment and does not publish later local source changes or transfer project/account ownership.
+- Local implementation: `createBuggyMart` now supports a path prefix and trailing-slash redirect, rewriting the HTML base while preserving known-route/private-file checks. A small Vite middleware mounts both modes at the hosted paths on port 5173, using existing source without extra processes/dependencies. Added an ApexAgents shop credit/metadata and documented local/hosted URLs in README, the shop README, and submission references.
+- Validation: All 30 BuggyMart checks passed against the running Vite paths with installed Chrome, including every planted bug enabled/disabled, prefixed routes, checkout, isolation, mobile layout, and private-file 404s. Additional browser checks verified local same-tab cart separation and live new-domain navigation/cart/coupon behavior for both versions without page errors. Frontend/backend typechecks and both hosted/local production builds passed; restored the local-mode build for the running dashboard. Diff whitespace checked.
+- Limits/review: Local source changes were not deployed. Vercel CLI refreshed the existing login after the initial REST request returned 403; subsequent project access and domain verification succeeded. Preserved the user's uncommitted landing-footer edits outside this change. Human visual review pending; no agent/model request, payment, Git push, or repository migration was performed.
+
 ## 2026-10-20T18:23:27+05:30 — Simplify the landing footer credit
 
 - Changed: Replaced role labels with “by Vijay Anand and Amarnath” in `web/src/landing/LandingPage.tsx`, preserving both GitHub links as requested.

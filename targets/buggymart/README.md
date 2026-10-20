@@ -10,18 +10,36 @@ Open **http://127.0.0.1:3001**. Run the ApexAgents dashboard separately with `np
 
 The store has six products, search, category filtering, price sorting, a product variant, cart quantities, a promo code, and simulated checkout. Prices are USD with tax included, plus $5 shipping. `SAVE10` should deduct 10% from the merchandise subtotal.
 
+## Both versions within the local ApexAgents site
+
+From the repository root, run:
+
+```sh
+nvm use
+VITE_REMOTE_BACKEND=true npm run web
+```
+
+- All ten planted bugs: **http://127.0.0.1:5173/buggymart/**
+- All ten bugs disabled: **http://127.0.0.1:5173/buggymart/fixed/**
+
+Both paths run alongside the landing page and use the same source as the standalone shop. Product/search/cart/checkout routes remain inside their version's prefix; cart state is separate for each version in the same tab. No backend, API key, additional shop process, or build is required. Select Node 24 in that terminal first; if needed, load nvm with `source "$HOME/.nvm/nvm.sh"`.
+
+To run the browser regression against these local paths, use `BUGGYMART_TEST_URL=http://127.0.0.1:5173/buggymart npm run test:buggymart` while Vite is running. The test uses `/fixed` for the bugs-off comparison.
+
 Use five agents to cover catalog/search, product details, cart operations, pricing/coupons, and checkout. Ask for reproducible steps, expected versus actual behavior, and severity. All bugs can be reached from the UI; no login, special browser size, source inspection, or real payment is needed. Keep the answer key out of agent prompts.
 
 ## Hosted versions
 
-- All ten planted bugs: **https://squadlings.vercel.app/buggymart/**
-- All ten bugs disabled: **https://squadlings.vercel.app/buggymart/fixed/**
+- All ten planted bugs: **https://apexagents.vercel.app/buggymart/**
+- All ten bugs disabled: **https://apexagents.vercel.app/buggymart/fixed/**
+
+The ApexAgents domain points to the existing production deployment; the previous `squadlings.vercel.app` URLs also remain available. Local branding/source updates require a new deployment to appear publicly.
 
 Paste either URL into ApexAgents as the target. Both are static exports of this same shop, with separate per-tab cart state. Use the fixed URL for regression checks, and Reset demo before repeating a run. The fixed version does not imply that the agent has edited the deployed code; it is the existing bugs-off reference behavior. No laptop shop server is required.
 
 `npm --prefix web run build` exports both versions after building the landing page. Vercel routes known shop pages to their matching index and returns HTTP 404 for unknown shop resources, including the intentional broken image.
 
-To run these same browser checks against a deployed shop, set `BUGGYMART_TEST_URL=https://squadlings.vercel.app/buggymart npm run test:buggymart`. Optionally set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to an installed Chrome executable.
+To run these same browser checks against a deployed shop, set `BUGGYMART_TEST_URL=https://apexagents.vercel.app/buggymart npm run test:buggymart`. Optionally set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to an installed Chrome executable.
 
 ## Repeat a run
 

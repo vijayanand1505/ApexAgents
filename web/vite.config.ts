@@ -2,6 +2,7 @@ import { fileURLToPath } from "node:url";
 import type { IncomingMessage } from "node:http";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { createBuggyMart } from "../targets/buggymart/server.ts";
 
 // `npm run web` serves this app on :5173 and forwards /api and /ws to the dashboard server
 // (`npm run ui`, :8787). That server only takes requests from its own page (it checks Origin), so the
@@ -14,7 +15,21 @@ const vouch = (proxyReq: { setHeader(name: string, value: string): void }, req: 
 };
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), {
+    name: "buggymart-local",
+    configureServer(server) {
+      const buggy = createBuggyMart("all", "/buggymart");
+      const fixed = createBuggyMart("none", "/buggymart/fixed");
+      server.middlewares.use((req, res, next) => {
+        const path = new URL(req.url ?? "/", "http://localhost").pathname;
+        if (path === "/buggymart/fixed" || path.startsWith("/buggymart/fixed/")) {
+          fixed.emit("request", req, res);
+        } else if (path === "/buggymart" || path.startsWith("/buggymart/")) {
+          buggy.emit("request", req, res);
+        } else next();
+      });
+    },
+  }],
   define: { __APEXAGENTS_API__: JSON.stringify(API) },
   resolve: { alias: { "@swarm/shared": fileURLToPath(new URL("./shared", import.meta.url)) } },
   server: {

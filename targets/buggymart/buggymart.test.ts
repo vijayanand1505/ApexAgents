@@ -166,3 +166,27 @@ test("individual bugs can be enabled without enabling the others", async t => {
   assert.deepEqual(await fetch(url).then(res => res.json()), { enabled: ["BM-02", "BM-09"] });
   assert.throws(() => createBuggyMart("BM-99"), /Unknown bug/);
 });
+
+test("prefixed shops preserve their routes, base URLs, and bug selection", async t => {
+  for (const [prefix, mode, count] of [["/buggymart", "all", 10], ["/buggymart/fixed", "none", 0]] as const) {
+    const server = createBuggyMart(mode, prefix);
+    await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
+    t.after(() => { server.closeAllConnections(); server.close(); });
+    const origin = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    const redirect = await fetch(origin + prefix + "?q=lamp", { redirect: "manual" });
+    assert.equal(redirect.status, 308);
+    assert.equal(redirect.headers.get("location"), prefix + "/?q=lamp");
+    for (const route of ["/", "/search?q=lamp", "/product/aurora-lamp", "/cart", "/checkout", "/order"]) {
+      const response = await fetch(origin + prefix + route);
+      assert.equal(response.status, 200);
+      assert.match(await response.text(), new RegExp(`<base href="${prefix}/">`));
+    }
+    const config = await fetch(origin + prefix + "/config.json").then(res => res.json());
+    assert.equal(config.enabled.length, count);
+    assert.equal((await fetch(origin + prefix + "/app.js")).status, 200);
+    for (const path of ["/planted-bugs.json", "/README.md", "/unknown"]) {
+      assert.equal((await fetch(origin + prefix + path)).status, 404);
+    }
+    assert.equal((await fetch(origin + prefix + "-other/cart")).status, 404);
+  }
+});

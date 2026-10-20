@@ -46,7 +46,7 @@
 
 The local project directory is now `ApexAgents`. Development proxy configuration uses `APEXAGENTS_API`. Browser settings and bridge connections use the `apexagents` storage namespace; select your preferences again and open a fresh private connection link after the rename. Rebuild/restart both frontend and backend together because their WebSocket subprotocol is now `apexagents`.
 
-Existing `squadlings.vercel.app` URLs and the Vercel project link are retained until hosting is migrated. This local rename does not transfer GitHub ownership, publish a new deployment, or reserve an ApexAgents domain. Historical logs and original third-party source URLs retain their original names.
+`apexagents.vercel.app` is now a verified domain on the existing Vercel project, including both BuggyMart paths. The old `squadlings.vercel.app` address remains available. This domain addition serves the existing production deployment; local source changes still need deployment to appear publicly. The linked Vercel project is still named `squadlings` under Amarnath's account, and GitHub ownership has not been transferred. Historical logs and original third-party source URLs retain their original names.
 
 ## 🐝 A swarm that drives your computer
 
@@ -246,7 +246,9 @@ If `cloudflared` is missing and Homebrew cannot install it on your macOS version
 
 ### Public BuggyMart test site
 
-Give the app **https://squadlings.vercel.app/buggymart/** to test the shop with all ten planted bugs enabled. Use **https://squadlings.vercel.app/buggymart/fixed/** for the same shop with all ten bugs disabled, to verify the expected behavior. Both work without a laptop server. Each version keeps its own cart in the current tab; use **Reset demo** before another run. Checkout is simulated.
+Give the app **https://apexagents.vercel.app/buggymart/** to test the shop with all ten planted bugs enabled. Use **https://apexagents.vercel.app/buggymart/fixed/** for the same shop with all ten bugs disabled, to verify the expected behavior. Both work without a laptop server. Each version keeps its own cart in the current tab; use **Reset demo** before another run. Checkout is simulated.
+
+For both versions locally, select Node 24 with `nvm use`, then run `VITE_REMOTE_BACKEND=true npm run web`. Open **http://127.0.0.1:5173/buggymart/** (all 10 bugs) and **http://127.0.0.1:5173/buggymart/fixed/** (those bugs disabled). Vite serves both paths directly from the shop source, with separate per-tab cart state and hot reload for the landing page. No shop server, API key, or export/build is needed for these paths. The standalone `npm run buggymart` command remains available on port 3001.
 
 The production build exports the existing `targets/buggymart/public/` files into two static shop folders. Product, search, cart and checkout URLs stay within their shop prefix. Only public assets and configuration are published; the answer key is not served. Full instructions: [BuggyMart](targets/buggymart/README.md).
 

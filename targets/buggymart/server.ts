@@ -6,7 +6,7 @@ import { parseArgs } from "node:util";
 const publicDir = new URL("./public/", import.meta.url);
 export const BUG_IDS = Array.from({ length: 10 }, (_, i) => `BM-${String(i + 1).padStart(2, "0")}`);
 
-export function createBuggyMart(bugs = "all") {
+export function createBuggyMart(bugs = "all", basePath = "") {
   const enabled = bugs === "all" ? BUG_IDS : bugs === "none" ? [] : bugs.split(",").map(s => s.trim());
   if (enabled.some(id => !BUG_IDS.includes(id))) throw new Error(`Unknown bug selection: ${bugs}`);
   const assets: Record<string, [string, string]> = {
@@ -22,6 +22,15 @@ export function createBuggyMart(bugs = "all") {
       return;
     }
     const url = new URL(req.url ?? "/", "http://localhost");
+    if (basePath && url.pathname === basePath) {
+      res.writeHead(308, { Location: `${basePath}/${url.search}` }).end();
+      return;
+    }
+    if (basePath && !url.pathname.startsWith(`${basePath}/`)) {
+      res.writeHead(404, { "Content-Type": "text/plain" }).end("Not found");
+      return;
+    }
+    url.pathname = url.pathname.slice(basePath.length);
     if (url.pathname === "/config.json") {
       res.writeHead(200, { "Content-Type": "application/json" }).end(req.method === "HEAD" ? undefined : JSON.stringify({ enabled }));
       return;
@@ -32,7 +41,10 @@ export function createBuggyMart(bugs = "all") {
     // Only public assets and known app routes are served. The answer key stays on disk.
     if (!asset) { res.writeHead(404, { "Content-Type": "text/plain" }).end("Not found"); return; }
     try {
-      const body = await readFile(new URL(asset[0]!, publicDir));
+      let body = await readFile(new URL(asset[0]!, publicDir));
+      if (asset[0] === "index.html" && basePath) {
+        body = Buffer.from(body.toString("utf8").replace('<base href="/">', `<base href="${basePath}/">`));
+      }
       res.writeHead(200, { "Content-Type": `${asset[1]}; charset=utf-8` }).end(req.method === "HEAD" ? undefined : body);
     } catch {
       res.writeHead(500, { "Content-Type": "text/plain" }).end("Could not load BuggyMart assets.");
