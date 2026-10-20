@@ -46,7 +46,7 @@ try {
   const target = new URL(options.target);
   if (target.protocol !== "http:" || !["localhost", "127.0.0.1"].includes(target.hostname)) throw new Error("--target must be the local dashboard address.");
   const response = await fetch(new URL("/api/config", target), { signal: AbortSignal.timeout(5000) });
-  if (!response.ok || !(await response.json()).defaults) throw new Error("The target is not a running SquadLings dashboard.");
+  if (!response.ok || !(await response.json()).defaults) throw new Error("The target is not a running ApexAgents dashboard.");
   const token = randomBytes(32).toString("base64url");
   bridge = await startShareServer({ port: positiveNumber("port", options.port), target: options.target, frontend: options.frontend, token });
   console.log(`Sharing bridge listening on 127.0.0.1:${bridge.port}; connecting its tunnel…`);

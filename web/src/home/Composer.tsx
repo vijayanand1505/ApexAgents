@@ -10,7 +10,7 @@ import { post, showHint } from "../live/actions";
 // agents, how hard they think, and "+" for the rest. The agents and effort chips open the studio's
 // character pickers in our popovers.
 
-const KEY = "squadlings.settings";
+const KEY = "apexagents.settings";
 function loadSettings(defaults: Settings): Settings {
   try {
     return { ...defaults, bots: 5, botEffort: "medium", ...JSON.parse(localStorage.getItem(KEY) ?? "{}") };

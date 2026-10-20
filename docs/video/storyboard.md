@@ -51,7 +51,7 @@ Default output: `dashboard/artifacts/video/squadlings-film.mp4`. To select the d
 
 ```sh
 FILM_URL=http://127.0.0.1:4173 \
-FILM_OUTPUT="$PWD/docs/video/squadlings-intro.mp4" \
+FILM_OUTPUT="$PWD/docs/video/apexagents-intro.mp4" \
 npm run film:record
 ```
 
@@ -73,10 +73,17 @@ Checks: `npm run build`, `npm test`, and `npm run test:browser --workspace dashb
 
 On 11 October 2026 (IST), the corrected **SquadLings** production capture recorded all **1,560 frames**, producing **52 seconds at 1920 × 1080 / 30 fps**, H.264 video and 48 kHz mono AAC sound, with zero Chrome page errors. FFmpeg decoded the complete file and measured an audio peak of −25.5 dBFS. Near-black detection identified the intentionally tiny-circle opening (1.20–2.33 s) and launch cover (12.80–13.67 s), with no dark interval during the return/sleep sequence. The exported contact sheet and full-resolution corrected ending were visually inspected.
 
-The user approved the revised animation before requesting the brand-name correction; that correction keeps the same scenes/timing. Human review of the final renamed export and listening remains pending. The banner is separately saved as [squadlings-github-banner.png](../assets/squadlings-github-banner.png); its edit prompt is recorded [here](../reference/squadlings-banner-prompt.md).
+The user approved the revised animation before requesting the brand-name correction; that correction keeps the same scenes/timing. Human review of the final renamed export and listening remains pending. The banner is separately saved as [apexagents-github-banner.png](../assets/apexagents-github-banner.png); its edit prompt is recorded [here](../reference/apexagents-banner-prompt.md).
 
-File: `squadlings-intro.mp4` — 5,307,799 bytes. SHA-256:
+File: `apexagents-intro.mp4` — 5,307,799 bytes. SHA-256:
 
 ```text
 0462aed596b78ba7647f50ec368e380389a1cfb6aaddff5bb63e6d54ba9a383a
 ```
+
+
+## ApexAgents render — 20 October 2026
+
+Re-rendered the existing saved character-studio bundle with the ApexAgents wordmark using system Chrome, Playwright's virtual clock and FFmpeg. Captured all 1,560 frames at 1920 × 1080 / 30 fps and retained the existing synthesized soundtrack. Updated both distributed MP4 copies, the README GIF and storyboard contact sheet. This used the local archived `dashboard/dist` bundle; the original film source is not part of this repository. The October 11 capture measurements above describe the previous export.
+
+Current MP4: 5,126,606 bytes; SHA-256 `c6eca8107b7eebb3ad177d9a229392396275e256b3833381622347fa0bb152c3`.

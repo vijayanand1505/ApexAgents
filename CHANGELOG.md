@@ -4,6 +4,14 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T13:28:00+05:30 — Rename project to ApexAgents and correct ownership
+
+- Changed: Renamed current product text, npm packages/lockfiles, environment/config identifiers, storage keys, browser selectors, WebSocket protocol and media paths to ApexAgents. Set Vijay Anand (`vijayanand1505`) as owner/founder in README, submission, landing footer and package/HTML metadata. Updated the landing repository target and local Git identity to the verified GitHub account's noreply address. Renamed the checkout directory to `ApexAgents`.
+- Media: Edited the banner using built-in imagegen; re-rendered the existing 52-second animation and regenerated the GIF/contact sheet with the new wordmark. Original character art and contributor provenance remain credited.
+- Validation: Backend typecheck, local and hosted frontend builds, all 21 unit tests passed. Browser smoke checks passed for the local dashboard and hosted landing brand/owner, 1440/390px overflow and zero page errors. Film rendered all 1,560 frames and full FFmpeg decode passed; banner and film lettering visually inspected. After moving the checkout, `npm run dev -- --help` rebuilt successfully and displayed ApexAgents usage.
+- Limits: New browser namespaces require preferences/bridge connection to be selected again; restart/rebuild both client and server together. Git history, historical records, source URLs and existing Vercel addresses are preserved. Public GitHub lookup of `vijayanand1505/ApexAgents` returned 404; remote transfer and deployment are not part of this local change. No live agent task was run. Human review pending.
+
+
 ## 2026-10-20T12:51:58+05:30 — Restore a root development startup command
 
 - Changed: Added `npm run dev` as an argument-forwarding alias for `npm run ui`, restored `.nvmrc` selecting installed Node 24, and clarified root-directory/full-dashboard/frontend commands in README.
@@ -100,7 +108,7 @@ Record each meaningful project change during the event, newest first. Update thi
 - Branding: User approved the animation and corrected the name to **SquadLings**. Updated the video wordmark, recording default, media filenames, and README links. Used the built-in imagegen skill/tool to edit the existing GitHub banner's wordmark while retaining the composition/tagline; saved the 2172 × 724 result and exact prompt. Historical prompts and earlier development log entries retain their original spelling.
 - Affected: `dashboard/src/film/`, `launch/SquadFire.tsx`, film/selector browser checks, the recorder's default output path, READMEs, brand-source/prompt documentation, and `docs/assets/` / `docs/video/` deliverables.
 - Validation: Final TypeScript/production build passed; 48 logic tests passed. All 10 film/selector browser checks passed, with focused reruns after flame spacing/resolution changes, static-fire resize correction, and brand-name correction. Checks cover page containment, floating follow-ups, sequential review before delivery, persistent character nodes, distinct faces, staggered sleep, full-HD/phone layouts, playback, audio bounds/silent tail, and visible flames clear of the task bar. Documentation links and diff whitespace passed.
-- Export: Re-recorded `docs/video/squadlings-intro.mp4`: 5,307,799 bytes, 52 seconds, 1920 × 1080, 30 fps, all 1,560 frames, H.264/AAC, zero page errors. Full FFmpeg decode passed; peak audio −25.5 dBFS. Near-black intervals occur only during the small-circle opening and launch cover, with none during the ending. Inspected the exported storyboard and corrected closing frame; banner spelling/aspect ratio inspected.
+- Export: Re-recorded `docs/video/apexagents-intro.mp4`: 5,307,799 bytes, 52 seconds, 1920 × 1080, 30 fps, all 1,560 frames, H.264/AAC, zero page errors. Full FFmpeg decode passed; peak audio −25.5 dBFS. Near-black intervals occur only during the small-circle opening and launch cover, with none during the ending. Inspected the exported storyboard and corrected closing frame; banner spelling/aspect ratio inspected.
 - Limitations: Browser pages and itinerary remain scripted and labeled simulated. Human review of the final name correction/listening remains pending; the user approved the preceding animation. Ambient motion may vary between exports. No remote push or deployment performed.
 
 ## 2026-10-11T05:30+05:30 — Start the React dashboard on the character studio

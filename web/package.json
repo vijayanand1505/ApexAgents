@@ -1,9 +1,9 @@
 {
-  "name": "squadlings-web",
+  "name": "apexagents-web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "The SquadLings dashboard: our chat flow on the character studio's React components (from github.com/amarnath3003/squadlings, dashboard/ at 45f625f).",
+  "description": "The ApexAgents dashboard: our chat flow on the character studio's React components (from github.com/amarnath3003/squadlings, dashboard/ at 45f625f).",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build && node export-buggymart.mjs",
@@ -23,5 +23,9 @@
     "@vitejs/plugin-react": "6.1.2",
     "typescript": "7.0.2",
     "vite": "8.3.4"
+  },
+  "author": {
+    "name": "Vijay Anand",
+    "url": "https://github.com/vijayanand1505"
   }
 }

@@ -88,7 +88,7 @@ function readSquad(): number {
   const dots = document.querySelectorAll("#agent-dots i");
   if (dots.length) return Array.from(dots).filter((d) => !d.classList.contains("off")).length;
   try {
-    const n = Number(JSON.parse(localStorage.getItem("squadlings.settings") ?? "{}").bots);
+    const n = Number(JSON.parse(localStorage.getItem("apexagents.settings") ?? "{}").bots);
     if (n >= 1 && n <= 5) return n;
   } catch {
     // storage off

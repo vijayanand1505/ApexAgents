@@ -21,7 +21,7 @@ export type {
   Reaction,
   UiCue,
 } from "./audio/catalogue";
-export const AUDIO_STORAGE_KEY = "squadlings.audio.v1";
+export const AUDIO_STORAGE_KEY = "apexagents.audio.v1";
 function savedPreferences(): AudioPreferences {
   try {
     return normalizePreferences(

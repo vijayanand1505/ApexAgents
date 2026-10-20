@@ -1,6 +1,8 @@
 <a href="#readme">
-  <img src="docs/assets/squadlings-github-banner.png" alt="SquadLings — One squad. Many minds." width="100%">
+  <img src="docs/assets/apexagents-github-banner.png" alt="ApexAgents — One squad. Many minds." width="100%">
 </a>
+
+<p align="center"><b>Owner &amp; founder:</b> <a href="https://github.com/vijayanand1505">Vijay Anand</a></p>
 
 <h3 align="center">A swarm of AI agents that take the wheel of your computer and get the job done.</h3>
 
@@ -29,18 +31,26 @@
 ## 👀 Quick Look
 
 <p align="center">
-  <a href="docs/video/squadlings-intro.mp4">
-    <img src="docs/video/squadlings-preview.gif" alt="SquadLings in 52 seconds: one task, five agents, one answer" width="88%">
+  <a href="docs/video/apexagents-intro.mp4">
+    <img src="docs/video/apexagents-preview.gif" alt="ApexAgents in 52 seconds: one task, five agents, one answer" width="88%">
   </a>
   <br>
-  <sub><b><a href="docs/video/squadlings-intro.mp4">▶ Play the full 52-second film (MP4, with sound)</a></b> · <a href="docs/video/storyboard.md">storyboard</a></sub>
+  <sub><b><a href="docs/video/apexagents-intro.mp4">▶ Play the full 52-second film (MP4, with sound)</a></b> · <a href="docs/video/storyboard.md">storyboard</a></sub>
 </p>
 
 <br>
 
+## Project ownership and rename
+
+**ApexAgents is owned and founded by [Vijay Anand](https://github.com/vijayanand1505).** The intended repository is `github.com/vijayanand1505/ApexAgents`; migration to that remote has not been verified. Existing source credits describe contributions, not project ownership.
+
+The local project directory is now `ApexAgents`. Development proxy configuration uses `APEXAGENTS_API`. Browser settings and bridge connections use the `apexagents` storage namespace; select your preferences again and open a fresh private connection link after the rename. Rebuild/restart both frontend and backend together because their WebSocket subprotocol is now `apexagents`.
+
+Existing `squadlings.vercel.app` URLs and the Vercel project link are retained until hosting is migrated. This local rename does not transfer GitHub ownership, publish a new deployment, or reserve an ApexAgents domain. Historical logs and original third-party source URLs retain their original names.
+
 ## 🐝 A swarm that drives your computer
 
-SquadLings is a **swarm of computer-use agents**. Hand it a task and up to **five AI agents take the wheel at once**: opening sites, clicking, typing, scrolling, filling forms and reading pages, each in its own browser window on your machine.
+ApexAgents is a **swarm of computer-use agents**. Hand it a task and up to **five AI agents take the wheel at once**: opening sites, clicking, typing, scrolling, filling forms and reading pages, each in its own browser window on your machine.
 
 **Onyx**, the head of the swarm, breaks the task apart, sends each agent off with its own job, keeps them on track while they work, and hands you back **one clean answer with sources**. You watch every agent live, chat with Onyx mid-run, and grab the controls yourself whenever you want.
 
@@ -110,7 +120,7 @@ Anything you'd do yourself across a pile of browser tabs, the swarm can split up
 
 ## ⚔️ One agent vs. the swarm
 
-| | A single browsing agent | **SquadLings** |
+| | A single browsing agent | **ApexAgents** |
 | --- | --- | --- |
 | **Speed** | One tab at a time | Up to **5 browsers in parallel** |
 | **What you see** | A screenshot now and then | **Live video** of every browser, with the agent's cursor |
@@ -272,7 +282,7 @@ Deployment references: [Vercel CLI](https://vercel.com/docs/cli/deploy), [Vite o
 | `npm run ui` | Builds the React dashboard (`web/`) and serves it, with the API and WebSocket, on `127.0.0.1:8787` |
 | `npm run ui -- --classic` | Serves the original plain-JS dashboard (`ui/`) instead |
 | `npm run ui -- --help` | Ports, tunnel reuse, `--no-warm`, `--verbose` and more |
-| `npm run web` | Vite dev server for `web/` with hot reload (proxies `/api` and `/ws` to `SQUADLINGS_API`) |
+| `npm run web` | Vite dev server for `web/` with hot reload (proxies `/api` and `/ws` to `APEXAGENTS_API`) |
 | `npm run squad -- "task"` | The same squad in the terminal, with visible tiled browser windows |
 | `npm run prewarm` | Keeps one cloudflared quick tunnel open on port 8788 for reuse |
 | `npm run share` | Connects the hosted frontend to an existing dashboard on this laptop through an authenticated tunnel |
@@ -319,7 +329,7 @@ Deployment references: [Vercel CLI](https://vercel.com/docs/cli/deploy), [Vite o
 ## 🗺️ Repo map
 
 ```text
-SquadLings/
+ApexAgents/
 ├── README.md              this file
 ├── vercel.json            hosted frontend build and routing
 ├── .vercelignore          excludes backend and private runtime data from deployment
@@ -370,15 +380,16 @@ Built at the **DevDay Exchange Community Hackathon: Kochi** (10–11 October 202
 
 | | |
 | --- | --- |
-| **Project name** | SquadLings |
-| **Short description** | SquadLings turns one request into a coordinated team of AI browser agents. Led by a master orchestrator, up to five agents research, compare and test websites in parallel, then bring their findings together in one answer with sources. Watch every browser live, guide the team through chat and take control whenever needed. |
-| **Team** | Vijay Anand ([@vijayanand1505](https://github.com/vijayanand1505)) · D Amarnath ([@amarnath3003](https://github.com/amarnath3003)) |
+| **Project name** | ApexAgents |
+| **Owner and founder** | Vijay Anand ([@vijayanand1505](https://github.com/vijayanand1505)) |
+| **Short description** | ApexAgents turns one request into a coordinated team of AI browser agents. Led by a master orchestrator, up to five agents research, compare and test websites in parallel, then bring their findings together in one answer with sources. Watch every browser live, guide the team through chat and take control whenever needed. |
+| **Contributors** | Vijay Anand ([@vijayanand1505](https://github.com/vijayanand1505)) · D Amarnath ([@amarnath3003](https://github.com/amarnath3003)) |
 | **Working demo** | Local: see [Quick start](#-quick-start). Free scripted demo: `node scripts/dev-mock-ui.ts --port 8796 --mcp-port 8795` |
 | **Technology stack** | Node.js 22.18+ and TypeScript (run directly by Node) · OpenAI Agents API (`gpt-6.1-sol`, `gpt-6-luna`) · Model Context Protocol SDK · Playwright Chromium · cloudflared · `ws` · zod · React 18, Vite, Motion and Zustand for the dashboard |
 
 **Run the project:** prerequisites, install, environment and start commands are in [Quick start](#-quick-start); `npm test` runs the offline checks and `npm run typecheck` (root) plus `npm --prefix web run check` type-check the server and dashboard.
 
-**Libraries, APIs and public datasets:** [OpenAI Agents API](https://developers.openai.com/), [@modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/typescript-sdk), [Playwright](https://playwright.dev/), [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/), [ws](https://github.com/websockets/ws), [zod](https://zod.dev/), [React](https://react.dev/), [Vite](https://vite.dev/), [Motion](https://motion.dev/), [Zustand](https://zustand.docs.pmnd.rs/). No datasets. Character studio components in `web/` come from [amarnath3003/SquadLings](https://github.com/amarnath3003/SquadLings) (`dashboard/` at `45f625f`).
+**Libraries, APIs and public datasets:** [OpenAI Agents API](https://developers.openai.com/), [@modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/typescript-sdk), [Playwright](https://playwright.dev/), [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/), [ws](https://github.com/websockets/ws), [zod](https://zod.dev/), [React](https://react.dev/), [Vite](https://vite.dev/), [Motion](https://motion.dev/), [Zustand](https://zustand.docs.pmnd.rs/). No datasets. Character studio components in `web/` come from [original character studio](https://github.com/amarnath3003/SquadLings) (`dashboard/` at `45f625f`).
 
 <br>
 
@@ -386,8 +397,8 @@ Built at the **DevDay Exchange Community Hackathon: Kochi** (10–11 October 202
 
 Built from scratch in one night at the **[OpenAI DevDay Exchange Community Hackathon, Kochi](https://luma.com/z10nz8gp)** (10–11 October 2026, JAIN University).
 
-- **Engine, server and dashboard:** the SquadLings team, in this repo.
-- **Characters, animation studio, sound, banner and launch film:** [amarnath3003/SquadLings](https://github.com/amarnath3003/SquadLings).
+- **Engine, server and dashboard:** the ApexAgents team, in this repo.
+- **Characters, animation studio, sound, banner and launch film:** [original character studio](https://github.com/amarnath3003/SquadLings).
 - **Landing page fonts:** Bricolage Grotesque and DM Sans, locally hosted under the SIL Open Font License; see [asset credits](docs/landing-assets.md).
 - **Built with:** [OpenAI Agents API](https://developers.openai.com/), [Model Context Protocol](https://modelcontextprotocol.io/), [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/), [React](https://react.dev/), [Motion](https://motion.dev/), [Zustand](https://zustand.docs.pmnd.rs/) and [Vite](https://vite.dev/).
 

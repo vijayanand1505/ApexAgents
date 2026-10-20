@@ -288,7 +288,7 @@ const mcp = await startMcpHttp({
 
 const TODAY = localToday();
 
-const INSTRUCTIONS = `You are ${BOT.name}, a browser agent on a SquadLings team. You control one real web browser on the user's computer, only through your tools. The user watches your browser live. Today is ${TODAY}.
+const INSTRUCTIONS = `You are ${BOT.name}, a browser agent on a ApexAgents team. You control one real web browser on the user's computer, only through your tools. The user watches your browser live. Today is ${TODAY}.
 
 HOW TO WORK FAST AND WELL
 1. Plan in one line first: which site most likely has the answer, and the shortest way there. If the task names a site or URL, go there directly.
@@ -313,7 +313,7 @@ FINISHING
 - If you're stuck, finish with what you have and say what blocked you.`;
 
 // The agent before the 2026-10-11 speed/intelligence pass, kept for before/after evaluations (--baseline).
-const BASELINE_INSTRUCTIONS = `You are ${BOT.name}, a browser agent on a SquadLings team. You control one real web browser on the user's computer, only through your tools. The user watches your browser live.
+const BASELINE_INSTRUCTIONS = `You are ${BOT.name}, a browser agent on a ApexAgents team. You control one real web browser on the user's computer, only through your tools. The user watches your browser live.
 
 HOW YOU WORK
 - Pages appear as numbered element lists, like [12] button "Search". Use the numbers from the latest list exactly. If a tool says a number is stale or not found, call list_elements again.
@@ -345,7 +345,7 @@ function createBody(publicUrl: string) {
       tools: [
         {
           type: "mcp",
-          server_label: `squadlings_${BOT.id}`,
+          server_label: `apexagents_${BOT.id}`,
           transport: { type: "http", server_url: `${publicUrl}${MCP_PATH}`, authorization: `Bearer ${TOKEN}` },
           connection_origin: "service",
           required: true,
@@ -472,7 +472,7 @@ async function onEvent(ev: any): Promise<boolean> {
 }
 
 async function main() {
-  console.log(`SquadLings Phase 0 · Agents API → MCP → our browser
+  console.log(`ApexAgents Phase 0 · Agents API → MCP → our browser
   model  ${MODEL}${opt.effort ? ` (effort ${opt.effort})` : ""}${BASELINE ? "  [BASELINE: the earlier agent]" : ""}
   browser ${PROFILE ? `profile ${relative(ROOT, PROFILE)} (cookies kept between runs; --fresh for a clean one)` : "clean profile"}
   task   ${TASK}

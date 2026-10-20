@@ -149,7 +149,7 @@ function collectElements(args: { snap: number; max: number; all: boolean }): Pag
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
-  for (const old of document.querySelectorAll("[data-squadlings-ref]")) old.removeAttribute("data-squadlings-ref");
+  for (const old of document.querySelectorAll("[data-apexagents-ref]")) old.removeAttribute("data-apexagents-ref");
 
   const found = new Set<Element>();
   const walk = (root: Document | ShadowRoot) => {
@@ -259,7 +259,7 @@ function collectElements(args: { snap: number; max: number; all: boolean }): Pag
   const CONSENT_BOX = /cookie|consent|gdpr|privacy|onetrust|cmp/i;
 
   const elements = shown.map((it, i) => {
-    it.e.setAttribute("data-squadlings-ref", `s${args.snap}-${i + 1}`);
+    it.e.setAttribute("data-apexagents-ref", `s${args.snap}-${i + 1}`);
     const r = it.r;
     return {
       ref: i + 1, role: roleOf(it.e), name: it.name, states: statesOf(it.e), href: hrefOf(it.e), inView: it.inView, sensitive: sensitive(it.e),
@@ -348,7 +348,7 @@ type CursorArgs = {
  * busy); clicks add a ripple; "thinking" animates the label's dots while the model decides.
  */
 function drawCursor(a: CursorArgs) {
-  const ID = "__squadlings_cursor";
+  const ID = "__apexagents_cursor";
   let root = document.getElementById(ID);
   let frame = document.getElementById(`${ID}_box`);
   if (!root || !frame) {
@@ -576,7 +576,7 @@ export class BotBrowser {
     });
     this.watch(this.page);
     await this.page.setContent(
-      `<title>SquadLings · ${this.opts.label}</title><body style="margin:0;height:100vh;display:grid;place-items:center;font:18px system-ui,sans-serif;color:#111">` +
+      `<title>ApexAgents · ${this.opts.label}</title><body style="margin:0;height:100vh;display:grid;place-items:center;font:18px system-ui,sans-serif;color:#111">` +
         `<div style="text-align:center"><div style="width:56px;height:56px;border-radius:50%;background:${this.opts.color};margin:0 auto 16px"></div>` +
         `${this.opts.label} is waiting for its first instruction…</div></body>`,
     );
@@ -850,7 +850,7 @@ export class BotBrowser {
   private resolve(ref: number) {
     const el = this.refs.get(ref);
     if (!el) throw new ToolError("NOT_FOUND", `No element [${ref}] in the latest list. Use a number from the latest list.`);
-    return { el, locator: this.page.locator(`[data-squadlings-ref="s${this.snapId}-${ref}"]`) };
+    return { el, locator: this.page.locator(`[data-apexagents-ref="s${this.snapId}-${ref}"]`) };
   }
 
   /** Scrolls the element into view and returns its center point and box (viewport CSS px). */
@@ -1113,7 +1113,7 @@ export class BotBrowser {
             if (!t || !h || t === h || t.contains(h) || h.contains(t)) return null;
             return `${h.tagName.toLowerCase()} "${(h.textContent ?? "").trim().slice(0, 40)}"`;
           },
-          [`[data-squadlings-ref="s${this.snapId}-${ref}"]`, pt.x, pt.y] as const,
+          [`[data-apexagents-ref="s${this.snapId}-${ref}"]`, pt.x, pt.y] as const,
         ).catch(() => null),
       );
       await sleep(70); // a brief pause on the target before clicking

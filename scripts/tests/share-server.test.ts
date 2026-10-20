@@ -61,10 +61,10 @@ test("hosted dashboard bridge protects and forwards REST and WebSocket traffic",
     assert.deepEqual(await post.json(), { path: "/api/runs", method: "POST", body, authorization: null });
   });
   await t.test("authenticates WebSockets and preserves hello, events, input and binary frames", async () => {
-    const ws = new WebSocket(address.replace(/^http/, "ws") + "/ws", ["squadlings", `auth.${token}`], { origin: frontend });
+    const ws = new WebSocket(address.replace(/^http/, "ws") + "/ws", ["apexagents", `auth.${token}`], { origin: frontend });
     const hello = once(ws, "message");
     await once(ws, "open");
-    assert.equal(ws.protocol, "squadlings");
+    assert.equal(ws.protocol, "apexagents");
     assert.deepEqual(JSON.parse(String((await hello)[0])), { type: "hello" });
     const message = once(ws, "message");
     ws.send(JSON.stringify({ type: "input", botId: "bot1" }));
@@ -78,7 +78,7 @@ test("hosted dashboard bridge protects and forwards REST and WebSocket traffic",
     await once(ws, "close");
   });
   await t.test("rejects WebSocket clients with invalid keys", async () => {
-    const ws = new WebSocket(address.replace(/^http/, "ws") + "/ws", ["squadlings", "auth.incorrect"], { origin: frontend });
+    const ws = new WebSocket(address.replace(/^http/, "ws") + "/ws", ["apexagents", "auth.incorrect"], { origin: frontend });
     ws.on("error", () => {});
     const [, response] = await once(ws, "unexpected-response");
     assert.equal(response.statusCode, 403);

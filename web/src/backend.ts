@@ -1,7 +1,7 @@
 // Local dashboards use their own server. Hosted dashboards connect directly to the laptop's bridge.
 export const remoteBackend = import.meta.env.VITE_REMOTE_BACKEND === "true";
 export type BackendConnection = { url: string; token: string };
-const STORAGE_KEY = "squadlings-backend";
+const STORAGE_KEY = "apexagents-backend";
 let connection: BackendConnection | null = null;
 
 export function validateConnection(value: BackendConnection): BackendConnection {
@@ -37,7 +37,7 @@ export async function checkConnection(value: BackendConnection) {
   });
   if (!res.ok) throw new Error(res.status === 401 ? "That access key is incorrect. Check the key on your laptop." : `The laptop returned HTTP ${res.status}.`);
   const config = await res.json();
-  if (!config.defaults || !config.models) throw new Error("That address is not a SquadLings dashboard bridge.");
+  if (!config.defaults || !config.models) throw new Error("That address is not an ApexAgents dashboard bridge.");
   connection = value;
   try {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(value));
@@ -58,5 +58,5 @@ export function backendSocket(): WebSocket {
   if (!remoteBackend) return new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws`);
   if (!connection) throw new Error("Connect to your laptop first.");
   // A subprotocol carries the key without putting it in request URLs or access logs.
-  return new WebSocket(`${connection.url.replace(/^https:/, "wss:")}/ws`, ["squadlings", `auth.${connection.token}`]);
+  return new WebSocket(`${connection.url.replace(/^https:/, "wss:")}/ws`, ["apexagents", `auth.${connection.token}`]);
 }

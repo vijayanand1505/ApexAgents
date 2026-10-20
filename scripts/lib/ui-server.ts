@@ -78,7 +78,7 @@ export async function startUiServer(o: UiServerOptions) {
     const url = new URL(req.url ?? "/", "http://localhost");
     const path = url.pathname;
     // POSTs need the dashboard's Origin (browsers always send it on POST); GETs may come from the address bar.
-    if (!trusted(req, req.method !== "GET")) return send(res, 403, { error: "This server only answers the SquadLings dashboard at its own address." });
+    if (!trusted(req, req.method !== "GET")) return send(res, 403, { error: "This server only answers the ApexAgents dashboard at its own address." });
 
     if (req.method === "GET" && !path.startsWith("/api/")) {
       const file = path === "/" ? "index.html" : normalize(path).replace(/^[/\\]+/, "");

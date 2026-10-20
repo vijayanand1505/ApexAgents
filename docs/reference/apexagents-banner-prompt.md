@@ -2,7 +2,7 @@
 
 > Copied from [amarnath3003/SquadLings](https://github.com/amarnath3003/SquadLings) at `cd568c5`. Paths such as `dashboard/` and `packages/shared/` refer to that repository's layout; the matching code here is in `web/src/` and `web/shared/`.
 
-Mode: built-in image generation, refinement, and a subsequent brand-name correction. The initial prompts below record the historical spelling; the final edit corrects the brand to SquadLings. The user-provided image was a visual reference. Final asset: [squadlings-github-banner.png](../assets/squadlings-github-banner.png), 2172 × 724 pixels (3:1).
+Mode: built-in image generation, refinement, and a subsequent brand-name correction. The initial prompts below record the historical spelling; the final edit corrects the brand to SquadLings. The user-provided image was a visual reference. Final asset: [apexagents-github-banner.png](../assets/apexagents-github-banner.png), 2172 × 724 pixels (3:1).
 
 ## Initial prompt
 
@@ -34,3 +34,8 @@ The user approved the composition and animation, then corrected the name to **Sq
 ```text
 Use case: text-localization. Asset type: GitHub logo banner, wide 3:1. Input image is the edit target. Change ONLY the large central brand wordmark from "SquadLink" to exactly "SquadLings" (S q u a d L i n g s), matching the same bold white clean sans-serif lettering. Keep it centered and fit it comfortably within the same central negative space without colliding with any character. Preserve the exact tagline "One squad. Many minds." below it. Preserve the black background, all six colored circle characters, their positions, sizes, expressions, edge cropping, and the existing composition and palette. No new elements, no new logos, no decorative accents. The two text lines must be precisely "SquadLings" and "One squad. Many minds.". Keep the original wide 3:1 banner aspect ratio.
 ```
+
+
+## ApexAgents rename — 20 October 2026
+
+The owner requested ApexAgents branding. Codex used the built-in imagegen tool to replace the central wordmark with exactly **ApexAgents**, preserving the characters, composition, black background and tagline. The edited 2172 × 724 PNG is saved at `../assets/apexagents-github-banner.png` and its lettering was visually inspected. Human approval remains pending. Earlier prompts above are historical records.

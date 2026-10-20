@@ -88,7 +88,7 @@ export async function startMockAgentsApi(o: { master: Script; bot: Script; log?:
     if (req.method === "POST" && !id) {
       const body = await readBody(req);
       const mcp = body.agent.tools.find((t: any) => t.type === "mcp");
-      const s: MockSession = { id: `sess_${randomUUID().slice(0, 8)}`, label: mcp.server_label.replace("squadlings_", ""), mcpUrl: mcp.transport.server_url, auth: mcp.transport.authorization, streams: new Set(), turns: 0, inputs: [], agent: body.agent };
+      const s: MockSession = { id: `sess_${randomUUID().slice(0, 8)}`, label: mcp.server_label.replace("apexagents_", ""), mcpUrl: mcp.transport.server_url, auth: mcp.transport.authorization, streams: new Set(), turns: 0, inputs: [], agent: body.agent };
       sessions.set(s.id, s);
       res.writeHead(200, { "content-type": "text/event-stream" });
       s.streams.add(res);

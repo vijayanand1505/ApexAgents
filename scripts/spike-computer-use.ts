@@ -356,7 +356,7 @@ async function follow() {
 // ── Main ──────────────────────────────────────────────
 
 async function main() {
-  console.log(`SquadLings Phase -1 · Agents API computer use\n  model  ${MODEL}\n  task   ${TASK}\n  allow  ${[...gate.allowed].join(", ") || "none yet (you'll be asked per site)"}\n  out    ${relative(process.cwd(), run.out) || "."}\n`);
+  console.log(`ApexAgents Phase -1 · Agents API computer use\n  model  ${MODEL}\n  task   ${TASK}\n  allow  ${[...gate.allowed].join(", ") || "none yet (you'll be asked per site)"}\n  out    ${relative(process.cwd(), run.out) || "."}\n`);
 
   log(`creating session (${BASE})`);
   let created: Awaited<ReturnType<typeof api.request>>;

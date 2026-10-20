@@ -878,7 +878,7 @@ async function main() {
   const viewerPort = await listen(viewerServer, Number(opt.port));
   const viewerUrl = `http://127.0.0.1:${viewerPort}/`;
   console.log(
-    `SquadLings scrap test · hosted computer use → live video\n  model    ${MODEL}\n  task     ${TASK}\n  mode     ${MODE}\n  sidecar  ${SIDECAR}` +
+    `ApexAgents scrap test · hosted computer use → live video\n  model    ${MODEL}\n  task     ${TASK}\n  mode     ${MODE}\n  sidecar  ${SIDECAR}` +
       `\n  allow    ${ALLOW.join(", ") || "none yet (you'll be asked per site)"}\n  viewer   ${viewerUrl}\n  out      ${relative(process.cwd(), OUT) || "."}\n`,
   );
   if (opt.open) spawn(process.platform === "darwin" ? "open" : "xdg-open", [viewerUrl], { stdio: "ignore", detached: true }).on("error", () => {}).unref();

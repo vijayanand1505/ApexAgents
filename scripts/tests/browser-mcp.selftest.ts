@@ -16,7 +16,7 @@ import { BOT_TOOLS, createBotTools, startMcpHttp } from "../lib/mcp-browser-serv
 import type { McpRequest } from "../lib/mcp-browser-server.ts";
 import { SiteGate } from "../lib/site-gate.ts";
 
-const HOME = `<!doctype html><title>Test Shop</title><meta name="description" content="A small shop for testing SquadLings."><main>
+const HOME = `<!doctype html><title>Test Shop</title><meta name="description" content="A small shop for testing ApexAgents."><main>
 <h1>Test Shop</h1>
 <form action="/search"><input type="search" name="q" aria-label="Search" placeholder="Search products"><button>Go</button></form>
 <p><a href="/item">Aurora Lamp</a> · <a href="/form">Feedback form</a></p>
@@ -116,7 +116,7 @@ async function modern(method: string, params: Record<string, unknown> = {}, head
   return { status: res.status, json: text ? JSON.parse(text) : undefined };
 }
 
-const client = new Client({ name: "squadlings-selftest", version: "0.0.0" });
+const client = new Client({ name: "apexagents-selftest", version: "0.0.0" });
 await client.connect(new StreamableHTTPClientTransport(new URL(MCP_URL), { requestInit: { headers: { Authorization: `Bearer ${TOKEN}` } } }));
 
 type Result = { text: string; isError: boolean; types: string[] };
@@ -143,7 +143,7 @@ try {
   check("cursor overlay is not in the element list", !/Plum ·/.test(r.text), r.text);
   check("div with cursor:pointer is listed", refOf(r.text, /"Fancy div button"/) > 0, r.text);
   check("links show where they go", /link "Aurora Lamp" → \/item/.test(r.text) && /link "Evil site" → blocked\.example\//.test(r.text), r.text);
-  check("the page description is shown", /About: A small shop for testing SquadLings\./.test(r.text), r.text);
+  check("the page description is shown", /About: A small shop for testing ApexAgents\./.test(r.text), r.text);
   const home = r.text;
 
   r = await call("type", { ref: refOf(home, /searchbox "Search"/), text: "lamp", submit: true, why: "Search for lamps" });
@@ -278,7 +278,7 @@ try {
   await plain.close();
 
   // A persistent profile keeps cookies between runs (a solved human check stays solved).
-  const dir = mkdtempSync(join(tmpdir(), "squadlings-profile-"));
+  const dir = mkdtempSync(join(tmpdir(), "apexagents-profile-"));
   try {
     const opts = { headless: true, viewport: { width: 1280, height: 800 }, showCursor: false, color: "#000", label: "P", glideMs: 0, sites: gate, profileDir: dir };
     const first = await BotBrowser.launch(opts);
@@ -306,7 +306,7 @@ try {
       const w = window as any;
       w.__samples = [];
       const tick = () => {
-        const c = document.getElementById("__squadlings_cursor");
+        const c = document.getElementById("__apexagents_cursor");
         if (c) {
           const m = new DOMMatrix(getComputedStyle(c).transform);
           w.__samples.push([performance.now(), m.e, m.f]);

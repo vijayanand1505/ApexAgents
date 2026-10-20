@@ -1,4 +1,4 @@
-// SquadLings dashboard (a basic Phase 2 stand-in, master.md §19): chat with the Master and watch
+// ApexAgents dashboard (a basic Phase 2 stand-in, master.md §19): chat with the Master and watch
 // every bot's browser live, in one page. Replaces the terminal chat and the tiled windows.
 //
 //   npm run prewarm      # once, in another terminal (saves ~20 s on the first run)
@@ -45,7 +45,7 @@ const { values: opt } = parseArgs({
 if (opt.help) {
   console.log(`Usage: npm run ui [-- options]
 
-  Opens the SquadLings dashboard: type the task, pick the squad, chat with the Master, and watch every
+  Opens the ApexAgents dashboard: type the task, pick the squad, chat with the Master, and watch every
   bot's browser live. The settings (bots, models, actions, time limit…) are on the page.
 
   --port <n>          Dashboard port (default 8787, on 127.0.0.1 only)
@@ -160,7 +160,7 @@ ui = await startUiServer({ port: PORT, staticDir: STATIC, runner, defaults: DEFA
   process.exit(1);
 });
 
-say(`SquadLings dashboard → ${ui.url}   (Ctrl+C to quit)`);
+say(`ApexAgents dashboard → ${ui.url}   (Ctrl+C to quit)`);
 void publicUrl().catch(() => {}); // get the tunnel ready before the first run
 if (opt.open && process.platform === "darwin") spawn("open", [ui.url], { stdio: "ignore", detached: true }).unref();
 

@@ -1,16 +1,16 @@
-# SquadLings: Master Document
+# ApexAgents: Master Document
 
-> **SquadLings** is a team of up to five AI browser agents, drawn as the DevDay sticker characters. They split a job, work on real websites in parallel while you watch every click, share what they find, ask before anything risky, and hand you one merged result.
+> **ApexAgents** is a team of up to five AI browser agents, drawn as the DevDay sticker characters. They split a job, work on real websites in parallel while you watch every click, share what they find, ask before anything risky, and hand you one merged result.
 
 | | |
 |---|---|
-| Project | SquadLings |
+| Project | ApexAgents |
 | Event | OpenAI DevDay Community Hackathon, 2026 |
 | Document | Master spec: product, architecture, build plan, demo |
 | Version | 1.0 (core) |
 | Last updated | 2026-10-10 |
 | Owner | Vijay Anand |
-| Repository | `~/Desktop/SquadLings` |
+| Repository | `~/Desktop/ApexAgents` |
 | Reference art | [docs/reference/devday-stickers.jpg](docs/reference/devday-stickers.jpg) |
 
 ## How to use this document
@@ -82,9 +82,9 @@
 
 ## 1. Summary
 
-### What SquadLings is
+### What ApexAgents is
 
-SquadLings is a multi-agent app for getting web tasks done. You give it a goal, and a master agent splits that goal into jobs. Up to five bot agents then do the jobs at the same time, each in its own real browser.
+ApexAgents is a multi-agent app for getting web tasks done. You give it a goal, and a master agent splits that goal into jobs. Up to five bot agents then do the jobs at the same time, each in its own real browser.
 
 You can watch them work. Every bot is a DevDay sticker character. It glides to the element it's about to click and clicks it for real. Its expression changes as it reads, waits, finds something, gets stuck or finishes.
 
@@ -136,7 +136,7 @@ You can watch them work. Every bot is a DevDay sticker character. It glides to t
 
 ### Why now (OpenAI DevDay, September 29, 2026)
 
-| Launch | Why it matters for SquadLings |
+| Launch | Why it matters for ApexAgents |
 |---|---|
 | **Agents API** (public beta) | A managed agent runtime that handles sessions, MCP tools, context compaction and recovery. We don't have to build an agent loop. |
 | **GPT-6.1 Sol** | Nearly matches Astra on agentic coding and computer use, at one-fifth of Astra's price ($2 input / $10 output per 1M tokens). That makes five parallel agents affordable. |
@@ -267,7 +267,7 @@ Each use case is a **template**: configuration, not code. See [§20](#20-templat
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────┐
-│ ◉ SquadLings "4 days in Tokyo"  ● Running 02:14  $0.41  1,204 decisions ■ Stop │
+│ ◉ ApexAgents "4 days in Tokyo"  ● Running 02:14  $0.41  1,204 decisions ■ Stop │
 ├───────────────────────────────────────────────────────────────────┬────────────┤
 │ ┌───────────────────┐ ┌───────────────────┐ ┌───────────────────┐ │ BOARD      │
 │ │ Plum · Flights    │ │ Lime · Hotels     │ │ Tango · Activities│ │ ▢ note     │
@@ -498,7 +498,7 @@ export function currentMood(conds: Condition[], now: number): Mood {
 
 ### 7.7 Brand note
 
-The sticker faces and the OpenAI logo come from OpenAI's DevDay design. Using them at OpenAI's own hackathon is fine. If SquadLings becomes a product, design original characters and drop the logo.
+The sticker faces and the OpenAI logo come from OpenAI's DevDay design. Using them at OpenAI's own hackathon is fine. If ApexAgents becomes a product, design original characters and drop the logo.
 
 ---
 
@@ -738,7 +738,7 @@ When a run ends, the orchestrator:
 
 - **Model:** `gpt-6.1-sol`.
 - **Instructions:** the master prompt ([§21.1](#21-prompts)).
-- **Tools:** one MCP server, `squadlings_master`, at `/mcp/<token>/<runId>/master`, limited to `allowed_tools: [submit_plan, get_bot_results, read_board, submit_final]`.
+- **Tools:** one MCP server, `apexagents_master`, at `/mcp/<token>/<runId>/master`, limited to `allowed_tools: [submit_plan, get_bot_results, read_board, submit_final]`.
 - **One session for the whole run**, so the Master remembers its own plan when it merges.
 
 ### 12.2 Planning turn
@@ -870,7 +870,7 @@ export type BotOutcome =
 1. **Create the session**:
    - `agent.model`: `MODEL_BOT`
    - `agent.instructions`: the bot prompt
-   - `agent.tools`: one MCP tool, `squadlings_botN`, with the role's `allowed_tools`
+   - `agent.tools`: one MCP tool, `apexagents_botN`, with the role's `allowed_tools`
    - `environment`: `{ type: "openai_hosted", container_size: "small", network: { access: "disabled" } }`. It's required: the API answers HTTP 400 "Missing required parameter: 'environment'" without it (live, 2026-10-10), although the MCP guide says service-origin MCP works without one. With the network disabled, the agent can only reach the web through our browser tools.
 2. **Open the event stream** `GET /v1/agents/sessions/{id}/events?stream=true` before sending any input.
 3. **Send the goal** as `agent.session.input.message`.
@@ -886,7 +886,7 @@ export type BotOutcome =
 
 ### 13.3 Stream event mapping
 
-| Agents API event | SquadLings handling |
+| Agents API event | ApexAgents handling |
 |---|---|
 | `agent.session.turn.output_text.delta` / `.done` | Gather into `master.text` or `bot.caption` candidates (bots rarely write text) |
 | `agent.session.turn.completed` | If finished → done; otherwise nudge (max 2) |
@@ -1013,8 +1013,8 @@ Also include elements with `cursor: pointer` that have their own text and no int
 - **Order:** elements in the viewport first (top to bottom, left to right), then the rest.
 - **Cap:** 60 elements when the snapshot comes from `AUTO_SNAPSHOT` after an action; 150 when the bot calls `list_elements` with `scope: "all"`.
 - **Refs:** integers, unique within a snapshot.
-  - The script tags each element with `data-squadlings-ref="s<snap>-<ref>"`.
-  - Actions resolve refs with `page.locator('[data-squadlings-ref="s7-12"]')`.
+  - The script tags each element with `data-apexagents-ref="s<snap>-<ref>"`.
+  - Actions resolve refs with `page.locator('[data-apexagents-ref="s7-12"]')`.
   - A ref from an older snapshot, or one that no longer resolves, returns `STALE_REF`.
 - **Page context:** title, URL, scroll position (%), the first 8 headings (h1–h3), and the focused element.
 
@@ -1395,7 +1395,7 @@ interface Approval {
 ### 18.1 Envelope
 
 ```ts
-export interface SquadLingsEvent<T extends EventType = EventType> {
+export interface ApexAgentsEvent<T extends EventType = EventType> {
   id: string;            // ulid
   runId: RunId;
   seq: number;           // monotonic per run (replay order)
@@ -1979,7 +1979,7 @@ Prompts live in `server/src/prompts/` as template strings. `{{…}}` marks value
 ### 21.1 Master: planning
 
 ```
-You are the Master of SquadLings. You lead a team of up to {{maxBots}} browser agents that work in
+You are the Master of ApexAgents. You lead a team of up to {{maxBots}} browser agents that work in
 parallel on one user request. You never browse yourself. Your jobs: plan the work now, and merge
 the results later.
 
@@ -2036,7 +2036,7 @@ Call submit_final with the result. If it returns errors, fix them and call it ag
 ### 21.3 Bot: base prompt
 
 ```
-You are {{bot.name}}, the "{{role.name}}" agent on a SquadLings team of browser agents working in
+You are {{bot.name}}, the "{{role.name}}" agent on a ApexAgents team of browser agents working in
 parallel for one user.
 
 YOUR ASSIGNMENT
@@ -2280,7 +2280,7 @@ BM-08 is an error screen, not an HTTP 500 response. BM-10 intentionally serves a
 
 `targets/buggymart/planted-bugs.json` is the maintainer answer key, with triggers, expected/actual behavior, and severity. It and the local README are outside the served public directory. Never include the answer key in agent prompts. The browser app necessarily receives the enabled IDs and contains the failure logic; this is an exploratory UI demo, not an adversarial hidden-code evaluation.
 
-The ordinary SquadLings task composer can dispatch agents to the URL. Suggested independent areas are catalog/search, product details, cart operations, pricing/coupons, and checkout. No QA template or automatic scoring integration was added.
+The ordinary ApexAgents task composer can dispatch agents to the URL. Suggested independent areas are catalog/search, product details, cart operations, pricing/coupons, and checkout. No QA template or automatic scoring integration was added.
 
 ---
 
@@ -2324,7 +2324,7 @@ const session = await openai.beta.agents.sessions.create({
     instructions,
     tools: [{
       type: "mcp",
-      server_label: `squadlings_${botId}`,
+      server_label: `apexagents_${botId}`,
       transport: {
         type: "http",
         server_url: `${env.PUBLIC_MCP_URL}/mcp/${mcpToken}/${runId}/${botId}`,
@@ -2455,7 +2455,7 @@ const session = await openai.beta.agents.sessions.create({
 
 ### 25.4 Models and prices (USD per 1M tokens, prompts up to 272K tokens)
 
-| Model | Input | Cached input | Cache write | Output | Use in SquadLings |
+| Model | Input | Cached input | Cache write | Output | Use in ApexAgents |
 |---|---|---|---|---|---|
 | `gpt-6.1-sol` | 2.00 | 0.10 | 2.50 | 10.00 | Master, bots, `look` |
 | `gpt-6-astra` | 10.00 | 1.00 | 12.50 | 50.00 | Fallback only |
@@ -2595,7 +2595,7 @@ export interface RunResult {
 | Area | Choice | Notes |
 |---|---|---|
 | Runtime | Node.js 22 LTS, TypeScript 5 | `tsx` to run TypeScript in development |
-| Monorepo | pnpm workspaces | `@squadlings/shared`, `@squadlings/server`, `@squadlings/dashboard`, `@squadlings/buggymart` |
+| Monorepo | pnpm workspaces | `@apexagents/shared`, `@apexagents/server`, `@apexagents/dashboard`, `@apexagents/buggymart` |
 | HTTP | Express | Two listeners: API/WS (8787), MCP (8788) |
 | WebSocket | `ws` | Events + frames |
 | MCP | `@modelcontextprotocol/sdk` | Streamable HTTP server transport, stateless |
@@ -2616,7 +2616,7 @@ Use the latest stable versions at build time. The lockfile pins them.
 ## 28. Repository layout
 
 ```
-SquadLings/
+ApexAgents/
 ├── master.md                         ← this document
 ├── README.md                         quick start
 ├── package.json                      workspace root + scripts
@@ -2630,7 +2630,7 @@ SquadLings/
 ├── packages/
 │   └── shared/src/
 │       ├── types.ts                  §26
-│       ├── events.ts                 SquadLingsEvent union + EventData map (§18)
+│       ├── events.ts                 ApexAgentsEvent union + EventData map (§18)
 │       ├── tools.ts                  tool names + zod schemas (single source, §15)
 │       ├── schemas/plan.ts           Plan / Assignment (§12.3)
 │       ├── cast.ts                   slots, names, colors, signature faces (§7.1)
@@ -2823,7 +2823,7 @@ RUNS_DIR=./runs
    - an OpenAI API key with access to the Agents API beta, `gpt-6.1-sol` and the Decisions API
 2. **Install the packages:**
    ```bash
-   cd ~/Desktop/SquadLings
+   cd ~/Desktop/ApexAgents
    pnpm install
    pnpm exec playwright install chromium
    cp .env.example .env        # set OPENAI_API_KEY and the BuggyMart passwords
@@ -2848,9 +2848,9 @@ RUNS_DIR=./runs
 ```json
 {
   "scripts": {
-    "dev": "concurrently -n server,dash,shop \"pnpm -F @squadlings/server dev\" \"pnpm -F @squadlings/dashboard dev\" \"pnpm -F @squadlings/buggymart dev\"",
+    "dev": "concurrently -n server,dash,shop \"pnpm -F @apexagents/server dev\" \"pnpm -F @apexagents/dashboard dev\" \"pnpm -F @apexagents/buggymart dev\"",
     "build": "pnpm -r build",
-    "start": "pnpm -F @squadlings/server start",
+    "start": "pnpm -F @apexagents/server start",
     "tunnel": "bash scripts/tunnel.sh",
     "auth:save": "tsx scripts/save-auth.ts",
     "spike:cu": "node scripts/spike-computer-use.ts",
@@ -3325,7 +3325,7 @@ Record results here once known. 🔎 items stay open until answered.
 ### Open questions
 
 1. **Hackathon logistics:** see [§31.0](#31-build-plan).
-2. **Name:** decided 2026-10-10: the project is **SquadLings** (was "SquadLings"). Still open: keep the character names (Plum, Lime, Tango, Blu, Sky)?
+2. **Name:** decided 2026-10-10: the project is **ApexAgents** (was "ApexAgents"). Still open: keep the character names (Plum, Lime, Tango, Blu, Sky)?
 3. **Demo trip:** choose a request the audience relates to, such as departing from the hackathon city. The default example uses San Francisco → Tokyo in March, $2,000.
 4. **Currency:** USD everywhere for now. A local currency for the demo audience is ⏭.
 
@@ -3339,7 +3339,7 @@ Record results here once known. 🔎 items stay open until answered.
 
 | Time | On screen | Say |
 |---|---|---|
-| 0:00–0:15 | Launch screen with the sticker lineup | "Agents today are black boxes, and they do one thing at a time. Meet SquadLings: five agents you can watch work." |
+| 0:00–0:15 | Launch screen with the sticker lineup | "Agents today are black boxes, and they do one thing at a time. Meet ApexAgents: five agents you can watch work." |
 | 0:15–0:30 | Type the Tokyo request, press Start. Master logo spins, plan appears, bots pop out | "The Master, an Agents API session, splits the job. Each bot gets its own real browser." |
 | 0:30–1:15 | Five live tiles; cursors gliding; notes flying; Budget warns | "Every click you see is real. Plum posts the arrival time, and Lime picks it up instantly for check-in." |
 | 1:15–1:35 | Lime goes `/ \`; approval card for "Reserve"; press Skip | "Anything risky hits a safety gate. The Decisions API checks every click in milliseconds. Nothing gets booked without you." |
@@ -3375,8 +3375,8 @@ Record results here once known. 🔎 items stay open until answered.
 
 ## 39. Pitch and judging
 
-- **One-liner:** "SquadLings: five AI agents you can watch work, in parallel, together, and safely."
-- **30-second pitch:** "Agents can now use the web, but they're black boxes that do one thing at a time. SquadLings turns one request into a team. A Master agent plans, and five bots work in parallel in their own real browsers. You watch every click live, they share findings as they go, a safety gate stops anything risky, and you get one merged result. It's one engine with templates: today, trip planning and app testing."
+- **One-liner:** "ApexAgents: five AI agents you can watch work, in parallel, together, and safely."
+- **30-second pitch:** "Agents can now use the web, but they're black boxes that do one thing at a time. ApexAgents turns one request into a team. A Master agent plans, and five bots work in parallel in their own real browsers. You watch every click live, they share findings as they go, a safety gate stops anything risky, and you get one merged result. It's one engine with templates: today, trip planning and app testing."
 - **Technical highlights:**
   - Six coordinated Agents API sessions.
   - Our own MCP browser server, with the visible cursor exactly in sync with the real click.
@@ -3385,7 +3385,7 @@ Record results here once known. 🔎 items stay open until answered.
 - **DevDay 2026 launches used:** Agents API (sessions + MCP), GPT-6.1 Sol, Decisions API (gate, routing, QA checks, scoring). GPT-Live-1 voice is a stretch goal. Plugin extensions, Sign in with ChatGPT and MCP events are on the roadmap.
 - **Judging criteria:** fill this in once they're known ([§31.0](#31-build-plan)) and map each to a demo moment:
 
-| Likely criterion | Where SquadLings shows it |
+| Likely criterion | Where ApexAgents shows it |
 |---|---|
 | Use of new OpenAI tools | Agents API sessions + MCP, Sol, Decisions in four places |
 | Technical execution | Cursor-synced real clicks, safety gate, replay |

@@ -19,7 +19,7 @@ import type { BotId } from "@swarm/shared/types";
 import "./landing.css";
 import { SquadStory } from "./SquadStory";
 
-const REPO = "https://github.com/amarnath3003/SquadLings";
+const REPO = "https://github.com/vijayanand1505/ApexAgents";
 const COLORS = ["#924FF7", "#04B84C", "#FF8549", "#006AFF", "#A6D8F5"];
 const TASKS = [
   {
@@ -333,7 +333,7 @@ function Film({ onClose }: { onClose: () => void }) {
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
-      aria-label="The SquadLings launch film"
+      aria-label="The ApexAgents launch film"
     >
       <button
         className="sl-film-close"
@@ -343,15 +343,15 @@ function Film({ onClose }: { onClose: () => void }) {
         ✕
       </button>
       <video
-        src="/media/squadlings-intro.mp4"
+        src="/media/apexagents-intro.mp4"
         controls
         autoPlay
         playsInline
-        aria-label="SquadLings, one task and five agents"
+        aria-label="ApexAgents, one task and five agents"
       />
       <div>
         <strong>A little film about a big idea.</strong>
-        <span>SquadLings · 52 seconds</span>
+        <span>ApexAgents · 52 seconds</span>
       </div>
     </dialog>
   );
@@ -368,13 +368,13 @@ export default function LandingPage() {
   const [menu, setMenu] = useState(false);
   const selected = CAST.find((bot) => bot.id === selectedBot)!;
   useEffect(() => {
-    document.title = "SquadLings — One squad. Many minds.";
+    document.title = "ApexAgents — One squad. Many minds.";
   }, []);
   async function copySetup() {
     setCopyError("");
     try {
       await navigator.clipboard.writeText(
-        `git clone ${REPO}.git\ncd SquadLings\nnpm install\nnpm --prefix web install\nnpx playwright install chromium\ncp .env.example .env`,
+        `git clone ${REPO}.git\ncd ApexAgents\nnpm install\nnpm --prefix web install\nnpx playwright install chromium\ncp .env.example .env`,
       );
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
@@ -396,8 +396,8 @@ export default function LandingPage() {
       />
       <header className="sl-nav">
         <div className="sl-container sl-nav-inner">
-          <a className="sl-wordmark" href="#" aria-label="SquadLings home">
-            <span className="sl-brand-face">⌃⌃</span>SquadLings
+          <a className="sl-wordmark" href="#" aria-label="ApexAgents home">
+            <span className="sl-brand-face">⌃⌃</span>ApexAgents
             <span className="sl-brand-star">✳</span>
           </a>
           <nav className={menu ? "is-open" : ""} aria-label="Main navigation">
@@ -874,7 +874,7 @@ export default function LandingPage() {
                   <span>$</span> git clone {REPO}.git
                 </code>
                 <code>
-                  <span>$</span> cd SquadLings
+                  <span>$</span> cd ApexAgents
                 </code>
                 <code>
                   <span>$</span> npm install
@@ -929,7 +929,7 @@ export default function LandingPage() {
                 rel="noreferrer"
               >
                 <Github />
-                Build with SquadLings
+                Build with ApexAgents
                 <Arrow diagonal />
               </a>
               <div className="sl-finale-cast">
@@ -961,7 +961,7 @@ export default function LandingPage() {
       <footer className="sl-footer sl-container">
         <div>
           <a className="sl-wordmark" href="#">
-            <span className="sl-brand-face">⌃⌃</span>SquadLings
+            <span className="sl-brand-face">⌃⌃</span>ApexAgents
           </a>
           <p>Made in one night. With a whole lot of little ideas.</p>
         </div>
@@ -982,21 +982,13 @@ export default function LandingPage() {
             Read the README <Arrow diagonal />
           </a>
           <span>
-            By{" "}
+            Owner &amp; founder: {" "}
             <a
               href="https://github.com/vijayanand1505"
               target="_blank"
               rel="noreferrer"
             >
               Vijay Anand
-            </a>{" "}
-            &{" "}
-            <a
-              href="https://github.com/amarnath3003"
-              target="_blank"
-              rel="noreferrer"
-            >
-              D Amarnath
             </a>
           </span>
         </div>

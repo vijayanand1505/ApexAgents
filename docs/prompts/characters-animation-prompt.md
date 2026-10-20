@@ -1,4 +1,4 @@
-# Build prompt: SquadLings characters, animation and reactions
+# Build prompt: ApexAgents characters, animation and reactions
 
 > **How to use.** Paste everything between `PROMPT START` and `PROMPT END` into your coding agent (Codex or Claude Code), run from the repo root with `master.md` present.
 >
@@ -14,7 +14,7 @@
 
 ### 0. Your job
 
-You're building the part of SquadLings that people will remember: **the living squad.** Five DevDay sticker characters (Plum, Lime, Tango, Blu and Sky) and the OpenAI-logo Master work as a team on screen. Each bot gets its own task, its own tile (its "home"), its own personality in motion, and its own reactions. Every bot visibly reports back to the Master.
+You're building the part of ApexAgents that people will remember: **the living squad.** Five DevDay sticker characters (Plum, Lime, Tango, Blu and Sky) and the OpenAI-logo Master work as a team on screen. Each bot gets its own task, its own tile (its "home"), its own personality in motion, and its own reactions. Every bot visibly reports back to the Master.
 
 **The bar:**
 - Someone watches one tile for 10 seconds without reading any text. They can still tell which bot it is, what it's doing, and how it "feels" about it.
@@ -252,7 +252,7 @@ Export everything as React components from `characters/icons.tsx`.
 - **Template chips:** a plane (Trip Planner), a bug (QA Swarm) and a sparkle (Auto). These match `template.icon`.
 - **Browser tab:**
   - The favicon is the Master logo.
-  - While any approval is pending, it switches to a variant with a "?" badge, and the title becomes `(1) Needs you · SquadLings`.
+  - While any approval is pending, it switches to a variant with a "?" badge, and the title becomes `(1) Needs you · ApexAgents`.
 
 ### 7. The squad slider: "assemble the squad"
 
@@ -638,7 +638,7 @@ Build a development-only route, `/lab`, where every piece can be seen and stress
   - every emote and every tool and status icon
 
   Show them on white and on a busy fake-webpage background.
-- **Event buttons per bot.** Each button fires one event type, with a real `SquadLingsEvent` payload from `packages/shared/src/events.ts`.
+- **Event buttons per bot.** Each button fires one event type, with a real `ApexAgentsEvent` payload from `packages/shared/src/events.ts`.
 - **The squad slider** on its own.
 - **Fake run.** `fakeRun(seed, botCount, speed)` generates a believable full run:
   - plan and spawns

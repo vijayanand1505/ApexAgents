@@ -124,7 +124,7 @@ export type SwarmEvent<T extends EventType = EventType> = {
     data: EventData[K];
   };
 }[T];
-export type SquadLingsEvent<T extends EventType = EventType> = SwarmEvent<T>;
+export type ApexAgentsEvent<T extends EventType = EventType> = SwarmEvent<T>;
 export function eventBotId(event: SwarmEvent): BotId | undefined {
   if (event.botId) return event.botId;
   if ("botId" in event.data) return event.data.botId;

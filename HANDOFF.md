@@ -47,13 +47,13 @@ What the user wants:
 | The dashboard (new UI) | `npm --prefix web install`, once. Then `npm run ui` builds `web/` (under a second) and serves it, with the API and the WebSocket. It needs `OPENAI_API_KEY` in `.env`. | http://127.0.0.1:8787/ (MCP on 8788, behind the tunnel) |
 | The old dashboard | `npm run ui -- --classic` serves `ui/` | :8787 |
 | Free live testing | `node scripts/dev-mock-ui.ts --port 8796 --mcp-port 8795` runs the real server with a scripted mock Master and bots. Any task text plays the same run; nothing reaches OpenAI. | :8796 |
-| Dev with hot reload | `npm run web` (or `cd web && SQUADLINGS_API=http://127.0.0.1:8787 npx vite --host 127.0.0.1`) | http://127.0.0.1:5173/ |
+| Dev with hot reload | `npm run web` (or `cd web && APEXAGENTS_API=http://127.0.0.1:8787 npx vite --host 127.0.0.1`) | http://127.0.0.1:5173/ |
 | Typecheck | `cd web && npx tsc --noEmit`, and `npm run typecheck` in the root for the server | |
 | All tests (classic UI and server) | `npm test` in the root | |
 
 Notes:
 
-- **The proxy.** [web/vite.config.ts](web/vite.config.ts) forwards `/api` and `/ws` to `SQUADLINGS_API`. The server only accepts its own Origin, so the proxy rewrites Origin, but only for requests from the dev page itself. `VITE_PORT` picks another port.
+- **The proxy.** [web/vite.config.ts](web/vite.config.ts) forwards `/api` and `/ws` to `APEXAGENTS_API`. The server only accepts its own Origin, so the proxy rewrites Origin, but only for requests from the dev page itself. `VITE_PORT` picks another port.
 - **Opening a closed chat.** Until the Chats panel is ported, `http://127.0.0.1:5173/?run=<id>` opens one from disk, read-only. Get the ids from `GET /api/runs`.
 - **The classic UI** at :8787 still works fully: chat, tiles, takeover and Chats. Use it to compare against.
 - **The user's own `npm run ui`** (started 04:02) may still be running old server code, which lacks the Chats endpoints and the none/xhigh efforts. Restarting it fixes that.
@@ -83,7 +83,7 @@ Notes:
 **Home screen**
 - **[home/Composer.tsx](web/src/home/Composer.tsx):** the bar, with the same markup as classic.
   - Its pieces: "+" for options, the task box, the agents chip (opens the squad picker), the effort chip (opens the effort picker) and Send.
-  - Settings are saved under the localStorage key `squadlings.settings`.
+  - Settings are saved under the localStorage key `apexagents.settings`.
   - Enter sends.
 - **[api.ts](web/src/api.ts):** `startRun` asks before ending a live chat, and retries on 409.
 - **Logo and favicon:** both are the studio's white ball with `^ ^` ([public/favicon.svg](web/public/favicon.svg)).
@@ -166,7 +166,7 @@ Both workers finished, and the lead integrated their work.
 - **Sound panel and More options use our popover styles, with switch toggles.**
   - On the home screen, More options opens above the bar.
   - The sound panel says "Volume" rather than "Master volume".
-- **Another session** added `/halt`, the composer's Stop button and the Master → Onyx rename before this pass. squadlings-2f is only writing README.md and the media files.
+- **Another session** added `/halt`, the composer's Stop button and the Master → Onyx rename before this pass. apexagents-2f is only writing README.md and the media files.
 
 **Design pass, 07:10 IST**
 

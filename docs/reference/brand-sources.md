@@ -1,6 +1,6 @@
 # Character colours and design sources
 
-> Copied from [amarnath3003/SquadLings](https://github.com/amarnath3003/SquadLings) at `cd568c5`. Paths such as `dashboard/` and `packages/shared/` refer to that repository's layout; the matching code here is in `web/src/` and `web/shared/`.
+> Copied from [original character studio](https://github.com/amarnath3003/SquadLings) at `cd568c5`. Paths such as `dashboard/` and `packages/shared/` refer to that repository's layout; the matching code here is in `web/src/` and `web/shared/`.
 
 Originally fetched on **10 October 2026 (IST)**; the live website palette was fetched again and verified on **11 October 2026 (IST)**. The user selected the **current DevDay website** as the colour reference.
 
@@ -28,14 +28,14 @@ The same stylesheet's dark theme declares `--color-background: #000` and `--colo
 
 The user's later supplied reference shows a charcoal circle with paired white carets. Original Onyx artwork follows that resting silhouette, using local charcoal `#262626`, the shared symbol geometry, and white glyphs; this is not an official event colour token. Workflow reactions can add mouths/details, as the user clarified. Onyx replaces the previously used DevDay logo; that asset is removed from the dashboard. No additional external artwork was imported.
 
-SquadLings is the hackathon team's project. OpenAI names and artwork belong to OpenAI; no endorsement is implied.
+ApexAgents is the hackathon team's project. OpenAI names and artwork belong to OpenAI; no endorsement is implied.
 
 ## GitHub banner
 
-The [SquadLings banner](../assets/squadlings-github-banner.png) is a 2172 × 724 PNG generated with Codex's built-in image generation tool from the user's supplied circular-character reference and the repository's existing theme. The corrected banner wordmark is **SquadLings** with the tagline **One squad. Many minds.**, matching the application/project name. The user approved the composition and requested this name correction; a built-in image edit replaced only the wordmark. The banner includes the five colored teammates and charcoal Onyx, without the OpenAI logo. Generated raster colors are illustrative rather than verified exact palette tokens. The [generation prompts](squadlings-banner-prompt.md) record the creation and lettering correction. Final corrected lettering was visually inspected; human review of the name correction is pending.
+The [ApexAgents banner](../assets/apexagents-github-banner.png) is a 2172 × 724 PNG. On 20 October 2026, Codex's built-in image tool replaced the original wordmark with **ApexAgents**, retaining the circular cast, black background and **One squad. Many minds.** tagline. The result was visually inspected. The [generation record](apexagents-banner-prompt.md) preserves the original prompts and records the new edit. Human review is pending.
 
 ## Libraries
 
-The SquadLings launch film reuses the dashboard's SVG cast and sound synthesis. Its motion direction was informed by the user-selected [first 15 seconds of DevDay 2026](https://www.youtube.com/watch?v=Fls_onRviPM), inspected in Chrome. The paths, compositions, typography, and soundtrack assembly are original project code; no reference footage/audio or OpenAI logo is included. See the [storyboard](../video/storyboard.md) for timing and recording-tool sources.
+The ApexAgents launch film reuses the dashboard's SVG cast and sound synthesis. Its motion direction was informed by the user-selected [first 15 seconds of DevDay 2026](https://www.youtube.com/watch?v=Fls_onRviPM), inspected in Chrome. The paths, compositions, typography, and soundtrack assembly are original project code; no reference footage/audio or OpenAI logo is included. See the [storyboard](../video/storyboard.md) for timing and recording-tool sources.
 
 The dashboard was implemented from scratch in this repository. Dependencies are pinned in the root lockfile: [React](https://react.dev/), [Vite](https://vite.dev/), [Motion](https://motion.dev/docs/react-animation), [Zustand](https://zustand.docs.pmnd.rs/), [TypeScript](https://www.typescriptlang.org/), [Vitest](https://vitest.dev/), and [Playwright](https://playwright.dev/). The README banner is generated raster art; dashboard characters remain code-authored SVG. No third-party character assets, datasets, or pre-built application were imported. Sound is synthesized with Web Audio.

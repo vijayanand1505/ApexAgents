@@ -5,7 +5,7 @@
 // Runs are saved under spikes/out/dev-mock-ui/ (so closed chats show under Chats). No OpenAI calls.
 //
 //   node scripts/dev-mock-ui.ts [--port 8796] [--mcp-port 8795] [--verbose]
-//   then: cd web && SQUADLINGS_API=http://127.0.0.1:8796 VITE_PORT=5176 npx vite --host 127.0.0.1
+//   then: cd web && APEXAGENTS_API=http://127.0.0.1:8796 VITE_PORT=5176 npx vite --host 127.0.0.1
 
 import { existsSync } from "node:fs";
 import { createServer } from "node:http";
@@ -123,8 +123,8 @@ const mcp = await startMcpHttp({ port: mcpPort, token: runner.token, routes: run
 mcpPort = mcp.port;
 const ui = await startUiServer({ port: Number(opt.port), staticDir: existsSync(join(ROOT, "web/dist/index.html")) ? join(ROOT, "web/dist") : join(ROOT, "ui"), runner, defaults: DEFAULTS, models: { master: ["gpt-6.1-sol"], bot: ["gpt-6-luna"] }, tunnel: () => ({ state: "ready", url: `http://127.0.0.1:${mcpPort}`, source: "mock" }) });
 
-console.log(`SquadLings dev mock (no OpenAI calls) → ${ui.url}   MCP on ${mcpPort}   (Ctrl+C to quit)`);
-console.log(`  React dev UI: cd web && SQUADLINGS_API=${ui.url} VITE_PORT=5176 npx vite --host 127.0.0.1`);
+console.log(`ApexAgents dev mock (no OpenAI calls) → ${ui.url}   MCP on ${mcpPort}   (Ctrl+C to quit)`);
+console.log(`  React dev UI: cd web && APEXAGENTS_API=${ui.url} VITE_PORT=5176 npx vite --host 127.0.0.1`);
 
 let quitting = false;
 async function quit() {

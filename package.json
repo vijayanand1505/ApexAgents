@@ -1,9 +1,9 @@
 {
-  "name": "squadlings",
+  "name": "apexagents",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "SquadLings: a team of AI browser agents you can watch work. The spec is master.md.",
+  "description": "ApexAgents: a team of AI browser agents you can watch work. The spec is master.md.",
   "engines": {
     "node": ">=22.18"
   },
@@ -39,5 +39,9 @@
     "playwright": "^1.64.0",
     "ws": "^8.22.0",
     "zod": "^4.6.5"
+  },
+  "author": {
+    "name": "Vijay Anand",
+    "url": "https://github.com/vijayanand1505"
   }
 }

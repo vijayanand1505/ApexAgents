@@ -289,7 +289,7 @@ export class Squad {
     let profileDir: string | undefined;
     let profileTemp: string | undefined;
     if (this.o.profileRoot) profileDir = join(this.o.profileRoot, `squad-${c.name.toLowerCase()}`);
-    else if (cell) profileDir = profileTemp = mkdtempSync(join(tmpdir(), `squadlings-${c.name.toLowerCase()}-`)); // a placed window needs a profile for its zoom
+    else if (cell) profileDir = profileTemp = mkdtempSync(join(tmpdir(), `apexagents-${c.name.toLowerCase()}-`)); // a placed window needs a profile for its zoom
     const framesDir = join(this.o.run.out, "frames", c.name.toLowerCase());
     mkdirSync(framesDir, { recursive: true });
     let frames = 0;
@@ -589,7 +589,7 @@ export class Squad {
         tools: [
           {
             type: "mcp",
-            server_label: `squadlings_${bot.id}`,
+            server_label: `apexagents_${bot.id}`,
             transport: { type: "http", server_url: `${this.publicUrl}${this.pathFor(bot.id)}`, authorization: `Bearer ${this.o.token}` },
             connection_origin: "service",
             required: true,
@@ -812,7 +812,7 @@ export class Squad {
         tools: [
           {
             type: "mcp",
-            server_label: "squadlings_master",
+            server_label: "apexagents_master",
             transport: { type: "http", server_url: `${this.publicUrl}${this.pathFor("master")}`, authorization: `Bearer ${this.o.token}` },
             connection_origin: "service",
             required: true,

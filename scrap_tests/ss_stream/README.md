@@ -69,7 +69,7 @@ can see the browser.
   - Each `computer_use_call` (IDs start with `exec-`) is one of those JS runs, and its screenshot is the last one that run took.
   - From the sandbox, the browser container shows up only as `gaas-browser` in `NO_PROXY` (a private 172.31.x address). We didn't probe it: it's internal OpenAI infrastructure, not an API.
 
-**What this means for SquadLings**
+**What this means for ApexAgents**
 - Hosted computer use can feed a progress view: step titles, commentary, and a fresh screenshot after each real action. It can't feed live tiles at ≥ 5 fps (US-03).
 - A real-time view needs a browser we run (Playwright plus a CDP screencast, master.md §14.6), which is the core design.
 - One untested idea: ask the agent to start a screenshot timer inside its own browser REPL that posts frames to our tunnel. It would depend on the prompt, could get in the way of the agent's own browser work, and the browser's network calls may need origin approval. Not worth it next to our own Playwright.

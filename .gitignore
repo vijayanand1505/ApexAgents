@@ -23,7 +23,7 @@ __pycache__/
 Thumbs.db
 *.log
 
-# SquadLings: run logs, browser profiles, tunnel state (all regenerated at runtime).
+# ApexAgents: run logs, browser profiles, tunnel state (all regenerated at runtime).
 runs/
 spikes/out/
 spikes/profile/

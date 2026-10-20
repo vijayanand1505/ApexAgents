@@ -1,5 +1,5 @@
 /* Our dashboard's stylesheet, copied from ui/app.css so this app looks the same as the one on :8787. */
-/* SquadLings basic dashboard: dark and quiet, styled after a chat app. Three layouts on one set of
+/* ApexAgents basic dashboard: dark and quiet, styled after a chat app. Three layouts on one set of
    elements, so moving between them animates:
      .home    the title and one pill-shaped bar in the middle (task, agents, effort)
      .center  the conversation in a centered column, while the Master reads and plans

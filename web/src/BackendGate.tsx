@@ -40,7 +40,7 @@ export function BackendGate() {
         <input id="backend-key" type="password" required value={token} onChange={(event) => setToken(event.target.value)} autoComplete="off" />
         <button type="submit" disabled={busy}>{busy ? "Connecting…" : "Connect"}</button>
         {error && <p role="alert" className="backend-error">{error}</p>}
-        <p className="backend-help">On the laptop running SquadLings, run <code>npm run share</code> and open its private connection link.</p>
+        <p className="backend-help">On the laptop running ApexAgents, run <code>npm run share</code> and open its private connection link.</p>
       </form>
     </main>
   );

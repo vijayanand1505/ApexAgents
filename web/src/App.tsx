@@ -64,13 +64,13 @@ let attentionFlag = "";
 effects.attention = (kind) => {
   if (!document.hidden) return;
   attentionFlag = kind;
-  document.title = kind === "needs" ? "(!) An agent needs you · SquadLings" : "✓ Answer ready · SquadLings";
+  document.title = kind === "needs" ? "(!) An agent needs you · ApexAgents" : "✓ Answer ready · ApexAgents";
 };
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && attentionFlag) (attentionFlag = ""), (document.title = "SquadLings");
+  if (!document.hidden && attentionFlag) (attentionFlag = ""), (document.title = "ApexAgents");
 });
 
-const WIDTH_KEY = "squadlings.chatWidth";
+const WIDTH_KEY = "apexagents.chatWidth";
 function setChatWidth(w: number) {
   document.documentElement.style.setProperty("--chat-w", `${Math.round(Math.max(320, Math.min(w - 52, window.innerWidth * 0.55)))}px`);
 }
@@ -172,7 +172,7 @@ export default function App() {
   return (
     <div id="app" className={`${p}${S.ui.chatHidden && p === "side" ? " chat-hidden" : ""}${dragging ? " dragging" : ""}`}>
       <nav id="rail" aria-label="Chats">
-        <button id="rail-home" className="rail-btn logo-btn" type="button" title="SquadLings" onClick={() => (toggleHistory(false), goHome())}>
+        <button id="rail-home" className="rail-btn logo-btn" type="button" title="ApexAgents" onClick={() => (toggleHistory(false), goHome())}>
           {/* The studio's brand face: a white ball with ^ ^ (as in public/favicon.svg). */}
           <svg className="brand-ball" width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
             <circle cx="32" cy="32" r="30" fill="currentColor" />

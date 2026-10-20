@@ -1,4 +1,4 @@
-// SquadLings squad (Phase 1 core, master.md §10–§12 as adapted 2026-10-11): the Master on a stronger
+// ApexAgents squad (Phase 1 core, master.md §10–§12 as adapted 2026-10-11): the Master on a stronger
 // model and up to five bots, each bot driving its own browser window. You chat with the Master only.
 //
 //   npm run prewarm                                  # once, in another terminal (saves ~20 s per run)
@@ -226,7 +226,7 @@ async function end(reason: string) {
 let chat: ReturnType<typeof startChat> | undefined;
 
 try {
-  console.log(`SquadLings squad · you chat with the Master; it runs the bots
+  console.log(`ApexAgents squad · you chat with the Master; it runs the bots
   Master  ${opt["master-model"]}${opt["master-effort"] ? ` (effort ${opt["master-effort"]})` : ""} + web_search
   bots    ${CAST.slice(0, BOTS).map((c) => c.name).join(", ")} on ${opt["bot-model"]}, ${MAX_ACTIONS} actions per assignment
   task    ${TASK}

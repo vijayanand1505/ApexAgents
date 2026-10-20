@@ -1,12 +1,12 @@
 # BuggyMart
 
-A deliberately broken demo shop for SquadLings agents to explore. Plain HTML, CSS and JavaScript with a small Node server; no build, new dependencies, API key, external assets, or network services required.
+A deliberately broken demo shop for ApexAgents agents to explore. Plain HTML, CSS and JavaScript with a small Node server; no build, new dependencies, API key, external assets, or network services required.
 
 ```sh
 npm run buggymart
 ```
 
-Open **http://127.0.0.1:3001**. Run the SquadLings dashboard separately with `npm run ui`, and give Onyx the shop URL and your testing task. The agents' browsers run on this machine, so they can reach the loopback URL directly. Use the same hostname throughout a run.
+Open **http://127.0.0.1:3001**. Run the ApexAgents dashboard separately with `npm run ui`, and give Onyx the shop URL and your testing task. The agents' browsers run on this machine, so they can reach the loopback URL directly. Use the same hostname throughout a run.
 
 The store has six products, search, category filtering, price sorting, a product variant, cart quantities, a promo code, and simulated checkout. Prices are USD with tax included, plus $5 shipping. `SAVE10` should deduct 10% from the merchandise subtotal.
 
@@ -17,7 +17,7 @@ Use five agents to cover catalog/search, product details, cart operations, prici
 - All ten planted bugs: **https://squadlings.vercel.app/buggymart/**
 - All ten bugs disabled: **https://squadlings.vercel.app/buggymart/fixed/**
 
-Paste either URL into SquadLings as the target. Both are static exports of this same shop, with separate per-tab cart state. Use the fixed URL for regression checks, and Reset demo before repeating a run. The fixed version does not imply that the agent has edited the deployed code; it is the existing bugs-off reference behavior. No laptop shop server is required.
+Paste either URL into ApexAgents as the target. Both are static exports of this same shop, with separate per-tab cart state. Use the fixed URL for regression checks, and Reset demo before repeating a run. The fixed version does not imply that the agent has edited the deployed code; it is the existing bugs-off reference behavior. No laptop shop server is required.
 
 `npm --prefix web run build` exports both versions after building the landing page. Vercel routes known shop pages to their matching index and returns HTTP 404 for unknown shop resources, including the intentional broken image.
 

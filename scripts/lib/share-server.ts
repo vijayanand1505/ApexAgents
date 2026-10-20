@@ -29,7 +29,7 @@ export async function startShareServer(options: ShareOptions) {
   const server = createServer((req, res) => {
     res.setHeader("cache-control", "no-store");
     res.setHeader("vary", "Origin");
-    if (req.headers.origin !== frontend.origin) return json(res, 403, "Use the configured SquadLings frontend.");
+    if (req.headers.origin !== frontend.origin) return json(res, 403, "Use the configured ApexAgents frontend.");
     res.setHeader("access-control-allow-origin", frontend.origin);
     const url = new URL(req.url ?? "/", "http://localhost");
     if (!url.pathname.startsWith("/api/")) return json(res, 404, "not found");
@@ -56,7 +56,7 @@ export async function startShareServer(options: ShareOptions) {
     });
     upstream.on("timeout", () => upstream.destroy(new Error("Dashboard timeout")));
     upstream.on("error", () => {
-      if (!res.headersSent) json(res, 502, "The local SquadLings dashboard is unavailable. Keep npm run ui running.");
+      if (!res.headersSent) json(res, 502, "The local ApexAgents dashboard is unavailable. Keep npm run ui running.");
       else res.destroy();
     });
     req.on("aborted", () => upstream.destroy());
@@ -64,12 +64,12 @@ export async function startShareServer(options: ShareOptions) {
     req.pipe(upstream);
   });
 
-  const wss = new WebSocketServer({ noServer: true, maxPayload: 64 * 1024, handleProtocols: (protocols) => protocols.has("squadlings") ? "squadlings" : false });
+  const wss = new WebSocketServer({ noServer: true, maxPayload: 64 * 1024, handleProtocols: (protocols) => protocols.has("apexagents") ? "apexagents" : false });
   const pending = new Set<WebSocket>();
   server.on("upgrade", (req, socket, head) => {
     const protocols = String(req.headers["sec-websocket-protocol"] ?? "").split(",").map((s) => s.trim());
     const key = protocols.find((p) => p.startsWith("auth."))?.slice(5) ?? "";
-    if (new URL(req.url ?? "/", "http://localhost").pathname !== "/ws" || req.headers.origin !== frontend.origin || !protocols.includes("squadlings") || !authorized(key)) {
+    if (new URL(req.url ?? "/", "http://localhost").pathname !== "/ws" || req.headers.origin !== frontend.origin || !protocols.includes("apexagents") || !authorized(key)) {
       socket.end("HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n");
       return;
     }

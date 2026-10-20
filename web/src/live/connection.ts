@@ -42,7 +42,7 @@ export function connect() {
     else if (msg.type === "event") apply(msg.event);
   };
   ws.onclose = () => {
-    S.banner = "Lost the connection to the SquadLings server. Reconnecting…";
+    S.banner = "Lost the connection to the ApexAgents server. Reconnecting…";
     notify();
     setTimeout(connect, Math.min(5000, 400 * 2 ** retry++));
   };

@@ -1,12 +1,12 @@
-# SquadLings sound design
+# ApexAgents sound design
 
-> Copied from [amarnath3003/SquadLings](https://github.com/amarnath3003/SquadLings) at `cd568c5`. Paths such as `dashboard/` and `packages/shared/` refer to that repository's layout; the matching code here is in `web/src/` and `web/shared/`.
+> Copied from [original character studio](https://github.com/amarnath3003/SquadLings) at `cd568c5`. Paths such as `dashboard/` and `packages/shared/` refer to that repository's layout; the matching code here is in `web/src/` and `web/shared/`.
 
 The demo synthesizes sound locally with Web Audio: no microphone, speech service, downloaded clips, or new library. These are original electronic cartoon voices. Captions carry understandable task information.
 
 ## Controls and defaults
 
-Each page load starts muted. Enable the toolbar speaker, then use **Sound settings** for master volume (35% initially), UI/workflow effects, bot voices, and idle chatter. Disabling voices also disables idle chatter. The mix is saved in local storage at `squadlings.audio.v1`; the enabled state is never saved. Storage failure leaves the current visit's settings usable.
+Each page load starts muted. Enable the toolbar speaker, then use **Sound settings** for master volume (35% initially), UI/workflow effects, bot voices, and idle chatter. Disabling voices also disables idle chatter. The mix is saved in local storage at `apexagents.audio.v1`; the enabled state is never saved. Storage failure leaves the current visit's settings usable.
 
 In **Face gallery**, choose a reaction and use **Listen to Plum/Lime/Tango/Blu/Sky**, or activate an expression to hear its matching reaction. Thirteen reaction families each have three syllable variants, cycled across utterances.
 

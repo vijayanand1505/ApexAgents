@@ -63,7 +63,7 @@ export function Wall() {
   if (S.ui.focus && !S.botById.has(S.ui.focus)) S.ui.focus = null;
   const focus = side ? S.ui.focus : null;
   const n = botIds.length;
-  const seed = S.run?.id ?? "squadlings";
+  const seed = S.run?.id ?? "apexagents";
 
   return (
     <section id="wall" aria-label="The agents' browsers">

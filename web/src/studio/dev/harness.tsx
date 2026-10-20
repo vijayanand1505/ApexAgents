@@ -1,6 +1,6 @@
 // Dev-only harness (not in the build): the real App (which mounts StudioFx and so the event adapter), plus
 // helpers to drive the studio from recorded events without a server.
-// Open /src/studio/dev/harness.html on the Vite dev server (SQUADLINGS_API → a mock server, e.g.
+// Open /src/studio/dev/harness.html on the Vite dev server (APEXAGENTS_API → a mock server, e.g.
 // scripts/dev-mock-ui.ts). `window.__studio.play(events)` replays recorded server events live, with their
 // original gaps; `?run=<id>` opens a closed chat as App does.
 import React from "react";

@@ -20,7 +20,7 @@ import { ALLOWED_KEYS, ToolError } from "./browser.ts";
 import type { BotBrowser } from "./browser.ts";
 
 export const MODERN_PROTOCOL = "2026-07-28";
-const SERVER_INFO = { name: "squadlings-browser", version: "0.2.0" };
+const SERVER_INFO = { name: "apexagents-browser", version: "0.2.0" };
 const LIST_TTL_MS = 60 * 60 * 1000; // the tool list never changes during a run
 
 export const BOT_TOOLS = [
@@ -249,7 +249,7 @@ async function handleModern(req: IncomingMessage, res: ServerResponse, body: any
       ok({
         supportedVersions: [MODERN_PROTOCOL],
         capabilities: { tools: {} },
-        instructions: "Tools for one SquadLings agent. Bots see pages as numbered element lists and act on elements by number.",
+        instructions: "Tools for one ApexAgents agent. Bots see pages as numbered element lists and act on elements by number.",
         ttlMs: LIST_TTL_MS,
         cacheScope: "private",
       });

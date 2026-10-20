@@ -1,4 +1,4 @@
-// SquadLings basic dashboard (a Phase 2 stand-in for master.md §19; the real one is React + Vite).
+// ApexAgents basic dashboard (a Phase 2 stand-in for master.md §19; the real one is React + Vite).
 //
 // The flow follows a chat app:
 //   home    one pill-shaped bar in the middle: the task, how many agents, how hard they think
@@ -802,7 +802,7 @@ function renderCounts() {
 
 // ── The bar's controls: agents, effort, more options ──
 
-let settings = { bots: 5, botEffort: "medium", ...store.get("squadlings.settings", {}) };
+let settings = { bots: 5, botEffort: "medium", ...store.get("apexagents.settings", {}) };
 let sending = false;
 
 function fillOptions(config) {
@@ -844,7 +844,7 @@ function readOptions() {
 
 function saveOptions() {
   settings = readOptions();
-  store.set("squadlings.settings", settings);
+  store.set("apexagents.settings", settings);
   renderControls();
 }
 
@@ -1426,10 +1426,10 @@ let attentionFlag = "";
 function attention(kind) {
   if (S.replaying || !document.hidden) return;
   attentionFlag = kind;
-  document.title = kind === "needs" ? "(!) An agent needs you · SquadLings" : "✓ Answer ready · SquadLings";
+  document.title = kind === "needs" ? "(!) An agent needs you · ApexAgents" : "✓ Answer ready · ApexAgents";
 }
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && attentionFlag) (attentionFlag = ""), (document.title = "SquadLings");
+  if (!document.hidden && attentionFlag) (attentionFlag = ""), (document.title = "ApexAgents");
 });
 
 // ── Takeover: your mouse and keys go to that agent's browser (never logged, never shown to a model) ──
@@ -1511,7 +1511,7 @@ function send(b, event) {
 {
   const sp = $("#splitter");
   const setW = (w) => document.documentElement.style.setProperty("--chat-w", `${Math.round(Math.max(320, Math.min(w - 52, window.innerWidth * 0.55)))}px`);
-  const saved = store.get("squadlings.chatWidth", null);
+  const saved = store.get("apexagents.chatWidth", null);
   if (saved) document.documentElement.style.setProperty("--chat-w", `${saved}px`);
   sp.addEventListener("pointerdown", (ev) => {
     sp.setPointerCapture(ev.pointerId);
@@ -1523,7 +1523,7 @@ function send(b, event) {
     sp.classList.remove("drag");
     $("#app").classList.remove("dragging");
     sp.releasePointerCapture(ev.pointerId);
-    store.set("squadlings.chatWidth", parseInt(getComputedStyle(document.documentElement).getPropertyValue("--chat-w")));
+    store.set("apexagents.chatWidth", parseInt(getComputedStyle(document.documentElement).getPropertyValue("--chat-w")));
   });
   sp.addEventListener("keydown", (ev) => {
     const w = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--chat-w"));
@@ -1606,7 +1606,7 @@ function connect() {
   };
   ws.onclose = () => {
     const b = $("#banner");
-    b.textContent = "Lost the connection to the SquadLings server. Reconnecting…";
+    b.textContent = "Lost the connection to the ApexAgents server. Reconnecting…";
     b.hidden = false;
     setTimeout(connect, Math.min(5000, 400 * 2 ** retry++));
   };
