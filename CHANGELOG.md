@@ -4,6 +4,14 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T23:49:24+05:30 — Publish the project to Vijay's public GitHub repository
+
+- Published: Created the owner-authorized public https://github.com/vijayanand1505/ApexAgents repository and pushed `main` successfully. Retained all 43 pre-publication commits, contributor metadata/dates/messages and the current tree. Updated README/submission repository details and added migration notes with the complete commit map.
+- Credential handling: One historical `.env.example` credential candidate was redacted in an isolated clone; 14 IDs changed and 29 stayed identical. No credential values were printed. The original history remains in a private local backup/ref, and the old GitHub repository was not modified. No squash or force-push occurred.
+- Checkout: `origin` now targets Vijay's repository, the original source is `upstream`, and local `main` tracks the sanitized `origin/main`. Branch alignment followed an identical-tree check; current application files were preserved. The saved footer was included in the preceding checkpoint.
+- Validation: Frontend TypeScript and diff whitespace passed; 43-commit metadata/tree comparisons and the 716-object targeted scan passed. First HTTP upload failed while GitHub remained empty; retry with HTTP/1.1/request buffering succeeded and the public default branch was verified. Final documentation push/remote SHA verification follows this checkpoint. No model requests, Vercel deployment or automatic Git integration.
+- Limits: Historical key revocation remains the key owner's responsibility. Original records keep their old IDs and are resolved through the map. A targeted scan cannot certify all possible sensitive data; original-history backups remain ignored/private.
+
 ## 2026-10-20T23:44:42+05:30 — Include the saved landing footer in the publishing checkpoint
 
 - Changed: Committed the user's existing `web/src/landing/LandingPage.tsx` footer formatting and ampersand credit so the requested GitHub publication includes the saved project state. Kept both contributor links and the exact user edit.

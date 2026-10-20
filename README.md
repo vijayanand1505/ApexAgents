@@ -77,13 +77,18 @@ These credits summarize the submission record, retained Git history and AI usage
 
 The character studio was originally developed in [Amarnath's SquadLings repository](https://github.com/amarnath3003/SquadLings); component provenance references include `45f625f` and the later film work. Its imported history and original source URLs remain credited. The current project name is ApexAgents; older records may use SquadLink or SquadLings.
 
-The intended project repository is `github.com/vijayanand1505/ApexAgents`. **Remote migration has not been verified**: this checkout still points to `github.com/amarnath3003/SquadLings`. Check `git remote -v` before pushing. The original event checkpoint is distinct from the later implementation and does not imply organizer submission or acceptance; [SUBMISSION.md](SUBMISSION.md) retains that record.
+The public project repository is **[vijayanand1505/ApexAgents](https://github.com/vijayanand1505/ApexAgents)**. This checkout's `origin` points there and `main` tracks `origin/main`. The original SquadLings repository is retained as `upstream` for provenance. First publication retained all 43 existing commits and contributor metadata while redacting one historical credential; 14 commit IDs changed. [Migration notes and the commit map](docs/repository-migration.md) explain older checkpoint IDs. The original event checkpoint remains distinct from later implementation and does not imply organizer submission or acceptance; [SUBMISSION.md](SUBMISSION.md) retains that record.
 
 ## Quick start
 
 <a id="-quick-start"></a>
 
 Use a terminal in the **repository root**, not the archived `dashboard/` directory. These commands assume a POSIX shell such as Bash or Zsh.
+
+```sh
+git clone https://github.com/vijayanand1505/ApexAgents.git
+cd ApexAgents
+```
 
 Prerequisites:
 
@@ -282,7 +287,7 @@ npx vercel deploy --prod --scope vijay-s-team4
 
 For a fresh authorized checkout, first link it with `npx vercel link --yes --project apexagents --scope vijay-s-team4`. The expected account is `vijayanand15`, and project owner is Vijay's Team. Vercel installs/builds only the frontend with `VITE_REMOTE_BACKEND=true`; no OpenAI key is needed on Vercel. Backend changes need a separate local restart.
 
-Deployment currently uses the CLI. Automatic GitHub deployment is not connected; resolve the intended repository/remote ownership before configuring it. The original `squadlings.vercel.app` project was retained separately, and only the ApexAgents domain assignment was moved to Vijay's project. Exact deployment checkpoints are in [CHANGELOG.md](CHANGELOG.md) and [SUBMISSION.md](SUBMISSION.md).
+Deployment currently uses the CLI. Automatic GitHub deployment is not connected; the GitHub repository is now published, but connecting it to Vercel is a separate optional setup step. The original `squadlings.vercel.app` project was retained separately, and only the ApexAgents domain assignment was moved to Vijay's project. Exact deployment checkpoints are in [CHANGELOG.md](CHANGELOG.md) and [SUBMISSION.md](SUBMISSION.md).
 
 The launch film's current export synchronizes plus presses, agent counts and arrivals, retains its soundtrack, and uses a poster and responsive player. `FFMPEG_PATH=/path/to/ffmpeg npm run film:render` re-exports the original local `dashboard/dist` studio archive using installed Chrome. That archive and FFmpeg are not provided in a fresh clone; distributed MP4 playback needs neither. See the [storyboard](docs/video/storyboard.md) and [asset credits](docs/landing-assets.md).
 
