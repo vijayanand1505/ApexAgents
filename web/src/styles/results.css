@@ -1,0 +1,54 @@
+/* Once the answer arrives, give it the reading space previously occupied by the browsers. */
+.side.results #chat { width: 100%; transition: none; }
+.side.results #splitter, .side.results #wall { display: none; }
+.results #thread, .results #activity, .results #chat-slot, .results #closed-bar {
+  padding-inline: max(16px, calc((100% - 920px) / 2));
+}
+.results .onyx-pin { width: min(948px, 100%); margin-inline: auto; }
+.results .result-card { margin-left: 0; }
+/* Keep a short updated answer in its own reading space, above earlier answers. */
+.results .result-card:last-of-type { min-height: 100%; }
+.result-card {
+  min-width: 0;
+  border-color: #63507e;
+  border-top: 3px solid var(--event-purple);
+  background: #141417;
+}
+.result-card .answer-head { padding: 14px 16px; gap: 10px; flex-wrap: wrap; }
+.result-onyx { display: grid; place-items: center; flex: none; }
+.result-title { min-width: 0; }
+.result-title h2 { margin: 0; font-size: 17px; line-height: 1.4; color: var(--text); }
+.result-title > span { font-size: 11.5px; color: var(--muted); }
+.result-card .md { padding: 20px; line-height: 1.7; overflow-wrap: anywhere; }
+.result-card .md h4 { font-size: 17px; margin-top: 22px; }
+.result-card .md table { font-size: 14px; margin-block: 16px; }
+.result-card .md th, .result-card .md td { padding: 10px 12px; }
+.result-card .sources { padding: 14px 20px; }
+.result-cast { display: flex; gap: 4px; align-items: center; }
+.result-cast > span { display: inline-flex; }
+.result-arrival { animation: results-arrive 450ms ease-out both; }
+.result-arrival .result-onyx { animation: result-bow 600ms ease-out both; }
+.result-arrival .result-cast > span { animation: result-bow 600ms var(--arrival-delay) ease-out both; }
+.mission > button.m-head { width: 100%; background: transparent; border: 0; color: var(--muted); text-align: left; cursor: pointer; }
+.mission > button.m-head:hover { background: var(--raised-2); }
+.mission > button.m-head[aria-expanded="true"] { border-bottom: 1px solid var(--line); }
+.result-view-toggle { white-space: nowrap; }
+@keyframes results-arrive { from { opacity: 0; } }
+@keyframes result-bow { 35% { transform: translateY(-7px) rotate(-6deg); } 65% { transform: translateY(1px) rotate(4deg); } }
+@media (max-width: 600px) {
+  .results #shell { grid-template-rows: auto minmax(0, 1fr); }
+  .results #top { min-height: 44px; flex-wrap: wrap; gap: 4px; padding: 6px 10px; }
+  .results #run-title { flex-basis: 100%; }
+  .results .top-right { max-width: 100%; flex-wrap: wrap; gap: 4px; }
+  .results .chat-head { gap: 6px; padding-inline: 10px; }
+  .results .master-id { min-width: 0; flex: 1; }
+  .results .master-id > div { min-width: 0; }
+  .results #master-sub { max-width: 30vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .results #thread, .results #activity, .results #chat-slot, .results #closed-bar { padding-inline: 10px; }
+  .result-card .answer-head { padding: 12px; gap: 8px; }
+  .result-card .md, .result-card .sources { padding: 14px; }
+  .result-cast { gap: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .result-arrival, .result-arrival .result-onyx, .result-arrival .result-cast > span { animation: none; }
+}

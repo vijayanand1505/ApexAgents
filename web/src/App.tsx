@@ -169,8 +169,10 @@ export default function App() {
   const o = S.run?.options as { masterModel?: string; botModel?: string; bots?: number } | undefined;
   const fresh = () => (setRound((r) => r + 1), void newChat());
   const composer = S.config ? <Composer key={round} config={S.config} reduced={reduced} /> : null;
+  const result = [...S.thread].reverse().find((it) => it.kind === "answer");
+  const completed = Boolean(result && (!S.run?.missions.length || result.id > S.run.missions.at(-1)!.id));
   return (
-    <div id="app" className={`${p}${S.ui.chatHidden && p === "side" ? " chat-hidden" : ""}${dragging ? " dragging" : ""}`}>
+    <div id="app" className={`${p}${p !== "home" && S.ui.results ? " results" : ""}${S.ui.chatHidden && p === "side" ? " chat-hidden" : ""}${dragging ? " dragging" : ""}`}>
       <nav id="rail" aria-label="Chats">
         <button id="rail-home" className="rail-btn logo-btn" type="button" title="ApexAgents" onClick={() => (toggleHistory(false), goHome())}>
           {/* The studio's brand face: a white ball with ^ ^ (as in public/favicon.svg). */}
@@ -209,6 +211,11 @@ export default function App() {
                 </div>
               </div>
               <div className="chat-head-actions">
+                {completed && (
+                  <button className="head-btn result-view-toggle" type="button" onClick={() => ((S.ui.results = !S.ui.results), (S.ui.chatHidden = false), touchLayout())}>
+                    {S.ui.results ? "View browsers" : "Read results"}
+                  </button>
+                )}
                 {runActive() && S.view === "run" && (S.run?.masterBusy || working().length > 0) ? (
                   <button id="end-onyx" className="head-btn" type="button" title="Stop Onyx and the agents now. The chat stays open: send a message to carry on." onClick={() => void haltOnyx()}>
                     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -217,7 +224,7 @@ export default function App() {
                     Stop
                   </button>
                 ) : null}
-                <button id="hide-chat" className="icon-btn" type="button" title="Hide the chat (the agents get the whole screen; click Onyx to bring it back)" aria-label="Hide the chat" onClick={() => ((S.ui.chatHidden = true), touchLayout())}>
+                <button id="hide-chat" className="icon-btn" type="button" title="Hide the chat (the agents get the whole screen; click Onyx to bring it back)" aria-label="Hide the chat" onClick={() => ((S.ui.results = false), (S.ui.chatHidden = true), touchLayout())}>
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <rect x="3.5" y="4.5" width="17" height="15" rx="3" fill="none" stroke="currentColor" strokeWidth="1.7" />
                     <path d="M9.5 4.5v15M15.5 9.5l-2.5 2.5 2.5 2.5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
@@ -228,7 +235,7 @@ export default function App() {
 
             {p === "side" && S.run?.planned ? (
               <div className="onyx-pin">
-                <MasterCard reduced={reduced} count={S.bots.length} />
+                <MasterCard key={`${S.run.id}:${S.run.missions.at(-1)?.id}`} reduced={reduced} count={S.bots.length} completion={completed ? result!.id : 0} />
               </div>
             ) : null}
 

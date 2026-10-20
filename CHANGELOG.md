@@ -4,6 +4,14 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T18:08:56+05:30 — Fold completed reports and focus the final results
+
+- Changed: The React dashboard switches to a wide reading view when `run.result` arrives, folds the pinned report roster and completed team card, and scrolls to the latest answer's heading. The highlighted result preserves its full Markdown, tables, sources, and Copy action. Short updated answers get their own reading space. Reports can be reopened; View browsers / Read results switches between the workspace and answer. A new plan restores the browsers and expanded roster.
+- Animation/accessibility: Reused Onyx and participating agent characters for a brief staggered celebration; report folding animates for 320 ms. Reduced motion disables these transitions, replayed chats do not repeat the entrance, and report toggles expose their expanded state and controlled content. Added responsive result/header styles for narrow screens.
+- Files: `web/src/App.tsx`, `web/src/chat/Thread.tsx`, `web/src/live/{store,actions}.ts`, `web/src/studio/components/MasterCard.tsx`, `web/src/styles/{results,onyx-card}.css`, README, package scripts, and new offline React regression `scripts/tests/results-ui.selftest.ts`.
+- Validation: Frontend TypeScript/production build, backend typecheck, and all 18 results-view browser checks passed with installed Chrome. Checks cover completion timing, folding, long/updated answers, report keyboard access, browser/result navigation, uninterrupted reading, sources, replay, new plans, 390 px layout and reduced motion. Inspected desktop/mobile screenshots; local dashboard returned HTTP 200 and serves the rebuilt assets. Diff whitespace checked.
+- Corrections/limits: Removed a vertical card entrance that shifted scroll alignment, adjusted the mobile header to prevent overflow, and made test navigation wait for the store's scheduled render. Classic dashboard behavior is unchanged. No real model request, backend restart, or deployment was needed; refresh an already open dashboard to load the new frontend. Human visual review pending.
+
 ## 2026-10-20T14:02:03+05:30 — Use installed Chrome for agent browsers on this Mac
 
 - Diagnosis: Agent runs could not launch their persistent profiles because Playwright's headless Chromium executable was absent. `npx playwright install chromium` confirms that the installed Playwright cannot install Chromium on macOS 12.

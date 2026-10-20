@@ -229,6 +229,8 @@ npm run dev              # builds web/ and opens http://127.0.0.1:8787 (alias fo
 
 Type a task, pick your squad, and press send.
 
+When Onyx delivers the final answer, the reports fold into a compact summary and the dashboard switches to a wide **Final results** view, opening at the beginning of the answer. Onyx and the agents make a brief entrance beside the heading (disabled with reduced motion). The complete answer, tables, source links, and Copy button remain available. Open the reports to review the team's work, use **View browsers** to return to their screens, or **Read results** to return to the answer. A new agent plan restores the browser workspace; completed chats reopen with their results visible. This behavior is implemented in the React dashboard; `--classic` retains its existing layout.
+
 If startup reports that `node:util` has no `styleText` export, the terminal is using an older Node version. Run `nvm use` in that terminal before `npm run dev`. The backend loads `OPENAI_API_KEY` from `.env.local` first, then `.env`; add a valid OpenAI API key to either ignored file. `VERCEL_OIDC_TOKEN` does not replace that key.
 
 If `cloudflared` is missing and Homebrew cannot install it on your macOS version, use the matching macOS binary from [Cloudflare's official downloads](https://developers.cloudflare.com/tunnel/downloads/) and put it on your `PATH` before restarting the app.
@@ -297,7 +299,8 @@ Deployment references: [Vercel CLI](https://vercel.com/docs/cli/deploy), [Vite o
 | `npm run share` | Connects the hosted frontend to an existing dashboard on this laptop through an authenticated tunnel |
 | `npm run spike:mcp` | One agent driving our browser over MCP (the S1 spike) |
 | `npm run spike:cu` | One agent on OpenAI's hosted computer use (the Phase −1 spike) |
-| `npm test` | Unit tests, mock Agents API, browser/MCP, squad and dashboard self-tests, all offline |
+| `npm test` | Unit tests, mock Agents API, browser/MCP, squad, dashboard and React results-view self-tests, all offline |
+| `npm run test:results` | Builds the React dashboard and checks completion, report folding, result navigation, replay, mobile layout, and reduced motion without model calls; set `PLAYWRIGHT_CHANNEL=chrome` to use installed Chrome |
 | `npm run bench` | Browser settling benchmark |
 | `npm run typecheck` | TypeScript check for the server |
 | `npm run buggymart` | Local QA shop on `127.0.0.1:3001`, with 10 planted bugs |

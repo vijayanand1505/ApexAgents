@@ -7,6 +7,7 @@ import type { Bot, Item, LogEntry, Mission, Source } from "../live/store";
 import { focusBot, setHover, takeover } from "../live/actions";
 import { md } from "./markdown";
 import { ThinkingRow } from "../roam/ThinkingRow";
+import "../styles/results.css";
 
 // The chat thread, ported from ui/app.js "The thread" with the same markup (classic.css): your messages,
 // the Master's replies, its research, what needs you, the answer, and one live team card per plan.
@@ -80,56 +81,61 @@ function rowState(b: Bot) {
 }
 
 function MissionCard({ it, hover }: { it: Mission; hover: string | null }) {
+  const [choice, setChoice] = useState<{ closed: boolean; open: boolean } | null>(null);
+  const open = choice?.closed === it.closed ? choice.open : !it.closed;
   const bots = it.bots.map((id) => S.botById.get(id)).filter((b): b is Bot => Boolean(b));
   const live = !it.closed && bots.some((b) => b.status === "working" || b.status === "starting");
   const done = bots.filter((b) => b.status === "finished").length;
   const n = it.log.length;
   return (
     <div className="mission">
-      <div className="m-head">
+      <button type="button" className="m-head" aria-expanded={open} aria-controls={`mission-body-${it.id}`} onClick={() => setChoice({ closed: it.closed, open: !open })}>
         {live ? <span className="live-dot" aria-hidden="true" /> : null}
         <b>{it.first ? `Team · ${bots.length} agent${bots.length === 1 ? "" : "s"}` : `More work · ${bots.map((b) => b.name).join(", ")}`}</b>
         <span>{live ? `${done}/${bots.length} done` : done === bots.length ? "all done" : `${done}/${bots.length} done`}</span>
         <span className="spacer" />
         <span>{clock(it.ts)}</span>
-      </div>
-      {bots.map((b) => {
-        const note = rowNote(b);
-        return (
-          <div key={b.id} className={`m-row${hover === b.id ? " hl" : ""}`} style={colorVars(b.color)} data-bot={b.id} data-status={b.control ? "working" : b.status} title={`Show ${b.name}'s browser`}>
-            <span className="dot" />
-            <div style={{ minWidth: 0 }}>
-              <div className="m-top">
-                <b>{b.name}</b>
-                <span className="role">{b.label ? `· ${b.label}` : ""}</span>
-                <span className="spacer" />
-                <span className="m-state">{rowState(b)}</span>
-              </div>
-              <div className={`m-note ${note.cls}`} title={note.text}>
-                {note.text}
+        <span aria-hidden="true">{open ? "▾" : "▸"}</span>
+      </button>
+      <div id={`mission-body-${it.id}`} hidden={!open}>
+        {bots.map((b) => {
+          const note = rowNote(b);
+          return (
+            <div key={b.id} className={`m-row${hover === b.id ? " hl" : ""}`} style={colorVars(b.color)} data-bot={b.id} data-status={b.control ? "working" : b.status} title={`Show ${b.name}'s browser`}>
+              <span className="dot" />
+              <div style={{ minWidth: 0 }}>
+                <div className="m-top">
+                  <b>{b.name}</b>
+                  <span className="role">{b.label ? `· ${b.label}` : ""}</span>
+                  <span className="spacer" />
+                  <span className="m-state">{rowState(b)}</span>
+                </div>
+                <div className={`m-note ${note.cls}`} title={note.text}>
+                  {note.text}
+                </div>
               </div>
             </div>
+          );
+        })}
+        {it.note ? (
+          <div className="m-master">
+            <span className="who-chip master">Onyx</span>
+            <span>{it.note.text}</span>
           </div>
-        );
-      })}
-      {it.note ? (
-        <div className="m-master">
-          <span className="who-chip master">Onyx</span>
-          <span>{it.note.text}</span>
+        ) : null}
+        <div className="m-foot">
+          <button className="m-log-btn" type="button" disabled={!n} onClick={() => ((it.open = !it.open), touchItem(it))}>
+            {n ? `${it.open ? "▾" : "▸"} Team messages (${n})` : "No team messages yet"}
+          </button>
         </div>
-      ) : null}
-      <div className="m-foot">
-        <button className="m-log-btn" type="button" disabled={!n} onClick={() => ((it.open = !it.open), touchItem(it))}>
-          {n ? `${it.open ? "▾" : "▸"} Team messages (${n})` : "No team messages yet"}
-        </button>
+        {it.open && n ? (
+          <div className="m-log">
+            {it.log.map((e, i) => (
+              <RadioLine key={i} it={e} hover={hover} />
+            ))}
+          </div>
+        ) : null}
       </div>
-      {it.open && n ? (
-        <div className="m-log">
-          {it.log.map((e, i) => (
-            <RadioLine key={i} it={e} hover={hover} />
-          ))}
-        </div>
-      ) : null}
     </div>
   );
 }
@@ -168,11 +174,21 @@ function Answer({ it }: { it: Extract<Item, { kind: "answer" }> }) {
     setTimeout(() => setLabel("Copy"), 1500);
   };
   return (
-    <div className="answer">
+    <section className={`answer result-card${it.celebrate ? " result-arrival" : ""}`} data-answer-id={it.id} aria-labelledby={`result-heading-${it.id}`}>
       <div className="answer-head">
-        <b>{it.n > 1 ? `Answer · update ${it.n}` : "Answer"}</b>
-        <span>{clock(it.ts)}</span>
+        <span className="result-onyx" aria-hidden="true"><MasterCharacter state="done" size={32} reduced /></span>
+        <div className="result-title">
+          <h2 id={`result-heading-${it.id}`}>{it.n > 1 ? `Updated results · ${it.n}` : "Final results"}</h2>
+          <span>From Onyx{S.bots.some((b) => b.result) ? " and the squad" : ""} · {clock(it.ts)}</span>
+        </div>
         <span className="spacer" />
+        <span className="result-cast" aria-hidden="true">
+          {CAST.filter((c) => S.botById.get(c.id)?.result).map((c, i) => (
+            <span key={c.id} style={{ "--arrival-delay": `${i * 85}ms` } as React.CSSProperties}>
+              <BotCharacter id={c.id} mood="happy" size={22} reduced />
+            </span>
+          ))}
+        </span>
         <button className="btn small ghost" type="button" onClick={() => void copy()}>
           {label}
         </button>
@@ -193,7 +209,7 @@ function Answer({ it }: { it: Extract<Item, { kind: "answer" }> }) {
           </ol>
         </div>
       ) : null}
-    </div>
+    </section>
   );
 }
 
@@ -296,10 +312,11 @@ export function Thread() {
   useLive();
   const el = useRef<HTMLDivElement>(null);
   const stick = useRef(true);
-  const seen = useRef({ run: "", count: 0 });
+  const seen = useRef({ run: "", count: 0, answer: 0, results: false });
   const [jump, setJump] = useState(false);
   const runId = S.run?.id ?? "";
   const count = S.thread.length;
+  const answer = [...S.thread].reverse().find((it) => it.kind === "answer");
 
   // Stay at the bottom while you're there; otherwise say there's more.
   useLayoutEffect(() => {
@@ -307,7 +324,18 @@ export function Thread() {
     if (!t) return;
     if (seen.current.run !== runId) (stick.current = true), setJump(false);
     const added = count > seen.current.count;
-    seen.current = { run: runId, count };
+    const reveal = answer && (seen.current.run !== runId || seen.current.answer !== answer.id || (S.ui.results && !seen.current.results));
+    seen.current = { run: runId, count, answer: answer?.id ?? 0, results: S.ui.results };
+    if (reveal) {
+      const card = t.querySelector<HTMLElement>(`[data-answer-id="${answer.id}"]`);
+      if (card) {
+        // Align the beginning, so a long answer opens at its heading rather than its sources.
+        t.scrollTop += card.getBoundingClientRect().top - t.getBoundingClientRect().top - 12;
+        stick.current = false;
+        setJump(false);
+        return;
+      }
+    }
     if (stick.current) t.scrollTop = t.scrollHeight;
     else if (added) setJump(true);
   });

@@ -23,6 +23,7 @@ export function focusBot(id: string | null) {
   if (id && !S.botById.has(id)) return;
   if (!id && S.ui.control) return; // hand the browser back first
   S.ui.focus = id;
+  if (id) S.ui.results = false;
   touchLayout();
 }
 

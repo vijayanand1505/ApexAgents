@@ -73,7 +73,7 @@ export type Item =
   | (Base & { kind: "radio" } & Omit<LogEntry, "ts">)
   | (Base & { kind: "notice"; level: "info" | "warn" | "error"; text: string })
   | (Base & { kind: "human"; botId: string; host: string; done?: boolean })
-  | (Base & { kind: "answer"; answer: string; sources: Source[]; n: number })
+  | (Base & { kind: "answer"; answer: string; sources: Source[]; n: number; celebrate: boolean })
   | (Base & { kind: "ended"; status: string; reason?: string; costUSD?: number; [k: string]: unknown })
   | Mission;
 
@@ -115,7 +115,7 @@ export type LiveState = {
   botById: Map<string, Bot>;
   thread: Item[];
   replaying: boolean;
-  ui: { focus: string | null; hover: string | null; chatHidden: boolean; unread: number; control: string | null };
+  ui: { focus: string | null; hover: string | null; chatHidden: boolean; unread: number; control: string | null; results: boolean };
   /** The line under the composer (live/actions.ts showHint). */
   hint: { text: string; error: boolean } | null;
   /** Shown while the WebSocket is down. */
@@ -138,7 +138,7 @@ export const S: LiveState = {
   botById: new Map(),
   thread: [],
   replaying: false,
-  ui: { focus: null, hover: null, chatHidden: false, unread: 0, control: null },
+  ui: { focus: null, hover: null, chatHidden: false, unread: 0, control: null, results: false },
   hint: null,
   banner: null,
   history: [],
@@ -280,6 +280,7 @@ export function loadRun(info: { id: string; task?: string; status: string; start
   S.ui.unread = 0;
   S.ui.focus = null;
   S.ui.control = null;
+  S.ui.results = false;
   S.run = { ...info, past, cost: undefined, masterBusy: false, planned: false, answered: false, replyDue: false, missions: [] };
   S.thread = [];
   S.replaying = true;
@@ -358,10 +359,13 @@ const handlers: Record<string, (e: ServerEvent) => void> = {
   "run.result"(e) {
     S.run!.answered = true;
     const m = mission();
-    if (m) (m.closed = true), touchItem(m);
-    addItem({ kind: "answer" as const, answer: e.data.answer, sources: e.data.sources ?? [], n: e.data.n ?? 1, ts: e.ts });
+    if (m) (m.closed = true), (m.open = false), touchItem(m);
+    S.ui.results = true;
+    S.ui.chatHidden = false;
+    S.ui.unread = 0;
+    addItem({ kind: "answer" as const, answer: e.data.answer, sources: e.data.sources ?? [], n: e.data.n ?? 1, celebrate: !S.replaying, ts: e.ts });
     if (!S.replaying) effects.attention("answer");
-    touchTop();
+    touchLayout();
   },
   "usage.updated"(e) {
     S.run!.cost = e.data.costUSD;
@@ -551,6 +555,7 @@ const handlers: Record<string, (e: ServerEvent) => void> = {
   },
   "plan.ready"(e) {
     closeResearch();
+    S.ui.results = false;
     const first = !S.run!.planned;
     S.run!.planned = true;
     const prev = mission();
