@@ -256,7 +256,16 @@ The production build exports the existing `targets/buggymart/public/` files into
 
 The React dashboard from `web/` (the app normally served by `npm run web` on port **5173**) remains at **https://squadlings.vercel.app/app**. Agents, browser profiles, run history and the OpenAI key stay on the laptop running `npm run ui`.
 
-To preview the landing page locally, run `VITE_REMOTE_BACKEND=true npm run web` and open http://127.0.0.1:5173. `/app` shows the hosted dashboard connection screen. Without that flag, local dashboard behavior stays unchanged. The landing page and dashboard load in separate JavaScript chunks; the film loads only when opened. [Asset sources and font licenses](docs/landing-assets.md).
+To preview the landing page locally, select Node 24 in the same terminal before starting Vite:
+
+```sh
+# From the repository root; load nvm first if the shell does not recognize it.
+source "$HOME/.nvm/nvm.sh"
+nvm use
+VITE_REMOTE_BACKEND=true npm run web
+```
+
+Open http://127.0.0.1:5173. A `node:util` error about the missing `styleText` export means the terminal is still using an older Node version; check `node --version` and select Node 24 again. Runtime selection applies to that terminal. The landing page needs no API key or backend. `/app` shows the hosted dashboard connection screen. Without the flag, local dashboard behavior stays unchanged. The landing page and dashboard load in separate JavaScript chunks; the film loads only when opened. [Asset sources and font licenses](docs/landing-assets.md).
 
 On that laptop, leave the existing dashboard running. In a second terminal, update the clone and start sharing (Node 22.18+ and `cloudflared` are required):
 

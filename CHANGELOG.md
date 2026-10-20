@@ -4,6 +4,12 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T18:16:39+05:30 — Start the local landing page with the supported runtime
+
+- Diagnosis: Reproduced `VITE_REMOTE_BACKEND=true npm run web` failing on the shell's Node 18.18.0 because `node:util` has no `styleText` export.
+- Changed: Loaded nvm, selected the existing Node 24.14.1, and started the landing-page development server on port 5173. README now includes runtime selection and the specific error remedy beside the landing preview command; no dependency or global Node default changes.
+- Validation: Vite reached ready; installed Chrome loaded the landing page with HTTP 200, the expected title/hero heading, and zero page errors. Diff whitespace checked. Existing dashboard on port 8787 was preserved; no agent/model request or deployment was performed. Human review pending.
+
 ## 2026-10-20T18:08:56+05:30 — Fold completed reports and focus the final results
 
 - Changed: The React dashboard switches to a wide reading view when `run.result` arrives, folds the pinned report roster and completed team card, and scrolls to the latest answer's heading. The highlighted result preserves its full Markdown, tables, sources, and Copy action. Short updated answers get their own reading space. Reports can be reopened; View browsers / Read results switches between the workspace and answer. A new plan restores the browsers and expanded roster.
