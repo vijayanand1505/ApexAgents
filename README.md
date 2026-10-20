@@ -209,6 +209,9 @@ Run commands from the repository root, not the old `dashboard/` folder. Select t
 
 
 ```sh
+# 0 · select the supported Node version in this terminal
+nvm use                   # run nvm install first if Node 24 is not installed
+
 # 1 · install
 npm install
 npx playwright install chromium   # one-time download of the agents' browser
@@ -225,6 +228,10 @@ npm run dev              # builds web/ and opens http://127.0.0.1:8787 (alias fo
 ```
 
 Type a task, pick your squad, and press send.
+
+If startup reports that `node:util` has no `styleText` export, the terminal is using an older Node version. Run `nvm use` in that terminal before `npm run dev`. The backend loads `OPENAI_API_KEY` from `.env.local` first, then `.env`; add a valid OpenAI API key to either ignored file. `VERCEL_OIDC_TOKEN` does not replace that key.
+
+If `cloudflared` is missing and Homebrew cannot install it on your macOS version, use the matching macOS binary from [Cloudflare's official downloads](https://developers.cloudflare.com/tunnel/downloads/) and put it on your `PATH` before restarting the app.
 
 **Local import verification (11 October 2026):** The downloaded export builds with Node 24.14.1: server typecheck and the React production build passed, as did 15 unit tests and five mock API scenarios. The default shell on the importing Mac uses Node 18; select Node 22.18+ first (for example, `nvm use 24`). Browser tests are blocked on this Mac: the bundled Playwright cannot install Chromium on macOS 12. Use an OS supported by that Playwright version for browser tests and agent runs. The import was subsequently committed and pushed as `89f3c14`.
 

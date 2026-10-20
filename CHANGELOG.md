@@ -4,6 +4,13 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T13:57:37+05:30 — Resolve local startup errors and restart the dashboard
+
+- Diagnosis: Reproduced the Node 18 `node:util` / `styleText` build failure from the recent npm logs. Selecting the installed Node 24 resolved it; backend startup then exposed a missing `OPENAI_API_KEY`.
+- Changed: Saved the user-supplied API key only in ignored, owner-readable `.env.local`. The first supplied value returned HTTP 401; its replacement passed a read-only OpenAI authentication check. Installed Cloudflare's official `cloudflared` 2026.10.1 Darwin amd64 binary in `/usr/local/bin` after stopping the Homebrew attempt on this unsupported macOS configuration. Restarted `npm run dev` with Node 24 and the updated environment. README now explains runtime selection, local key setup, and the official binary installation alternative; no application source changed.
+- Validation: Backend typecheck and frontend TypeScript/production build passed. Dashboard and configuration endpoint returned HTTP 200; tunnel state reached `ready`. System Chrome rendered the dashboard with the expected title and zero page errors. Verified `.env.local` remains ignored; credentials were not added to documentation or Git.
+- Limits: No agent task was submitted by Codex; successful authentication does not verify Agents API access or browser-agent execution. Local setup changes do not change the default Node version in other terminals. Human review pending.
+
 ## 2026-10-20T13:28:00+05:30 — Rename project to ApexAgents and correct ownership
 
 - Changed: Renamed current product text, npm packages/lockfiles, environment/config identifiers, storage keys, browser selectors, WebSocket protocol and media paths to ApexAgents. Set Vijay Anand (`vijayanand1505`) as owner/founder in README, submission, landing footer and package/HTML metadata. Updated the landing repository target and local Git identity to the verified GitHub account's noreply address. Renamed the checkout directory to `ApexAgents`.
