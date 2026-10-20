@@ -990,6 +990,14 @@ export default function LandingPage() {
             >
               Vijay Anand
             </a>
+            {" · Contributor: "}
+            <a
+              href="https://github.com/amarnath3003"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Amarnath
+            </a>
           </span>
         </div>
       </footer>
