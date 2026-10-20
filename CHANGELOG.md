@@ -4,6 +4,11 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T18:23:27+05:30 — Simplify the landing footer credit
+
+- Changed: Replaced role labels with “by Vijay Anand and Amarnath” in `web/src/landing/LandingPage.tsx`, preserving both GitHub links as requested.
+- Validation: Frontend TypeScript and diff whitespace checks passed. Human visual review pending; no deployment performed.
+
 ## 2026-10-20T18:21:52+05:30 — Credit Amarnath in the landing footer
 
 - Changed: Added Amarnath as a contributor beside Vijay Anand's owner/founder credit in `web/src/landing/LandingPage.tsx`, linking to the existing project reference `github.com/amarnath3003` with the same new-tab behavior.

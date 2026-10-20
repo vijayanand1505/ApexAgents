@@ -982,7 +982,7 @@ export default function LandingPage() {
             Read the README <Arrow diagonal />
           </a>
           <span>
-            Owner &amp; founder: {" "}
+            by{" "}
             <a
               href="https://github.com/vijayanand1505"
               target="_blank"
@@ -990,7 +990,7 @@ export default function LandingPage() {
             >
               Vijay Anand
             </a>
-            {" · Contributor: "}
+            {" and "}
             <a
               href="https://github.com/amarnath3003"
               target="_blank"
