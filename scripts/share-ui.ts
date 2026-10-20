@@ -12,14 +12,14 @@ const { values: options } = parseArgs({
   options: {
     port: { type: "string", default: "8790" },
     target: { type: "string", default: "http://127.0.0.1:8787" },
-    frontend: { type: "string", default: "https://squadlings.vercel.app" },
+    frontend: { type: "string", default: "https://apexagents.vercel.app" },
     "no-open": { type: "boolean", default: false },
     help: { type: "boolean", short: "h", default: false },
   },
 });
 if (options.help) {
   console.log(`Usage: npm run share -- [--target http://127.0.0.1:8787] [--port 8790]
-  [--frontend https://squadlings.vercel.app] [--no-open]
+  [--frontend https://apexagents.vercel.app] [--no-open]
 
 Run beside an existing dashboard on this laptop. Starts an authenticated bridge and a separate
 Cloudflare tunnel for the hosted frontend. Saves a private connection link under spikes/out/share-ui/.

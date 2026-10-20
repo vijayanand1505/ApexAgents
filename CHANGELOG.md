@@ -4,6 +4,14 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T18:52:55+05:30 — Deploy ApexAgents in Vijay's Vercel account and move its domain
+
+- Ownership: Authenticated the user through a separate browser login and verified account `vijayanand15` / Vijay's Team (`vijay-s-team4`). Created project `apexagents` (`prj_TN8fIoKDzhzOQUfoKyoD2KtBjrLX`), relinked this checkout, and deployed production `dpl_HU5R5obhiXjGfLAMoSDoidjKeRLW` from the local working tree. The deployment includes the user's footer formatting, which remains uncommitted locally.
+- Domain cleanup: After verifying the replacement at `apexagents-sable.vercel.app`, removed only `apexagents.vercel.app` from Amarnath's `squadlings` project and added/verified it on Vijay's project. Confirmed the old project still has `squadlings.vercel.app` and remains available. The user explicitly chose to retain the original project/deployments. No project deletion or whole-project transfer occurred.
+- Local/source changes: Switched the default CLI authentication/workspace to Vijay and confirmed normal CLI inspection reports his project. Updated the sharing bridge's default frontend, its regression fixture, the social URL, and current README/shop/submission hosting records. Vercel refreshed the ignored local OIDC token; confirmed the existing OpenAI key/browser setting remained present, kept credentials owner-readable, and removed redundant CLI-generated ignore rules.
+- Validation: All 30 BuggyMart checks passed against the new production deployment; all six sharing bridge checks passed. Backend typecheck and hosted/local frontend TypeScript/builds passed. Browser checks verified the landing brand/credits, `/app`, both final-domain shop versions and cart navigation with zero page errors. Vercel API confirmed new domain ownership and removal from the old project; default CLI reports `vijayanand15` / Vijay's Team. Restored the local-mode frontend build and checked diff whitespace.
+- Limits/review: Automatic GitHub linking failed because the new Vercel account lacks a login connection for the old remote; manual CLI deployment succeeded, and automatic deployment remains unconfigured. The historical event commit remains separately identified in SUBMISSION.md. Human visual review pending; no Git push, live agent/model request, or payment was performed.
+
 ## 2026-10-20T18:39:14+05:30 — Add ApexAgents BuggyMart URLs and both local shop versions
 
 - Changed: Added verified `apexagents.vercel.app` to the existing linked Vercel project's production domains. Both `/buggymart/` (10 planted bugs) and `/buggymart/fixed/` (bugs disabled) now respond at the new hostname. Kept the old address available; this domain addition serves the existing deployment and does not publish later local source changes or transfer project/account ownership.

@@ -33,7 +33,7 @@ Use five agents to cover catalog/search, product details, cart operations, prici
 - All ten planted bugs: **https://apexagents.vercel.app/buggymart/**
 - All ten bugs disabled: **https://apexagents.vercel.app/buggymart/fixed/**
 
-The ApexAgents domain points to the existing production deployment; the previous `squadlings.vercel.app` URLs also remain available. Local branding/source updates require a new deployment to appear publicly.
+Both versions are deployed in **Vijay's Team** (`vijay-s-team4`) under the Vercel account **`vijayanand15`**, in project **`apexagents`**. The ApexAgents domain was removed from Amarnath's project. His original SquadLings site remains separately available; these ApexAgents links use Vijay's deployment, including the ApexAgents shop credit.
 
 Paste either URL into ApexAgents as the target. Both are static exports of this same shop, with separate per-tab cart state. Use the fixed URL for regression checks, and Reset demo before repeating a run. The fixed version does not imply that the agent has edited the deployed code; it is the existing bugs-off reference behavior. No laptop shop server is required.
 

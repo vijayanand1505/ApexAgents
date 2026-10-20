@@ -46,7 +46,7 @@
 
 The local project directory is now `ApexAgents`. Development proxy configuration uses `APEXAGENTS_API`. Browser settings and bridge connections use the `apexagents` storage namespace; select your preferences again and open a fresh private connection link after the rename. Rebuild/restart both frontend and backend together because their WebSocket subprotocol is now `apexagents`.
 
-`apexagents.vercel.app` is now a verified domain on the existing Vercel project, including both BuggyMart paths. The old `squadlings.vercel.app` address remains available. This domain addition serves the existing production deployment; local source changes still need deployment to appear publicly. The linked Vercel project is still named `squadlings` under Amarnath's account, and GitHub ownership has not been transferred. Historical logs and original third-party source URLs retain their original names.
+`apexagents.vercel.app` now serves the `apexagents` project in **Vijay's Team** (`vijay-s-team4`), owned by the signed-in Vercel account **`vijayanand15`**. The landing page, hosted dashboard, and both BuggyMart versions are deployed there. This checkout and the default local Vercel CLI session now point to that account/workspace. The ApexAgents domain was removed from Amarnath's project; his original `squadlings.vercel.app` project and deployments remain available. GitHub repository ownership has not been transferred. Historical logs and original third-party source URLs retain their original names.
 
 ## 🐝 A swarm that drives your computer
 
@@ -254,9 +254,9 @@ The production build exports the existing `targets/buggymart/public/` files into
 
 ### Animated landing page and hosted dashboard
 
-**https://squadlings.vercel.app** is the public animated landing page: meet the cast, watch Onyx assign five missions and the squad animate their work, watch the 52-second project film, read the architecture story and copy setup commands. It works without a backend or API key. The animation is illustrative, not a live agent run. It supports keyboard navigation, mobile layouts and reduced motion.
+**https://apexagents.vercel.app** is the public animated landing page: meet the cast, watch Onyx assign five missions and the squad animate their work, watch the 52-second project film, read the architecture story and copy setup commands. It works without a backend or API key. The animation is illustrative, not a live agent run. It supports keyboard navigation, mobile layouts and reduced motion.
 
-The React dashboard from `web/` (the app normally served by `npm run web` on port **5173**) remains at **https://squadlings.vercel.app/app**. Agents, browser profiles, run history and the OpenAI key stay on the laptop running `npm run ui`.
+The React dashboard from `web/` (the app normally served by `npm run web` on port **5173**) is at **https://apexagents.vercel.app/app**. Agents, browser profiles, run history and the OpenAI key stay on the laptop running `npm run ui`.
 
 To preview the landing page locally, select Node 24 in the same terminal before starting Vite:
 
@@ -283,12 +283,18 @@ Keep the backend, sharing terminal and laptop awake. `Ctrl+C` in the sharing ter
 
 For a non-default dashboard port, use `npm run share -- --target http://127.0.0.1:8796`. For another hosted frontend, add `--frontend https://your-site.example` (only that exact origin is allowed). Running against the scripted mock dashboard is supported; only an existing real backend can perform real agent tasks.
 
-To deploy updates from the repository root:
+To deploy updates from the repository root, verify the signed-in identity and select Vijay's workspace explicitly. `whoami` should report `vijayanand15`; the project inspection should show `Vijay's Team` as owner. This checkout is already linked; the `link` command also sets up a fresh clone:
 
 ```sh
-npx vercel link --yes --project squadlings
-npx vercel deploy --prod
+npx vercel whoami
+npx vercel link --yes --project apexagents --scope vijay-s-team4
+npx vercel project inspect apexagents --scope vijay-s-team4
+npx vercel deploy --prod --scope vijay-s-team4
 ```
+
+This is a manual CLI deployment. Automatic GitHub deployment is not connected: linking the old `amarnath3003/SquadLings` remote failed because the new Vercel account has no corresponding GitHub login connection. Configure the intended ApexAgents repository separately before enabling automatic deployments. No API key is required on Vercel; the backend remains local.
+
+`npm run share` now defaults to `https://apexagents.vercel.app`; use `--frontend` for a different deployed frontend. Its allowed browser origin must match the address actually in use.
 
 [`vercel.json`](vercel.json) installs/builds only `web/`, with `VITE_REMOTE_BACKEND=true`. Normal local builds keep using the same-origin API and Vite proxy. REST calls and the live WebSocket go directly from the hosted browser to the authenticated laptop bridge, using HTTPS/WSS. API keys stay on the laptop; Vercel serves static assets. The deployment excludes local environment files, run data and backend code via [`.vercelignore`](.vercelignore).
 

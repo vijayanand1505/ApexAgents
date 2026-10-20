@@ -8,7 +8,7 @@ import { WebSocket, WebSocketServer } from "ws";
 import { startShareServer } from "../lib/share-server.ts";
 
 test("hosted dashboard bridge protects and forwards REST and WebSocket traffic", async (t) => {
-  const frontend = "https://squadlings.vercel.app";
+  const frontend = "https://apexagents.vercel.app";
   const token = randomBytes(32).toString("base64url");
   let target = "";
   const local = createServer(async (req, res) => {
