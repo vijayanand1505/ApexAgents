@@ -4,6 +4,12 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T23:44:42+05:30 — Include the saved landing footer in the publishing checkpoint
+
+- Changed: Committed the user's existing `web/src/landing/LandingPage.tsx` footer formatting and ampersand credit so the requested GitHub publication includes the saved project state. Kept both contributor links and the exact user edit.
+- Validation: Frontend TypeScript check and diff whitespace passed. The same footer wording was already included in the hosted deployment; no application behavior was changed or paid model task run.
+- Publication: User explicitly selected a public `vijayanand1505/ApexAgents` repository; it has been created under the authenticated owner account. Publication is pending a sanitized migration copy because a historical `.env.example` blob contains a credential candidate. Original history and Amarnath's repository remain unchanged at this checkpoint; no credential values are logged.
+
 ## 2026-10-20T23:34:21+05:30 — Refresh the README for the current personal project
 
 - Changed: Reorganized `README.md` into an end-to-end guide: current scope and public links, Onyx/agent/MCP architecture, documented contributor roles and source areas, event venue/date and development timeline, reproducible Node/dependency/browser/key setup, local versus hosted modes, scripted demo including takeover, Auto sizing/presets/Resume/final results, sharing credentials, both BuggyMart versions and Vercel location, environment behavior, commands, media maintenance, data/cost limits and future work.

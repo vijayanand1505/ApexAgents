@@ -987,15 +987,15 @@ export default function LandingPage() {
             Read the README <Arrow diagonal />
           </a>
           <span>
-            by{" "}
+            by {"  "}
             <a
               href="https://github.com/vijayanand1505"
               target="_blank"
               rel="noreferrer"
             >
-              Vijay Anand
+               Vijay Anand
             </a>
-            {" and "}
+            {" & "}
             <a
               href="https://github.com/amarnath3003"
               target="_blank"
