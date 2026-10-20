@@ -1,8 +1,10 @@
 // The dashboard server's REST API (scripts/lib/ui-server.ts; master.md §19.8).
+import type { RunPreset, SquadMode } from "../shared/run-settings";
 import { backendFetch } from "./backend";
 
 export type Tunnel = { state: "starting" | "ready" | "failed"; url?: string; source?: string; error?: string };
 export type Config = {
+  capabilities?: { recovery?: boolean; smartSettings?: boolean };
   defaults: Settings;
   models: { master: string[]; bot: string[] };
   efforts: string[];
@@ -12,6 +14,8 @@ export type RunListing = { id: string; task: string; startedAt: number; status: 
 
 /** What the bar sends with a task (squad-runner.ts parseRunOptions). */
 export type Settings = {
+  squadMode?: SquadMode;
+  runPreset?: RunPreset | "custom";
   bots: number;
   botEffort: string;
   masterModel: string;

@@ -244,6 +244,22 @@ If `cloudflared` is missing and Homebrew cannot install it on your macOS version
 > [!TIP]
 > **Try it for free first.** `node scripts/dev-mock-ui.ts --port 8796 --mcp-port 8795` runs the real server with a scripted mock Onyx and bots. Any task plays the same run, and nothing reaches OpenAI.
 
+### Squad sizing, speed and recovery
+
+New React dashboard chats start with **Auto** squad sizing and **Balanced** speed. Auto uses a local, explainable task heuristic: a focused page summary starts with one agent, shopping with two, comparisons with three, and site audits with up to five. The agent popover explains the suggestion. The server resolves the final count before opening browsers. Choose **Choose myself** or use the +/− controls to override the count; a task explicitly requesting one to five agents also takes priority over preset caps. Existing saved manual settings are preserved. The classic dashboard and CLI keep their existing defaults.
+
+| Preset | Onyx / agent reasoning | Actions per agent | Run time limit | Auto team cap |
+| --- | --- | --- | --- | --- |
+| Quick | Low / Low | 20 | 8 minutes | 2 |
+| Balanced | Medium / Medium | 30 | 20 minutes | 4 |
+| Thorough | High / High | 60 | 30 minutes | 5 |
+
+Presets keep your manual team count. Changing effort or a work limit in advanced options marks the settings **Custom**; preferences persist across reloads. These settings control the work budget, not a promised completion time. Auto sizing currently recognizes English task patterns and URLs, and can be overridden.
+
+The live progress line shows why Onyx is waiting and the time since the last agent activity. A busy session with no events/tool activity for 90 seconds, a failed session, or an unanswered idle run with no agents working for 15 seconds offers **Resume**. Quiet reasoning can still be healthy: recovery happens only when you press Resume. **Stop** pauses the chat and also offers Resume. Browser takeover and pending site decisions block recovery until resolved.
+
+Resume replaces only the affected unfinished sessions, keeps completed reports/sources and browser pages, and preserves action consumption and the original run deadline. Onyx receives the task, user messages and completed findings if it needs restarting. Recovery confirms the old session was deleted before creating a replacement, waits for queued browser actions, and accepts only one recovery at a time. Errors remain visible. Existing API/session retries continue separately. Recovery is for a live server process; history from a stopped server remains read-only. Restart the laptop backend with the updated code to enable these controls on the hosted dashboard.
+
 ### Public BuggyMart test site
 
 Give the app **https://apexagents.vercel.app/buggymart/** to test the shop with all ten planted bugs enabled. Use **https://apexagents.vercel.app/buggymart/fixed/** for the same shop with all ten bugs disabled, to verify the expected behavior. Both work without a laptop server. Each version keeps its own cart in the current tab; use **Reset demo** before another run. Checkout is simulated.
@@ -318,7 +334,8 @@ Deployment references: [Vercel CLI](https://vercel.com/docs/cli/deploy), [Vite o
 | `npm run share` | Connects the hosted frontend to an existing dashboard on this laptop through an authenticated tunnel |
 | `npm run spike:mcp` | One agent driving our browser over MCP (the S1 spike) |
 | `npm run spike:cu` | One agent on OpenAI's hosted computer use (the Phase −1 spike) |
-| `npm test` | Unit tests, mock Agents API, browser/MCP, squad, dashboard and React results-view self-tests, all offline |
+| `npm test` | Unit tests, mock Agents API, browser/MCP, squad, dashboard, React results-view and run-controls self-tests, all offline |
+| `npm run test:controls` | Builds the React app and checks presets, Auto/manual sizing, saved settings, health, Resume preservation, duplicate requests and responsive controls against scripted agents and real Chrome; no paid model calls |
 | `npm run test:results` | Builds the React dashboard and checks completion, report folding, result navigation, replay, mobile layout, and reduced motion without model calls; set `PLAYWRIGHT_CHANNEL=chrome` to use installed Chrome |
 | `npm run bench` | Browser settling benchmark |
 | `npm run typecheck` | TypeScript check for the server |

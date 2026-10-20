@@ -10,6 +10,7 @@
 // to the user; their site requests and blockers go to the Master. Messages reach a bot on its next
 // tool result (D-07), or start a new turn when the bot is idle.
 
+import type { RunHealth } from "../../web/shared/run-health.ts";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -228,6 +229,13 @@ export class Squad {
   private masterDead = false;
   private masterSessions: AgentSession[] = [];
   private task = "";
+  private pendingResponse = true;
+  private pausedByUser = false;
+  private recovering = false;
+  private recoveryEpoch = 0;
+  private recoveryError?: string;
+  private activityAt = Date.now();
+  private botActivity = new Map<string, number>();
   private lastBotEndAt = 0;
   private lastAnswerAt = -1;
   mcpRequests: McpRequest[] = [];
@@ -259,6 +267,10 @@ export class Squad {
     this.print(`${paint(who.color, who.name.padEnd(6))} ${text}`);
   }
   private emit(type: string, data: Record<string, unknown>, bot?: { id: string }, source?: SquadEvent["source"]) {
+    if (!type.startsWith("cursor.") && type !== "usage.updated") {
+      this.activityAt = Date.now();
+      if (bot) this.botActivity.set(bot.id, this.activityAt);
+    }
     if (!this.o.onEvent) return;
     try {
       this.o.onEvent({ type, source: source ?? (bot ? "bot" : "orchestrator"), botId: bot?.id, data });
@@ -788,7 +800,7 @@ export class Squad {
    * next tool result or the end of its turn.
    */
   private async flush() {
-    if (this.closing || this.sending || !this.updates.some((u) => u.wake !== "no")) return;
+    if (this.closing || this.recovering || this.pausedByUser || this.recoveryError || this.sending || !this.updates.some((u) => u.wake !== "no")) return;
     if (this.masterDead) return void (await this.restartMaster());
     if (!this.master?.id) return;
     if (this.master.busy && !(this.o.steer !== false && this.updates.some((u) => u.wake === "now"))) return;
@@ -886,8 +898,129 @@ export class Squad {
     await this.master.start(recap).catch((err) => this.masterSays(`✗ couldn't restart: ${err instanceof Error ? err.message : err}`));
   }
 
+  /** Quiet is a warning, not proof of failure: only the user initiates recovery. */
+  health(now = Date.now()): RunHealth {
+    const at = (b: Bot) => Math.max(this.botActivity.get(b.id) ?? 0, b.session?.lastActivityAt ?? 0);
+    const lastActivityAt = Math.max(this.activityAt, this.master?.lastActivityAt ?? 0, ...this.bots.map(at));
+    const result = (state: RunHealth["state"], reason: string, targets: string[] = []): RunHealth =>
+      ({ state, reason, targets, lastActivityAt, canResume: targets.length > 0, ...(this.recoveryError ? { error: this.recoveryError } : {}) });
+    if (this.closing) return result("ended", "This chat is ending.");
+    if (this.recovering) return result("recovering", "Resuming unfinished work; keeping completed reports and browser pages.");
+    if (!this.master && !this.masterDead) return result("starting", "Opening browsers and connecting Onyx.");
+    if (this.bots.some((b) => b.browser.inControl)) return result("waiting", "Waiting for you to hand browser control back.");
+    if (this.siteAsks.size) return result("waiting", "Waiting for a site-access decision.");
+    const targets = this.bots.filter((b) => b.goal && !b.result && !b.tools.state.finished &&
+      (this.pausedByUser ? ["working", "starting", "stopped", "failed"].includes(b.status)
+        : b.failed || (["working", "starting"].includes(b.status) && now - at(b) >= 90_000))).map((b) => b.id);
+    if (this.pausedByUser) return result("paused", "Stopped by you. Resume continues unfinished work.", [...targets, "master"]);
+    const masterQuiet = now - (this.master?.lastActivityAt || this.activityAt);
+    if (this.masterDead || this.master?.closed || (this.master?.busy && masterQuiet >= 90_000) ||
+      (!this.master?.busy && !this.working().length && this.pendingResponse && now - lastActivityAt >= 15_000)) targets.push("master");
+    if (targets.length) return result("stalled", `No recent progress from ${targets.map((id) => id === "master" ? "Onyx" : this.bot(id)?.name ?? id).join(", ")}. Resume is available if they appear stuck.`, targets);
+    if (this.working().length) return result("working", this.master?.busy ? "Onyx and the squad are working." : "Onyx is waiting for the squad’s reports.");
+    if (this.master?.busy || this.pendingResponse) return result("working", "Onyx is planning or preparing the final results.");
+    return result("ready", "Results are ready. Ask a follow-up whenever you need.");
+  }
+
+  /** One recovery at a time; the HTTP caller gets an immediate acknowledgement. */
+  resume(): boolean {
+    if (this.recovering) return false;
+    const health = this.health();
+    if (!health.canResume) throw new Error(health.reason);
+    this.recovering = true;
+    this.pausedByUser = false;
+    this.recoveryError = undefined;
+    const epoch = ++this.recoveryEpoch;
+    void this.recover(health.targets, epoch).catch((err) => {
+      this.recoveryError = err instanceof Error ? err.message : String(err);
+      for (const bot of this.bots) if (health.targets.includes(bot.id) && !bot.session && !bot.result) this.botEnded(bot, "failed", "Recovery was interrupted.");
+      this.emit("run.notice", { level: "error", text: `Resume failed: ${this.recoveryError}` });
+    }).finally(() => {
+      this.recovering = false;
+      if (!this.closing && !this.pausedByUser && !this.recoveryError && this.updates.some((u) => u.wake !== "no")) this.scheduleFlush(200);
+    });
+    return true;
+  }
+
+  private async retireForRecovery(session: AgentSession): Promise<boolean> {
+    const end = await session.close();
+    if (!session.id || end.deleted) return true;
+    try { await this.o.api.deleteSession(session.id); return true; }
+    catch (err) { return err instanceof ApiError && err.status === 404; }
+  }
+
+  private async recover(targets: string[], epoch: number) {
+    const check = () => {
+      if (this.closing || this.o.signal.aborted || epoch !== this.recoveryEpoch) throw new Error("Recovery was stopped.");
+      if (this.bots.some((b) => b.browser.inControl) || this.siteAsks.size) throw new Error("Waiting for browser control or site access before resuming.");
+    };
+    this.emit("run.notice", { level: "info", text: "Resuming unfinished work. Completed reports and browser pages are retained." });
+    for (const id of targets.filter((id) => id !== "master")) {
+      check();
+      const bot = this.bot(id);
+      if (!bot || !bot.goal || bot.result || bot.tools.state.finished) continue;
+      const old = bot.session;
+      bot.session = undefined; // Old cancellation callbacks must not trigger another retry.
+      if (old) {
+        bot.pastSessions.push(old);
+        const closed = await this.retireForRecovery(old);
+        if (!closed) {
+          bot.session = old;
+          this.botEnded(bot, "failed", "Could not confirm the old session was closed.");
+          throw new Error(`${bot.name}'s old session could not be closed. Retry after checking the connection.`);
+        }
+      }
+      await bot.browser.flushed(); // Never overlap a replacement with a pending browser action.
+      check();
+      if (bot.result || bot.tools.state.finished) continue;
+      bot.failed = false;
+      bot.stopping = false;
+      bot.nudges = 0;
+      this.setStatus(bot, "starting", "resuming the current assignment");
+      const recap = [resumeMessage(bot.browser.page.url(), bot.goal),
+        "Inspect the current page first. Continue unfinished work only; do not repeat completed submissions, purchases or other side effects.",
+        `Actions already used: ${bot.tools.state.actions}/${this.o.maxActions}. The original action budget still applies.`,
+        ...bot.recent, ...bot.digest, ...bot.inbox.map((m) => `${m.from}: ${m.text}`)].join("\n");
+      try {
+        await this.startSession(bot, recap);
+        if (bot.status === "starting") this.setStatus(bot, "working");
+      } catch (err) {
+        this.botEnded(bot, "failed", "Could not resume the session.");
+        throw err;
+      }
+    }
+    check();
+    if (targets.includes("master")) {
+      const old = this.master;
+      this.master = undefined;
+      this.masterDead = true;
+      if (old) {
+        const closed = await this.retireForRecovery(old);
+        if (!closed) {
+          this.master = old;
+          this.masterDead = true;
+          throw new Error("Onyx's old session could not be closed. Check the connection before retrying.");
+        }
+      }
+      check();
+      this.masterDead = false;
+      this.pendingResponse = true;
+      this.master = this.newMasterSession();
+      const recap = [`USER TASK\n${this.task}`, "You are resuming an interrupted run. Preserve completed findings, continue unfinished work, then call final_answer. Do not reassign completed work.",
+        this.teamStatus(), JSON.stringify({ completedReports: this.bots.filter((b) => b.result).map((b) => ({ name: b.name, ...b.result })), answers: this.answers,
+          userMessages: this.messages.filter((m) => m.from === "user") }), this.updateText()].join("\n\n");
+      try { await this.master.start(recap); }
+      catch (err) { this.masterDead = true; throw err; }
+    } else {
+      this.pushUpdate("The user resumed the unfinished agents. Their browser pages and completed reports were preserved.", "now");
+    }
+  }
+
   /** A line from the user, for the Master. */
   userSays(text: string) {
+    this.pausedByUser = false;
+    this.pendingResponse = true;
+    this.recoveryError = undefined;
     this.post("user", "master", text);
     this.pushUpdate(`USER: ${text}`, "now");
     if (this.master?.busy) this.print(dim("  (the Master is busy; it gets your message with its next step)"));
@@ -1055,6 +1188,7 @@ export class Squad {
   onAnswerOnce?: () => void;
 
   private showAnswer(answer: string, sources: Source[]) {
+    this.pendingResponse = false;
     this.lastAnswerAt = this.elapsed;
     this.timings.firstAnswer ??= this.elapsed;
     this.answers.push({ at: this.elapsed, answer, sources });
@@ -1074,7 +1208,9 @@ export class Squad {
     const stopped = this.working().filter((b) => this.stopBot(b, "stopped by you"));
     const master = Boolean(this.master?.busy);
     if (master) void this.master!.cancel().catch(() => {});
-    if (!stopped.length && !master) return false;
+    if (!stopped.length && !master && !this.recovering) return false;
+    this.pausedByUser = true;
+    this.recoveryEpoch++;
     for (const u of this.updates) u.wake = "no";
     clearTimeout(this.flushTimer);
     this.flushTimer = undefined;
@@ -1087,6 +1223,7 @@ export class Squad {
 
   /** Time's up: stop every bot and ask the Master for its final answer now. */
   wrapUp(reason: string) {
+    this.recoveryEpoch++;
     const stopped = this.working().filter((b) => this.stopBot(b));
     this.emit("run.notice", { level: "warn", text: `${reason}: the bots${stopped.length ? ` (${stopped.map((b) => b.name).join(", ")})` : ""} stop and the Master writes its answer now.` });
     this.pushUpdate(`${reason}: the run ends in about a minute.${stopped.length ? ` ${stopped.map((b) => b.name).join(", ")} ${stopped.length === 1 ? "was" : "were"} stopped.` : ""} Call final_answer now with what the team has.`, "now");

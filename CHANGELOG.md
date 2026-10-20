@@ -4,6 +4,14 @@ Record each meaningful project change during the event, newest first. Update thi
 
 ## Event build log
 
+## 2026-10-20T22:22:20+05:30 — Add automatic squad sizing, recovery and speed presets
+
+- Changed: Added shared task-size suggestions, server-side Auto resolution and an Auto/manual picker. New React chats use Auto + Balanced; existing saved manual settings and classic/CLI defaults remain intact. Added Quick/Balanced/Thorough reasoning/action/time presets, persistent Custom advanced settings, and responsive picker/composer layouts.
+- Recovery: Added session activity clocks, authenticated live health/Resume endpoints and capability-gated progress UI with last-activity age, waiting reasons and paused/recovering/stalled status. Recovery is user-triggered, preserves completed reports/sources, browser pages/input, action consumption and the original deadline. It replaces only affected unfinished sessions after confirming old-session deletion and flushing pending browser actions. Duplicate Resume calls are coalesced; Stop cancels recovery; human control/site approval blocks it; errors are exposed.
+- Files: `web/shared/run-settings.ts`, `web/shared/run-health.ts`, Composer/API/live store/Shell and new progress styles/component; agent session, squad, runner and UI server; three focused test files, package commands and README. Preserved independent landing footer edits outside staging.
+- Validation: Server and frontend typechecks/build passed. Existing offline suite passed: 24 unit/bridge tests, 5 mock API scenarios, 53 browser/MCP, 19 squad, 36 dashboard and 18 results checks. Expanded unit suite passed all 27 tests, including close failure and Stop during recovery. Extended run-controls checks passed all 35 checks, including stale-bot-only recovery, preservation, duplicate requests and 390/320/844 px layouts; targeted rerun passed after final status-label polish. Screenshots visually reviewed; corrected cramped mobile input, a clipped landscape picker and a race-sensitive duplicate-request assertion during verification. No paid model calls.
+- Limits: Sizing is an English/URL heuristic, speed presets set budgets rather than guaranteed response times, 90 seconds of silence can be valid reasoning, and recovery requires a live backend process. Hosted publication/backend restart will be recorded separately after verification. Git remote migration remains unverified; no push.
+
 ## 2026-10-20T21:53:17+05:30 — Synchronize launch-film agents and improve the viewer
 
 - Changed: Re-exported the full 52-second film with a single capture clock for scene/character animation, immediate count-matched arrivals, 180 ms reveal motion, fixed named seats/placeholders, synchronized plus/pointer presses and the original 480 ms audio beats. Kept the squad visible until the 10-second launch and reduced the overlapping flame effect. Added the checked, archive-based `npm run film:render` production command without dependencies.

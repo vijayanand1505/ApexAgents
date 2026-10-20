@@ -16,8 +16,13 @@ import type { RunLog } from "./run-kit.ts";
 import { hostsIn } from "./site-gate.ts";
 import { CAST, Squad } from "./squad.ts";
 import type { SquadEvent } from "./squad.ts";
+import { RUN_PRESETS, settingsForPreset, suggestSquad } from "../../web/shared/run-settings.ts";
+import type { RunPreset, SquadMode } from "../../web/shared/run-settings.ts";
 
 export type RunOptions = {
+  squadMode?: SquadMode;
+  runPreset?: RunPreset | "custom";
+  squadReason?: string;
   bots: number;
   masterModel: string;
   botModel: string;
@@ -61,8 +66,13 @@ export function fitEffort(model: string, effort: string | undefined) {
 }
 
 /** Checks and fills run options from the dashboard; throws a message for the user. */
-export function parseRunOptions(raw: any, defaults: RunOptions): RunOptions {
-  const o = { ...defaults, ...(raw && typeof raw === "object" ? raw : {}) };
+export function parseRunOptions(raw: any, defaults: RunOptions, task = ""): RunOptions {
+  const input = raw && typeof raw === "object" ? raw : {};
+  if (input.squadMode !== undefined && !["auto", "manual"].includes(input.squadMode)) throw new Error("Squad mode must be auto or manual.");
+  if (input.runPreset !== undefined && input.runPreset !== "custom" && !Object.hasOwn(RUN_PRESETS, input.runPreset)) throw new Error("Run preset must be quick, balanced, thorough or custom.");
+  const preset = input.runPreset === "custom" ? undefined : input.runPreset as RunPreset | undefined;
+  const o = { ...defaults, ...(preset ? settingsForPreset(preset) : {}), ...input };
+  const suggestion = input.squadMode === "auto" ? suggestSquad(task, preset) : undefined;
   const int = (v: unknown, lo: number, hi: number, name: string) => {
     const n = Math.round(Number(v));
     if (!Number.isFinite(n) || n < lo || n > hi) throw new Error(`${name} must be between ${lo} and ${hi}`);
@@ -79,7 +89,10 @@ export function parseRunOptions(raw: any, defaults: RunOptions): RunOptions {
   };
   const allow = Array.isArray(o.allow) ? o.allow : String(o.allow ?? "").split(/[\s,]+/);
   return {
-    bots: int(o.bots, 1, CAST.length, "Bots"),
+    ...(input.squadMode ? { squadMode: input.squadMode as SquadMode } : {}),
+    ...(input.runPreset ? { runPreset: input.runPreset } : {}),
+    ...(suggestion ? { squadReason: suggestion.reason } : {}),
+    bots: suggestion?.bots ?? int(o.bots, 1, CAST.length, "Bots"),
     masterModel: model(o.masterModel, "Master model"),
     botModel: model(o.botModel, "Bot model"),
     masterEffort: fitEffort(String(o.masterModel), effort(o.masterEffort, "Master effort")),
@@ -234,6 +247,16 @@ export class ActiveRun {
   halt() {
     if (this.status === "ended" || this.status === "failed" || this.status === "ending") throw new Error("This run has ended. Start a new one.");
     return this.squad.halt();
+  }
+
+  health() {
+    if (["ending", "ended", "failed"].includes(this.status)) return { state: "ended" as const, reason: "This chat has ended.", lastActivityAt: this.endedAt ?? Date.now(), targets: [], canResume: false };
+    return this.squad.health();
+  }
+
+  resume() {
+    if (this.status !== "running") throw new Error("Only an active, started chat can be resumed.");
+    return this.squad.resume();
   }
 
   takeover(botId: string, on: boolean) {

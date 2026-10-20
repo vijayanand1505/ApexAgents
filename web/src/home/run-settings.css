@@ -1,0 +1,20 @@
+.run-presets, .squad-mode { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.run-presets { padding: 0 12px 10px; }
+.run-presets button, .squad-mode button { border: 1px solid var(--line, #333); border-radius: 20px; background: transparent; color: var(--muted, #aaa); padding: 6px 12px; cursor: pointer; font: inherit; font-size: 12px; transition: background .18s, color .18s, border-color .18s; }
+.run-presets button[aria-pressed="true"], .squad-mode button[aria-pressed="true"] { background: #262f2d; color: #bdedd6; border-color: #4e7d67; }
+.run-presets button:focus-visible, .squad-mode button:focus-visible { outline: 2px solid #bdedd6; outline-offset: 3px; }
+.run-presets > span { font-size: 11px; color: var(--muted, #aaa); }
+.squad-reason { font-size: 12px; line-height: 1.5; color: var(--muted, #aaa); margin: 10px 0; }
+@media (max-width: 540px) { #agents-pop, #effort-pop { right: 0; width: min(320px, calc(100vw - 48px)); } }
+@media (max-width: 1000px) {
+  .home .pillbox { display: grid; grid-template-columns: 32px minmax(0, 1fr) 36px; border-radius: 22px; }
+  .home #opts-btn { grid-column: 1; grid-row: 1; }
+  .home #input { grid-column: 2; grid-row: 1; width: 100%; min-width: 0; }
+  .home #send { grid-column: 3; grid-row: 1; }
+  .home .pb-chips { grid-column: 1 / -1; grid-row: 2; justify-content: center; flex-wrap: wrap; }
+  .home .chip { font-size: 12px; }
+}
+@media (max-height: 700px) {
+  .home #agents-pop, .home #effort-pop, .home #opts { position: fixed; top: 56px; bottom: auto; right: 16px; width: min(320px, calc(100vw - 80px)); max-height: calc(100dvh - 80px); overflow-y: auto; z-index: 50; }
+}
+@media (prefers-reduced-motion: reduce) { .run-presets button, .squad-mode button { transition: none; } }

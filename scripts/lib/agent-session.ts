@@ -50,6 +50,7 @@ export class AgentSession {
   id = "";
   /** A turn is running (set when input is sent, cleared when the root turn ends). */
   busy = false;
+  lastActivityAt = Date.now();
   closed = false;
   environment: "none" | "hosted" = "none";
   usage: any = undefined;
@@ -74,6 +75,7 @@ export class AgentSession {
 
   /** Creates the session with its first input and starts following its events. Resolves once it exists. */
   async start(input: string): Promise<void> {
+    this.lastActivityAt = Date.now();
     this.busy = true;
     const { api } = this.o;
     try {
@@ -97,6 +99,7 @@ export class AgentSession {
   /** Sends a message: starts a turn when idle (the API steers an active turn instead). */
   async send(text: string): Promise<void> {
     if (this.closed) throw new Error("session closed");
+    this.lastActivityAt = Date.now();
     this.busy = true;
     await this.ensureStream();
     await this.o.api.send(this.id, [message(text)]);
@@ -196,6 +199,7 @@ export class AgentSession {
   }
 
   private async handle(ev: any) {
+    this.lastActivityAt = Date.now();
     const type: string = ev?.type ?? "(no type)";
     this.eventTypes[type] = (this.eventTypes[type] ?? 0) + 1;
     switch (type) {

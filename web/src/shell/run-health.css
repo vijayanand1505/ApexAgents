@@ -1,0 +1,9 @@
+.run-health { gap: 10px; align-items: center; padding-block: 8px; }
+.health-copy { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.health-reason { overflow-wrap: anywhere; line-height: 1.4; }
+.health-copy small { color: var(--muted, #888); font-size: 11px; }
+.run-health.stalled, .run-health.paused { border-left: 2px solid #e9ba76; }
+.run-health.recovering { border-left: 2px solid #9ddcb7; animation: health-glow 1.5s ease-in-out infinite alternate; }
+.run-health .btn { flex-shrink: 0; }
+@keyframes health-glow { to { background: #8ed5ae0c; } }
+@media (prefers-reduced-motion: reduce) { .run-health.recovering { animation: none; } }

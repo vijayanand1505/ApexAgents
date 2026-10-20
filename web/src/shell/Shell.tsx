@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { S, clip, clock, colorVars, money, mmss, phase, runActive, working } from "../live/store";
 import { post, showHint } from "../live/actions";
 import { newChat, openChat, toggleHistory } from "../live/history";
+import { RunHealth } from "./RunHealth";
 import { thinkingShown } from "../roam/ThinkingRow";
 
 function runPhaseLabel(): [string, string] | null {
@@ -15,6 +16,9 @@ function runPhaseLabel(): [string, string] | null {
   if (r.status === "ending") return ["Ending", "busy"];
   if (r.status === "ended") return ["Ended", "done"];
   if (r.status === "failed") return ["Failed", "err"];
+  if (r.health?.state === "paused") return ["Paused", "idle"];
+  if (r.health?.state === "recovering") return ["Resuming", "busy"];
+  if (r.health?.state === "stalled") return ["Check progress", "err"];
   const n = working().length;
   if (n) return [`Working · ${n} agent${n === 1 ? "" : "s"}`, "live"];
   if (r.masterBusy) return [r.planned ? "Onyx thinking" : "Planning", "busy"];
@@ -86,6 +90,7 @@ export function TopBar({ extra }: { extra?: React.ReactNode }) {
 /** The Master's line above the composer: what it's doing, and who's working. */
 export function Activity() {
   const r = S.view === "run" ? S.run : null;
+  if (r && runActive() && !r.past && S.config?.capabilities?.recovery) return <RunHealth key={r.id} runId={r.id} />;
   // While Onyx starts or thinks, the thread's thinking row is the one indicator (roam/ThinkingRow.tsx).
   if (!r || !runActive() || thinkingShown()) return <div id="activity" className="activity" />;
   const busyBots = working();

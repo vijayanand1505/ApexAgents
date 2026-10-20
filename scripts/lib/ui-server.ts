@@ -63,7 +63,7 @@ export async function startUiServer(o: UiServerOptions) {
 
   const send = (res: ServerResponse, status: number, body: unknown) => res.writeHead(status, { "content-type": "application/json", "cache-control": "no-store" }).end(JSON.stringify(body));
   // The effort slider's stops: what gpt-6-luna accepts, minus "max" (very slow for browsing).
-  const config = () => ({ defaults: o.defaults, models: o.models, efforts: ["none", "low", "medium", "high", "xhigh"], tunnel: o.tunnel(), cast: CAST });
+  const config = () => ({ capabilities: { recovery: true, smartSettings: true }, defaults: o.defaults, models: o.models, efforts: ["none", "low", "medium", "high", "xhigh"], tunnel: o.tunnel(), cast: CAST });
 
   async function readBody(req: IncomingMessage): Promise<any> {
     let text = "";
@@ -98,6 +98,11 @@ export async function startUiServer(o: UiServerOptions) {
     try {
       if (req.method === "GET" && path === "/api/config") return send(res, 200, config());
       if (req.method === "GET" && path === "/api/runs") return send(res, 200, { runs: o.runner.listRuns() });
+      const health = req.method === "GET" && /^\/api\/runs\/([\w-]+)\/health$/.exec(path);
+      if (health) {
+        const run = o.runner.current;
+        return run?.id === health[1] ? send(res, 200, run.health()) : send(res, 404, { error: "That run isn't the current one." });
+      }
       const got = req.method === "GET" && /^\/api\/runs\/([\w-]+)(?:\/frames\/([a-z]+)\.jpg)?$/.exec(path);
       if (got) {
         if (got[2]) {
@@ -114,7 +119,7 @@ export async function startUiServer(o: UiServerOptions) {
       if (path === "/api/runs") {
         let options: RunOptions;
         try {
-          options = parseRunOptions(body.options, o.defaults);
+          options = parseRunOptions(body.options, o.defaults, String(body.task ?? ""));
         } catch (err) {
           return send(res, 400, { error: err instanceof Error ? err.message : String(err) });
         }
@@ -126,7 +131,7 @@ export async function startUiServer(o: UiServerOptions) {
         }
       }
 
-      const m = /^\/api\/runs\/([\w-]+)\/(messages|stop|halt|bots\/([\w-]+)\/takeover)$/.exec(path);
+      const m = /^\/api\/runs\/([\w-]+)\/(messages|stop|halt|resume|bots\/([\w-]+)\/takeover)$/.exec(path);
       const run = o.runner.current;
       if (!m) return send(res, 404, { error: "not found" });
       if (!run || run.id !== m[1]) return send(res, 404, { error: "That run isn't the current one." });
@@ -140,6 +145,10 @@ export async function startUiServer(o: UiServerOptions) {
           return send(res, 409, { error: err instanceof Error ? err.message : String(err) });
         }
         return send(res, 200, { ok: true });
+      }
+      if (m[2] === "resume") {
+        try { return send(res, 202, { ok: true, started: run.resume() }); }
+        catch (err) { return send(res, 409, { error: err instanceof Error ? err.message : String(err) }); }
       }
       if (m[2] === "halt") {
         try {

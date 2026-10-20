@@ -1,3 +1,4 @@
+import type { RunHealth } from "../../shared/run-health";
 // The live state and the reducer, ported from ui/app.js ("State", "Dirty tracking", "Events") with
 // the same shapes, so the React components can follow the classic code one to one.
 //
@@ -90,6 +91,7 @@ export type Run = {
   past: boolean;
   cost?: number;
   byAgent?: unknown;
+  health?: RunHealth;
   masterBusy: boolean;
   masterDoing?: string;
   planned: boolean;

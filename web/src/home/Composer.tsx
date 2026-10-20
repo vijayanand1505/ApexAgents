@@ -1,4 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { RUN_PRESETS, settingsForPreset, suggestSquad, type RunPreset } from "../../shared/run-settings";
+import "./run-settings.css";
 import { CAST } from "@swarm/shared/cast";
 import { SquadSlider } from "../launch/SquadSlider";
 import { EFFORTS, EffortStepper } from "../launch/EffortStepper";
@@ -12,10 +14,14 @@ import { post, showHint } from "../live/actions";
 
 const KEY = "apexagents.settings";
 function loadSettings(defaults: Settings): Settings {
+  const fresh: Settings = { ...defaults, ...settingsForPreset("balanced"), squadMode: "auto", runPreset: "balanced" };
   try {
-    return { ...defaults, bots: 5, botEffort: "medium", ...JSON.parse(localStorage.getItem(KEY) ?? "{}") };
+    const saved = JSON.parse(localStorage.getItem(KEY) ?? "null");
+    if (!saved || typeof saved !== "object") return fresh;
+    return { ...defaults, ...saved, squadMode: saved.squadMode === "auto" ? "auto" : "manual",
+      runPreset: Object.hasOwn(RUN_PRESETS, saved.runPreset) ? saved.runPreset : "custom" };
   } catch {
-    return { ...defaults, bots: 5, botEffort: "medium" };
+    return fresh;
   }
 }
 function saveSettings(s: Settings) {
@@ -39,11 +45,15 @@ export function Composer({ config, reduced }: { config: Config; reduced: boolean
 
   const update = (patch: Partial<Settings>) =>
     setSettings((s) => {
-      const next = { ...s, ...patch };
+      const advanced = ["masterEffort", "botEffort", "maxActions", "timeoutMin"].some((key) => key in patch);
+      const next = { ...s, ...(advanced ? { runPreset: "custom" as const } : {}), ...patch };
       saveSettings(next);
       return next;
     });
   const toggle = (name: Pop) => setPop((p) => (p === name ? null : name));
+  const preset = settings.runPreset === "custom" ? undefined : settings.runPreset;
+  const suggestion = suggestSquad(text, preset);
+  const count = settings.squadMode === "auto" ? suggestion.bots : settings.bots;
   const effort = Math.max(0, EFFORTS.findIndex((e) => e.value === settings.botEffort));
 
   useEffect(() => {
@@ -93,7 +103,7 @@ export function Composer({ config, reduced }: { config: Config; reduced: boolean
         setText("");
       } else {
         S.starting = true; // the snapshot of the new run opens it here
-        if (await startRun(task, settings)) setText("");
+        if (await startRun(task, { ...settings, bots: count })) setText("");
         else S.starting = false;
       }
     } catch (err) {
@@ -133,6 +143,12 @@ export function Composer({ config, reduced }: { config: Config; reduced: boolean
         void submit();
       }}
     >
+      {home && <div className="run-presets" aria-label="Run speed">
+        {(Object.keys(RUN_PRESETS) as RunPreset[]).map((name) => <button key={name} type="button"
+          aria-pressed={settings.runPreset === name} title={`${RUN_PRESETS[name].description} · ${RUN_PRESETS[name].maxActions} actions per agent · ${RUN_PRESETS[name].timeoutMin} min limit`}
+          onClick={() => update({ ...settingsForPreset(name), runPreset: name })}>{RUN_PRESETS[name].label}</button>)}
+        {settings.runPreset === "custom" && <span>Custom</span>}
+      </div>}
       <div className="pillbox">
         <button type="button" id="opts-btn" className="pb-icon" title="More options" aria-label="More options" aria-expanded={pop === "opts"} onClick={() => toggle("opts")}>
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -159,11 +175,11 @@ export function Composer({ config, reduced }: { config: Config; reduced: boolean
           <button type="button" id="agents-chip" className="chip" aria-expanded={pop === "agents"} title="How many agents Onyx may use" onClick={() => toggle("agents")}>
             <span className="agent-dots" id="agent-dots" aria-hidden="true">
               {CAST.map((c, i) => (
-                <i key={c.id} className={i < settings.bots ? "" : "off"} style={{ "--c": c.color } as CSSProperties} />
+                <i key={c.id} className={i < count ? "" : "off"} style={{ "--c": c.color } as CSSProperties} />
               ))}
             </span>
             <span id="agents-val">
-              {settings.bots} agent{settings.bots === 1 ? "" : "s"}
+              {settings.squadMode === "auto" ? "Auto · " : ""}{count} agent{count === 1 ? "" : "s"}
             </span>
           </button>
           <button type="button" id="effort-chip" className="chip" aria-expanded={pop === "effort"} title="How hard each agent thinks before acting" onClick={() => toggle("effort")}>
@@ -191,12 +207,17 @@ export function Composer({ config, reduced }: { config: Config; reduced: boolean
 
       {pop === "agents" && (
         <div id="agents-pop" className="pop">
-          <SquadSlider count={settings.bots} min={1} onChange={(bots) => update({ bots })} reduced={reduced} />
+          <div className="squad-mode" aria-label="Squad size mode">
+            <button type="button" aria-pressed={settings.squadMode === "auto"} onClick={() => update({ squadMode: "auto" })}>Auto</button>
+            <button type="button" aria-pressed={settings.squadMode !== "auto"} onClick={() => update({ squadMode: "manual", bots: count })}>Choose myself</button>
+          </div>
+          <p className="squad-reason">{settings.squadMode === "auto" ? suggestion.reason : "Your chosen team size will be used for this task."}</p>
+          <SquadSlider count={count} min={1} onChange={(bots) => update({ bots, squadMode: "manual" })} reduced={reduced} />
         </div>
       )}
       {pop === "effort" && (
         <div id="effort-pop" className="pop">
-          <EffortStepper level={effort} count={settings.bots} onChange={(i) => update({ botEffort: EFFORTS[i].value })} reduced={reduced} />
+          <EffortStepper level={effort} count={count} onChange={(i) => update({ botEffort: EFFORTS[i].value })} reduced={reduced} />
         </div>
       )}
       {pop === "opts" && <Options config={config} settings={settings} update={update} />}
